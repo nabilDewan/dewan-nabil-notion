@@ -3,8 +3,7 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { NotionRenderer } from 'react-notion-x'
 import { getPageTitle } from 'notion-utils'
-import type { ExtendedRecordMap } from 'notion-types' // Added 'type' here
-import { mapPageUrl } from '@/lib/map-page-url'
+import type { ExtendedRecordMap } from 'notion-types'
 import { searchNotion } from '@/lib/search-notion'
 
 // 1. Dynamic imports for heavy Notion blocks
@@ -44,6 +43,14 @@ export const NotionPage = ({
 
   const title = getPageTitle(recordMap)
 
+  // 3. FIX: A simple function to handle links without the complex library
+  const mapPageUrl = (pageId: string) => {
+    if (pageId === rootPageId) {
+      return '/'
+    }
+    return `/${pageId}`
+  }
+
   return (
     <>
       <Head>
@@ -55,7 +62,7 @@ export const NotionPage = ({
         fullPage={true}
         darkMode={false}
         rootPageId={rootPageId}
-        mapPageUrl={mapPageUrl}
+        mapPageUrl={mapPageUrl} 
         searchNotion={searchNotion}
         previewImages={!!recordMap.preview_images}
         showCollectionViewDropdown={false}
