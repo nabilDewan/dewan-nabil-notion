@@ -57,6 +57,7 @@ export const NotionPage = ({
       <NotionRenderer
         recordMap={recordMap}
         fullPage={true}
+        // 1. FORCE LIGHT MODE (No toggling)
         darkMode={false}
         rootPageId={rootPageId}
         mapPageUrl={mapPageUrl}
@@ -64,7 +65,7 @@ export const NotionPage = ({
         previewImages={!!recordMap.preview_images}
         showCollectionViewDropdown={false}
         
-        // FIX: Force Table of Contents to OFF
+        // Keep Table of Contents OFF
         showTableOfContents={false}
         minTableOfContentsItems={3}
         

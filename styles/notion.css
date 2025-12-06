@@ -1,6 +1,6 @@
-/* notion.css - Layout & Text Fixes */
+/* notion.css - Final Layout & Embed Fixes */
 
-/* 1. MAIN CONTAINER: Centered and "Normal" Size */
+/* 1. MAIN CONTAINER */
 .notion-page {
   padding-bottom: calc(max(5vh, 32px)) !important;
   margin: 0 auto !important;
@@ -8,14 +8,21 @@
   width: 100% !important;
 }
 
-/* 2. TEXT JUSTIFICATION FIX */
-/* This targets all standard text paragraphs in Notion */
+/* 2. TEXT JUSTIFICATION */
 .notion-text {
   text-align: justify !important;
-  hyphens: auto !important; /* Prevents weird gaps between words */
+  hyphens: auto !important;
 }
 
-/* 3. MOBILE FIXES */
+/* 3. EMBED & IFRAME FIXES (Transparent Backgrounds) */
+/* This forces embeds to blend in with the white page */
+.notion-asset-wrapper, 
+.notion-asset-wrapper iframe {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* 4. MOBILE FIXES */
 @media only screen and (max-width: 720px) {
   .notion-page {
     padding-left: 12px !important;
@@ -29,7 +36,7 @@
   }
 }
 
-/* 4. Hide ToC Elements */
+/* 5. Hide ToC Elements */
 .notion-aside {
   display: none !important;
 }
