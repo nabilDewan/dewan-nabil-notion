@@ -1,9 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+import bundleAnalyzer from '@next/bundle-analyzer'
+
+const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true'
 })
 
-module.exports = withBundleAnalyzer({
+export default withBundleAnalyzer({
   staticPageGenerationTimeout: 300,
   images: {
     domains: [
@@ -19,7 +20,6 @@ module.exports = withBundleAnalyzer({
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;"
   },
-  // THIS SECTION FIXES YOUR ERROR
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
