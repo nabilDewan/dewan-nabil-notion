@@ -39,24 +39,67 @@ body {
   caret-color: var(--fg-color);
 }
 
-::-webkit-scrollbar
-{
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
   width: 5px;
   height: 5px;
-  background-color: #F5F5F5;
   background-color: var(--bg-color-1);
 }
 
-::-webkit-scrollbar-thumb
-{
+::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #555;
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
   background-color: var(--fg-color-1);
 }
 
-::-webkit-scrollbar-track {           
-    background-color: var(--bg-color);
+::-webkit-scrollbar-track {
+  background-color: var(--bg-color);
+}
+
+/* ------------------------------------------------------------------ */
+/* CUSTOMIZATIONS FOR "NATIVE NOTION" LOOK                           */
+/* ------------------------------------------------------------------ */
+
+/* 1. Hide the Dark Mode toggle and Search button in the top right */
+.notion-header-right {
+  display: none !important;
+}
+
+/* 2. Hide the breadcrumb navigation bar icon to look cleaner */
+.notion-nav-header {
+  display: none !important;
+}
+
+/* 3. Force Light Mode Colors (Overrides system Dark Mode) */
+:root {
+  --fg-color: #37352f !important;
+  --fg-color-0: #37352f !important;
+  --fg-color-1: #37352f !important;
+  --fg-color-2: #787774 !important;
+  --fg-color-3: #9b9a97 !important;
+  --fg-color-4: #9b9a97 !important;
+  --fg-color-5: rgba(55, 53, 47, 0.09) !important;
+  --fg-color-6: rgba(55, 53, 47, 0.6) !important;
+  --fg-color-icon: var(--fg-color) !important;
+
+  --bg-color: #ffffff !important;
+  --bg-color-0: rgba(255, 255, 255, 1) !important;
+  --bg-color-1: #f7f6f3 !important;
+  --bg-color-2: rgba(235, 236, 237, 0.3) !important;
+
+  --notion-red: #e03e3e !important;
+  --notion-pink: #ad1a72 !important;
+  --notion-blue: #0b6e99 !important;
+  --notion-purple: #6940a5 !important;
+  --notion-teal: #4d6461 !important;
+  --notion-yellow: #dfab01 !important;
+  --notion-orange: #d9730d !important;
+  --notion-brown: #64473a !important;
+  --notion-gray: #9b9a97 !important;
+}
+
+/* 4. Ensure the background is always white */
+body {
+  background-color: #ffffff !important;
 }
