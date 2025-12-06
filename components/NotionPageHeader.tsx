@@ -63,11 +63,13 @@ export function NotionPageHeader({ block }: { block: any }) {
         </div>
 
         {/* Navigation Links Container */}
-        {/* Removed 'breadcrumbs' class to prevent CSS conflicts */}
         <div
           className={cs(
             'notion-nav-header-rhs',
-            isMenuOpen ? 'notion-nav-mobile-open' : ''
+            // Only add 'breadcrumbs' on desktop (when menu is closed)
+            // This prevents the library from hiding our menu on mobile
+            !isMenuOpen && 'breadcrumbs', 
+            isMenuOpen && 'notion-nav-mobile-open'
           )}
         >
           {navigationLinks

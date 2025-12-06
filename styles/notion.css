@@ -1,4 +1,4 @@
-/* notion.css - Final Refinement: Gap Reduction & Mobile Menu */
+/* notion.css - Final Mobile Menu & Gap Fix */
 
 /* 1. GLOBAL RESET */
 * {
@@ -11,24 +11,23 @@ html, body {
   overflow-x: hidden !important; 
 }
 
-/* 2. PUSH CONTENT DOWN (Gap Adjustment) */
-/* Reduced from 60px/85px to 55px to bring content closer to header */
+/* 2. BODY SPACING */
 body {
-  padding-top: 55px !important; 
+  padding-top: 50px !important; /* Match header height */
 }
 
 .notion-app {
   height: auto !important; 
 }
 
-/* 3. HEADER BAR (Fixed & Glass) */
+/* 3. HEADER BAR */
 .notion-header {
   display: block !important;
   position: fixed !important;     
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
-  height: 50px !important; /* Slightly thinner header for nicer look */
+  height: 50px !important; 
   z-index: 99999 !important;
   
   background: rgba(255, 255, 255, 0.95) !important;
@@ -63,33 +62,34 @@ body {
   z-index: 100000 !important;
 }
 
-/* 4. CONTENT & THUMBNAIL SPACING */
+/* 4. CONTENT & GAP FIX (Thumbnail vs Text) */
 .notion-page {
-  /* Reset internal padding */
-  padding-top: 20px !important; /* Minimal space below header */
+  padding-top: 20px !important; 
   padding-bottom: 50px !important;
   margin: 0 auto !important;
   max-width: 800px !important; 
   width: 100% !important;
 }
 
-/* THUMBNAIL POSITIONING */
+/* FIX: Pull Thumbnail Up */
 .notion-page-icon-hero {
   position: relative !important;
-  /* Pull thumbnail UP to bridge the gap between cover and text */
   margin-top: -30px !important; 
-  margin-bottom: 10px !important; /* Reduced bottom margin */
+  
+  /* THIS REDUCES THE GAP BELOW THUMBNAIL */
+  margin-bottom: 0px !important; 
   z-index: 20 !important;
 }
 
-/* TITLE SPACING */
+/* FIX: Pull Title Down/Up to meet Thumbnail */
 .notion-title {
-  margin-top: 0 !important; /* Remove extra top margin */
+  /* THIS PULLS TEXT UP TOWARDS THUMBNAIL */
+  margin-top: -5px !important; 
   padding-top: 0 !important;
   display: block !important;
 }
 
-/* 5. GENERAL STYLING */
+/* 5. TEXT & EMBEDS */
 .notion-text {
   text-align: justify !important;
   hyphens: none !important; 
@@ -110,7 +110,7 @@ body {
   background-color: transparent !important;
 }
 
-/* 6. MOBILE FIXES & MENU (The Fix) */
+/* 6. MOBILE MENU (The Fix) */
 @media only screen and (max-width: 768px) {
   .notion-page {
     padding-left: 15px !important;
@@ -124,32 +124,34 @@ body {
     justify-content: center;
   }
 
-  /* HIDE DESKTOP LINKS */
-  /* We target the container generally to hide it */
+  /* Default: Hide Links */
   .notion-nav-header-rhs {
     display: none !important;
   }
 
-  /* === MOBILE MENU OPEN STATE === */
-  /* We use the specific OPEN class to force it visible */
+  /* OPEN STATE: FULL SCREEN OVERLAY */
+  /* This selector matches the class added in the React component */
   .notion-nav-mobile-open {
     display: flex !important;
-    visibility: visible !important; /* Force visibility */
-    opacity: 1 !important;
-    
     flex-direction: column !important;
+    
+    /* Force Positioning */
     position: fixed !important;
-    top: 50px !important; /* Starts right after 50px header */
+    top: 50px !important; /* Right under the header */
     left: 0 !important;
     right: 0 !important;
-    bottom: 0 !important;
-    height: calc(100vh - 50px) !important;
+    bottom: 0 !important; /* Touch bottom of screen */
+    height: auto !important;
     
     background: #ffffff !important;
     padding: 20px !important;
     z-index: 99998 !important;
     overflow-y: auto !important;
     border-top: 1px solid #eee;
+    
+    /* Ensure visibility */
+    visibility: visible !important;
+    opacity: 1 !important;
   }
   
   /* Link Styling */
@@ -170,7 +172,7 @@ body {
   .notion-asset-wrapper img { height: auto !important; }
 }
 
-/* 7. Hide Table of Contents */
+/* 7. Hide ToC */
 .notion-aside {
   display: none !important;
 }
