@@ -39,6 +39,7 @@ export function NotionPageHeader({ block }: { block: any }) {
 
   const toggleMenu = (e: React.MouseEvent) => {
     e.preventDefault()
+    e.stopPropagation() // Prevent click from bubbling up
     setIsMenuOpen(!isMenuOpen)
   }
 
@@ -48,21 +49,20 @@ export function NotionPageHeader({ block }: { block: any }) {
         {/* 1. Logo / Breadcrumbs */}
         <Breadcrumbs block={block} rootOnly={true} />
 
-        {/* 2. Mobile Menu Toggle */}
+        {/* 2. Mobile Menu Toggle Button */}
         <div 
           className='notion-nav-mobile-menu-button' 
           onClick={toggleMenu}
           role="button"
-          tabIndex={0}
         >
           {isMenuOpen ? <IoClose /> : <IoMenu />}
         </div>
 
         {/* 3. Navigation Links */}
+        {/* REMOVED 'breadcrumbs' class to prevent conflicts */}
         <div
           className={cs(
             'notion-nav-header-rhs',
-            'breadcrumbs',
             isMenuOpen && 'notion-nav-mobile-open'
           )}
         >
@@ -76,7 +76,7 @@ export function NotionPageHeader({ block }: { block: any }) {
                     href={mapPageUrl(link.pageId)}
                     key={index}
                     className={cs(styles.navLink, 'breadcrumb', 'button')}
-                    onClick={() => setIsMenuOpen(false)} // Close on navigate
+                    onClick={() => setIsMenuOpen(false)} 
                   >
                     {link.title}
                   </components.PageLink>
@@ -87,7 +87,7 @@ export function NotionPageHeader({ block }: { block: any }) {
                     href={link.url}
                     key={index}
                     className={cs(styles.navLink, 'breadcrumb', 'button')}
-                    onClick={() => setIsMenuOpen(false)} // Close on navigate
+                    onClick={() => setIsMenuOpen(false)} 
                   >
                     {link.title}
                   </components.Link>
