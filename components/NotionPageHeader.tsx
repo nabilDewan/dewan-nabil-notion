@@ -1,11 +1,11 @@
-import type * as types from 'notion-types'
+import * as React from 'react'
+import cs from 'classnames'
+import { Breadcrumbs, Search, useNotionContext } from 'react-notion-x'
 import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
 import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
-import cs from 'classnames'
-import * as React from 'react'
-import { Breadcrumbs, Header, Search, useNotionContext } from 'react-notion-x'
 
-import { isSearchEnabled, navigationLinks, navigationStyle } from '@/lib/config'
+// DIRECTLY IMPORT LINKS TO BYPASS CONFIG ISSUES
+import { navigationLinks, isSearchEnabled } from '@/lib/config'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
 import styles from './styles.module.css'
@@ -32,28 +32,20 @@ function ToggleThemeButton() {
   )
 }
 
-export function NotionPageHeader({
-  block
-}: {
-  block: types.CollectionViewPageBlock | types.PageBlock
-}) {
+export function NotionPageHeader({ block }: { block: any }) {
   const { components, mapPageUrl } = useNotionContext()
-
-  if (navigationStyle === 'default') {
-    return <Header block={block} />
-  }
 
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
+        {/* 1. Breadcrumbs (Page Title on Left) */}
         <Breadcrumbs block={block} rootOnly={true} />
 
+        {/* 2. Custom Navigation Links (Right Side) */}
         <div className='notion-nav-header-rhs breadcrumbs'>
           {navigationLinks
             ?.map((link, index) => {
-              if (!link?.pageId && !link?.url) {
-                return null
-              }
+              if (!link?.pageId && !link?.url) return null
 
               if (link.pageId) {
                 return (
