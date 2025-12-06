@@ -26,10 +26,7 @@ const Modal = dynamic(
   { ssr: false }
 )
 
-// 2. RELAXED TYPES 
-
-[Image of TypeScript type hierarchy]
-
+// 2. RELAXED TYPES
 // We use 'any' here to stop the build from failing on strict mismatches.
 interface NotionPageProps {
   recordMap: any 
