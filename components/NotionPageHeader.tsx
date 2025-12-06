@@ -37,22 +37,28 @@ export function NotionPageHeader({ block }: { block: any }) {
   const { components, mapPageUrl } = useNotionContext()
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
-  const toggleMenu = () => {
+  const toggleMenu = (e: React.MouseEvent) => {
+    e.preventDefault()
     setIsMenuOpen(!isMenuOpen)
   }
 
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
-        {/* 1. Logo / Breadcrumbs (Left) */}
+        {/* 1. Logo / Breadcrumbs */}
         <Breadcrumbs block={block} rootOnly={true} />
 
-        {/* 2. Mobile Hamburger Button (Visible only on mobile) */}
-        <div className='notion-nav-mobile-menu-button' onClick={toggleMenu}>
+        {/* 2. Mobile Menu Toggle */}
+        <div 
+          className='notion-nav-mobile-menu-button' 
+          onClick={toggleMenu}
+          role="button"
+          tabIndex={0}
+        >
           {isMenuOpen ? <IoClose /> : <IoMenu />}
         </div>
 
-        {/* 3. Navigation Links (Right Side / Dropdown) */}
+        {/* 3. Navigation Links */}
         <div
           className={cs(
             'notion-nav-header-rhs',
@@ -70,7 +76,7 @@ export function NotionPageHeader({ block }: { block: any }) {
                     href={mapPageUrl(link.pageId)}
                     key={index}
                     className={cs(styles.navLink, 'breadcrumb', 'button')}
-                    onClick={() => setIsMenuOpen(false)} // Close menu on click
+                    onClick={() => setIsMenuOpen(false)} // Close on navigate
                   >
                     {link.title}
                   </components.PageLink>
@@ -81,7 +87,7 @@ export function NotionPageHeader({ block }: { block: any }) {
                     href={link.url}
                     key={index}
                     className={cs(styles.navLink, 'breadcrumb', 'button')}
-                    onClick={() => setIsMenuOpen(false)} // Close menu on click
+                    onClick={() => setIsMenuOpen(false)} // Close on navigate
                   >
                     {link.title}
                   </components.Link>
