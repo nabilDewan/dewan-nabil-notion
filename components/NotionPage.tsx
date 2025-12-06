@@ -2,8 +2,9 @@ import * as React from 'react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { NotionRenderer } from 'react-notion-x'
-import { getPageTitle } from 'notion-utils'
+import { getPageTitle, getTextContent } from 'notion-utils'
 import { searchNotion } from '@/lib/search-notion'
+import { mapImageUrl } from '@/lib/map-image-url' // Ensure this exists in your lib
 
 // 1. IMPORT THE HEADER COMPONENT
 import { NotionPageHeader } from './NotionPageHeader'
@@ -44,6 +45,34 @@ export const NotionPage = ({
 
   const title = getPageTitle(recordMap)
 
+  // SMART SHARING LOGIC: Extract Text & Image from Body
+  const { autoDescription, autoImage } = React.useMemo(() => {
+    let text = null
+    let img = null
+    const keys = Object.keys(recordMap?.block || {})
+    const block = recordMap?.block?.[keys[0]!]?.value
+
+    if (block?.content) {
+      for (const childId of block.content) {
+        const child = recordMap?.block?.[childId]?.value
+        if (!child) continue
+        
+        // Grab first paragraph text for description
+        if (!text && child.type === 'text') {
+          const t = getTextContent(child.properties?.title)
+          if (t) text = t
+        }
+        // Grab first image for social card
+        if (!img && child.type === 'image') {
+          const src = child.properties?.source?.[0]?.[0]
+          if (src) img = mapImageUrl(src, child)
+        }
+        if (text && img) break // Stop once we have both
+      }
+    }
+    return { autoDescription: text, autoImage: img }
+  }, [recordMap])
+
   const mapPageUrl = (pageId: string) => {
     if (pageId === rootPageId) {
       return '/'
@@ -55,6 +84,19 @@ export const NotionPage = ({
     <>
       <Head>
         <title>{title}</title>
+        {/* SEO META TAGS */}
+        <meta name="description" content={autoDescription || "Dewan Hafiz Nabil - Researcher & Engineer"} />
+        
+        {/* Open Graph / Facebook / LinkedIn */}
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={autoDescription || "Dewan Hafiz Nabil - Researcher & Engineer"} />
+        {autoImage && <meta property="og:image" content={autoImage} />}
+        
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={autoDescription || "Dewan Hafiz Nabil - Researcher & Engineer"} />
+        {autoImage && <meta name="twitter:image" content={autoImage} />}
       </Head>
 
       <NotionRenderer
@@ -74,6 +116,7 @@ export const NotionPage = ({
         defaultPageIcon={undefined}
         defaultPageCover={undefined}
         defaultPageCoverPosition={0.5}
+        mapImageUrl={mapImageUrl}
         
         // 2. CONNECT THE COMPONENTS
         components={{
@@ -82,7 +125,7 @@ export const NotionPage = ({
           Equation,
           Pdf,
           Modal,
-          Header: NotionPageHeader // <--- THIS IS THE FIX
+          Header: NotionPageHeader 
         }}
       />
     </>
