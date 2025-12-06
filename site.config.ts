@@ -5,19 +5,26 @@ export default siteConfig({
   rootNotionPageId: '7fa50bcefad34a29af1feae083c179f6',
 
   // 2. DOMAIN SETTINGS
+  // Essential for Sitemap generation and Canonical URLs (prevents duplicate content issues)
   domain: 'dewanhafiznabil.com',
   
   // 3. SITE METADATA
   name: 'Dewan Hafiz Nabil',
   author: 'Dewan Hafiz Nabil',
-  description: 'Dewan Hafiz Nabil is a Ph.D. researcher at Warwick Manufacturing Group (WMG), University of Warwick, UK.',
+  // This description acts as the "fallback" meta description for pages without one
+  description: 'Dewan Hafiz Nabil is a Ph.D. researcher at Warwick Manufacturing Group (WMG), University of Warwick, UK, specializing in sustainable supply chains and hydrogen energy.',
 
-  // 4. SOCIALS
-  twitter: null,
-  github: null,
-  linkedin: null,
+  // 4. SOCIALS (CRITICAL FOR SEO)
+  // Search engines use this to build your "Knowledge Graph" card.
+  // Replace these nulls with your actual usernames (no @ symbols).
+  twitter: 'your_twitter_username', 
+  github: 'your_github_username',   
+  linkedin: 'your_linkedin_username', 
+  // mastodon: '...', // Optional
+  // youtube: '...', // Optional
 
   // 5. IMAGES & PREVIEWS
+  // 'true' helps Core Web Vitals (CLS score) by loading a blurry preview first
   defaultPageIcon: null,
   defaultPageCover: null,
   defaultPageCoverPosition: 0.5,
