@@ -39,15 +39,10 @@ export function NotionPageHeader({ block }: { block: any }) {
 
   const toggleMenu = (e: React.MouseEvent) => {
     e.preventDefault()
-    e.stopPropagation()
     setIsMenuOpen(!isMenuOpen)
   }
 
-  const closeMenu = () => {
-    setIsMenuOpen(false)
-  }
-
-  // Render Links Helper
+  // Renders the links. 'isMobile' adds specific classes for styling.
   const renderLinks = (isMobile: boolean) => {
     return navigationLinks
       ?.map((link, index) => {
@@ -58,8 +53,13 @@ export function NotionPageHeader({ block }: { block: any }) {
             <components.PageLink
               href={mapPageUrl(link.pageId)}
               key={index}
-              className={cs(styles.navLink, 'breadcrumb', 'button', isMobile ? 'mobile-link' : '')}
-              onClick={isMobile ? closeMenu : undefined}
+              className={cs(
+                styles.navLink, 
+                'breadcrumb', 
+                'button', 
+                isMobile ? 'mobile-link-item' : 'desktop-link-item'
+              )}
+              onClick={isMobile ? () => setIsMenuOpen(false) : undefined}
             >
               {link.title}
             </components.PageLink>
@@ -69,8 +69,13 @@ export function NotionPageHeader({ block }: { block: any }) {
             <components.Link
               href={link.url}
               key={index}
-              className={cs(styles.navLink, 'breadcrumb', 'button', isMobile ? 'mobile-link' : '')}
-              onClick={isMobile ? closeMenu : undefined}
+              className={cs(
+                styles.navLink, 
+                'breadcrumb', 
+                'button', 
+                isMobile ? 'mobile-link-item' : 'desktop-link-item'
+              )}
+              onClick={isMobile ? () => setIsMenuOpen(false) : undefined}
             >
               {link.title}
             </components.Link>
@@ -83,32 +88,33 @@ export function NotionPageHeader({ block }: { block: any }) {
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
-        {/* Left: Logo */}
+        {/* LEFT: Logo / Breadcrumbs */}
         <div className="nav-left">
           <Breadcrumbs block={block} rootOnly={true} />
         </div>
 
-        {/* Right: Desktop Menu (Hidden on Mobile) */}
-        <div className='notion-nav-header-rhs desktop-menu'>
+        {/* RIGHT: Desktop Menu (HIDDEN ON MOBILE) */}
+        <div className='nav-right-desktop'>
           {renderLinks(false)}
           <ToggleThemeButton />
           {isSearchEnabled && <Search block={block} title={null} />}
         </div>
 
-        {/* Right: Mobile Button (Visible on Mobile) */}
+        {/* RIGHT: Mobile Toggle Button (VISIBLE ONLY ON MOBILE) */}
         <div 
-          className='notion-nav-mobile-menu-button' 
+          className='nav-mobile-toggle' 
           onClick={toggleMenu}
-          role="button"
         >
           {isMenuOpen ? <IoClose /> : <IoMenu />}
         </div>
       </div>
 
-      {/* MOBILE DROPDOWN (Separate Container) */}
+      {/* MOBILE OVERLAY (ABSOLUTE POSITIONED) */}
       {isMenuOpen && (
-        <div className='mobile-menu-container'>
-          {renderLinks(true)}
+        <div className='nav-mobile-overlay'>
+          <div className="mobile-links-wrapper">
+            {renderLinks(true)}
+          </div>
           <div className="mobile-utils">
             <ToggleThemeButton />
           </div>
