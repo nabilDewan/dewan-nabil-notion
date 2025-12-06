@@ -37,19 +37,25 @@ export function NotionPageHeader({ block }: { block: any }) {
   const { components, mapPageUrl } = useNotionContext()
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
-  const toggleMenu = (e: React.MouseEvent) => {
+  // Toggle Logic
+  const toggleMenu = (e: any) => {
     e.preventDefault()
-    e.stopPropagation() // Prevent click from bubbling up
-    setIsMenuOpen(!isMenuOpen)
+    e.stopPropagation()
+    setIsMenuOpen(prev => !prev)
+  }
+
+  // Close logic when clicking a link
+  const closeMenu = () => {
+    setIsMenuOpen(false)
   }
 
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
-        {/* 1. Logo / Breadcrumbs */}
+        {/* Left: Breadcrumbs */}
         <Breadcrumbs block={block} rootOnly={true} />
 
-        {/* 2. Mobile Menu Toggle Button */}
+        {/* Mobile Toggle Button */}
         <div 
           className='notion-nav-mobile-menu-button' 
           onClick={toggleMenu}
@@ -58,8 +64,7 @@ export function NotionPageHeader({ block }: { block: any }) {
           {isMenuOpen ? <IoClose /> : <IoMenu />}
         </div>
 
-        {/* 3. Navigation Links */}
-        {/* REMOVED 'breadcrumbs' class to prevent conflicts */}
+        {/* Navigation Links */}
         <div
           className={cs(
             'notion-nav-header-rhs',
@@ -76,7 +81,7 @@ export function NotionPageHeader({ block }: { block: any }) {
                     href={mapPageUrl(link.pageId)}
                     key={index}
                     className={cs(styles.navLink, 'breadcrumb', 'button')}
-                    onClick={() => setIsMenuOpen(false)} 
+                    onClick={closeMenu}
                   >
                     {link.title}
                   </components.PageLink>
@@ -87,7 +92,7 @@ export function NotionPageHeader({ block }: { block: any }) {
                     href={link.url}
                     key={index}
                     className={cs(styles.navLink, 'breadcrumb', 'button')}
-                    onClick={() => setIsMenuOpen(false)} 
+                    onClick={closeMenu}
                   >
                     {link.title}
                   </components.Link>
