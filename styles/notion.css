@@ -1,4 +1,4 @@
-/* notion.css - Arrow Scroll Indicator & Optimized Layout */
+/* notion.css - Dotted Buttons, Glassier Mobile, Engaging Arrow */
 
 /* 1. GLOBAL RESET */
 * { box-sizing: border-box !important; }
@@ -14,14 +14,14 @@ body {
   padding-top: 85px !important; 
 }
 
-/* 3. HEADER BAR (Glassy & Posh) */
+/* 3. HEADER BAR (Default Desktop) */
 .notion-header {
   position: fixed !important;
   top: 0; left: 0; right: 0;
   height: 60px !important;
   
-  /* Glass Effect */
-  background: rgba(255, 255, 255, 0.85) !important; 
+  /* Desktop: 80% opacity */
+  background: rgba(255, 255, 255, 0.8) !important; 
   backdrop-filter: blur(16px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
   
@@ -41,10 +41,9 @@ body {
   height: 100% !important;
   width: 100% !important;
   background: transparent !important;
-  position: relative !important; /* For arrow positioning */
 }
 
-/* 4. NAV BUTTONS (Desktop Styles) */
+/* 4. NAV BUTTONS (Desktop) */
 .nav-right-scrollable {
   display: flex !important;
   gap: 8px !important;
@@ -69,16 +68,14 @@ body {
 }
 
 /* 5. ARROW INDICATOR (Default Hidden) */
-.nav-scroll-arrow {
-  display: none !important;
-}
+.nav-scroll-arrow { display: none !important; }
 
 /* 6. CONTENT CONTAINER */
 .notion-page {
   padding-top: 0 !important; 
   padding-bottom: 50px !important;
   margin: 0 auto !important;
-  max-width: 800px !important; 
+  max-width: 900px !important; 
   width: 100% !important;
 }
 
@@ -95,25 +92,24 @@ body {
   display: block !important;
 }
 
-/* 7. GENERAL TEXT STYLES */
-.notion-text { 
-  text-align: justify !important; 
-  hyphens: none !important; 
-}
+/* 7. GENERAL STYLES */
+.notion-text { text-align: justify !important; hyphens: none !important; }
 .notion-asset-wrapper, iframe { background: transparent !important; }
 
 /* 8. MOBILE RESPONSIVENESS */
 @media only screen and (max-width: 768px) {
   
-  /* HIDE LOGO COMPLETELY */
-  .nav-left {
-    display: none !important;
+  /* GLASS HEADER - MORE TRANSPARENT */
+  .notion-header {
+    /* Mobile: 70% opacity for "Glassier" look */
+    background: rgba(255, 255, 255, 0.7) !important; 
+    backdrop-filter: blur(20px) saturate(200%) !important; /* Higher blur */
   }
 
-  /* Adjust Header Padding */
-  .notion-nav-header {
-    padding: 0 5px 0 10px !important;
-  }
+  /* HIDE LOGO */
+  .nav-left { display: none !important; }
+
+  .notion-nav-header { padding: 0 5px 0 10px !important; }
 
   /* MOBILE SCROLL NAV */
   .nav-right-scrollable {
@@ -122,41 +118,42 @@ body {
     white-space: nowrap !important;
     width: 100% !important; 
     padding-bottom: 0px; 
-    padding-right: 35px !important; /* Space for the arrow */
+    padding-right: 40px !important; /* Space for Arrow */
     
     -ms-overflow-style: none;
     scrollbar-width: none;
     
-    /* Gentle Fade Mask */
-    mask-image: linear-gradient(to right, black 90%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+    /* Fade Mask */
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
   }
   .nav-right-scrollable::-webkit-scrollbar { display: none; }
 
-  /* ARROW SCROLL INDICATOR */
+  /* ARROW INDICATOR (Engaging Color) */
   .nav-scroll-arrow {
     display: flex !important;
     position: absolute !important;
     right: 0 !important;
     top: 0 !important;
     bottom: 0 !important;
-    width: 40px !important;
+    width: 45px !important;
     
-    /* Fade Background: Transparent -> White */
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.9) 60%) !important;
+    /* Fade background matches header glassiness */
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.8) 60%) !important;
     
     align-items: center !important;
     justify-content: center !important;
-    pointer-events: none !important; /* Allows clicking through it if needed */
+    pointer-events: none !important;
     z-index: 20 !important;
-    color: #999 !important; /* Subtle arrow color */
-    font-size: 20px !important;
     
-    /* Subtle Animation */
-    animation: bounceRight 2s infinite;
+    /* VIBRANT COLOR */
+    color: #4169E1 !important; /* Royal Blue */
+    font-size: 24px !important;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
+    
+    animation: bounceRight 1.5s infinite;
   }
 
-  /* MOBILE TEXT PADDING */
   .notion-page {
     padding-left: 20px !important;
     padding-right: 20px !important;
@@ -164,20 +161,27 @@ body {
     max-width: 100vw !important;
   }
 
-  /* MOBILE BUTTON STYLE */
+  /* === DOTTED BUTTON STYLE === */
   .nav-item {
     font-size: 13px !important;
-    padding: 6px 14px !important;
-    background: rgba(0,0,0,0.04) !important;
+    padding: 5px 12px !important;
+    
+    /* Transparent background to show glass effect behind it */
+    background: rgba(255, 255, 255, 0.4) !important; 
+    
+    /* MINIMAL DOTTED BORDER */
+    border: 1.5px dotted rgba(55, 53, 47, 0.4) !important;
     border-radius: 20px !important;
-    color: #333 !important;
+    
+    color: #222 !important;
     flex-shrink: 0;
-    margin-right: 5px !important;
+    margin-right: 6px !important;
   }
   
   .nav-item:active {
-    background: rgba(11, 110, 153, 0.1) !important;
-    color: #0b6e99 !important;
+    background: rgba(65, 105, 225, 0.1) !important;
+    border-color: #4169E1 !important;
+    color: #4169E1 !important;
   }
 
   .notion-row { flex-direction: column !important; }
@@ -186,9 +190,8 @@ body {
 }
 
 @keyframes bounceRight {
-  0%, 100% { transform: translateX(0); opacity: 0.7; }
-  50% { transform: translateX(3px); opacity: 1; }
+  0%, 100% { transform: translateX(0); opacity: 0.6; }
+  50% { transform: translateX(4px); opacity: 1; }
 }
 
-/* Hide Table of Contents */
 .notion-aside { display: none !important; }
