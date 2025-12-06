@@ -3,8 +3,9 @@ import cs from 'classnames'
 import { Breadcrumbs, Search, useNotionContext } from 'react-notion-x'
 import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
 import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
+import { IoMenu } from '@react-icons/all-files/io5/IoMenu'
+import { IoClose } from '@react-icons/all-files/io5/IoClose'
 
-// DIRECTLY IMPORT LINKS TO BYPASS CONFIG ISSUES
 import { navigationLinks, isSearchEnabled } from '@/lib/config'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
@@ -34,15 +35,31 @@ function ToggleThemeButton() {
 
 export function NotionPageHeader({ block }: { block: any }) {
   const { components, mapPageUrl } = useNotionContext()
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
 
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
-        {/* 1. Breadcrumbs (Page Title on Left) */}
+        {/* 1. Logo / Breadcrumbs (Left) */}
         <Breadcrumbs block={block} rootOnly={true} />
 
-        {/* 2. Custom Navigation Links (Right Side) */}
-        <div className='notion-nav-header-rhs breadcrumbs'>
+        {/* 2. Mobile Hamburger Button (Visible only on mobile) */}
+        <div className='notion-nav-mobile-menu-button' onClick={toggleMenu}>
+          {isMenuOpen ? <IoClose /> : <IoMenu />}
+        </div>
+
+        {/* 3. Navigation Links (Right Side / Dropdown) */}
+        <div
+          className={cs(
+            'notion-nav-header-rhs',
+            'breadcrumbs',
+            isMenuOpen && 'notion-nav-mobile-open'
+          )}
+        >
           {navigationLinks
             ?.map((link, index) => {
               if (!link?.pageId && !link?.url) return null
@@ -53,6 +70,7 @@ export function NotionPageHeader({ block }: { block: any }) {
                     href={mapPageUrl(link.pageId)}
                     key={index}
                     className={cs(styles.navLink, 'breadcrumb', 'button')}
+                    onClick={() => setIsMenuOpen(false)} // Close menu on click
                   >
                     {link.title}
                   </components.PageLink>
@@ -63,6 +81,7 @@ export function NotionPageHeader({ block }: { block: any }) {
                     href={link.url}
                     key={index}
                     className={cs(styles.navLink, 'breadcrumb', 'button')}
+                    onClick={() => setIsMenuOpen(false)} // Close menu on click
                   >
                     {link.title}
                   </components.Link>
