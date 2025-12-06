@@ -1,40 +1,47 @@
+/* global.css - Safe Defaults */
+
 * {
   box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
   padding: 0;
   margin: 0;
-  background-color: #ffffff !important;
+  background-color: #ffffff;
+  /* Ensure scrolling works but horizontal overflow is hidden */
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  overflow-x: hidden;
+  /* Standard Notion Fonts */
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   color: #37352f;
 }
 
-/* HIDE WEBSITE UI */
-.notion-header,
+/* HIDE DEFAULT NOTION UI ELEMENTS (But KEEP our Custom Header) */
+/* We removed .notion-header and .notion-nav-header from this list */
 .notion-topbar, 
-.notion-nav-header,
 .notion-header-right,
-.notion-search-icon,
-footer { 
+.notion-search-icon { 
   display: none !important; 
 }
 
+/* We often want the footer, but if you want to hide it, keep this: */
+/* footer { display: none !important; } */
+
 /* RESET LAYOUT */
+/* We relax this so notion.css can handle the specific widths */
 .notion-frame {
-  padding: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important; 
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
 }
 
-/* COLORS */
+/* COLORS (Keep these, they are good) */
 :root {
   --bg-color: #ffffff !important;
   --bg-color-0: #ffffff !important;
@@ -52,4 +59,14 @@ footer {
   --notion-orange: #d9730d !important;
   --notion-brown: #64473a !important;
   --notion-gray: #9b9a97 !important;
+}
+
+/* Custom scrollbar styling (Optional but nice) */
+::-webkit-scrollbar {
+  width: 10px;
+  background: #fff;
+}
+::-webkit-scrollbar-thumb {
+  background: #dbdbdb;
+  border-radius: 10px;
 }
