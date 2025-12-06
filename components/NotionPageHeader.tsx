@@ -3,8 +3,6 @@ import cs from 'classnames'
 import { Breadcrumbs, Search, useNotionContext } from 'react-notion-x'
 import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
 import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
-import { IoMenu } from '@react-icons/all-files/io5/IoMenu'
-import { IoClose } from '@react-icons/all-files/io5/IoClose'
 
 import { navigationLinks, isSearchEnabled } from '@/lib/config'
 import { useDarkMode } from '@/lib/use-dark-mode'
@@ -35,16 +33,9 @@ function ToggleThemeButton() {
 
 export function NotionPageHeader({ block }: { block: any }) {
   const { components, mapPageUrl } = useNotionContext()
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
-  const toggleMenu = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setIsMenuOpen(!isMenuOpen)
-  }
-
-  // Helper to render links
-  const renderLinks = (isMobile: boolean) => {
+  // Helper to render links consistently
+  const renderLinks = () => {
     return navigationLinks
       ?.map((link, index) => {
         if (!link?.pageId && !link?.url) return null
@@ -54,8 +45,7 @@ export function NotionPageHeader({ block }: { block: any }) {
             <components.PageLink
               href={mapPageUrl(link.pageId)}
               key={index}
-              className={cs(styles.navLink, 'breadcrumb', 'button', isMobile && 'mobile-link')}
-              onClick={isMobile ? () => setIsMenuOpen(false) : undefined}
+              className={cs(styles.navLink, 'breadcrumb', 'button', 'nav-link-item')}
             >
               {link.title}
             </components.PageLink>
@@ -65,8 +55,7 @@ export function NotionPageHeader({ block }: { block: any }) {
             <components.Link
               href={link.url}
               key={index}
-              className={cs(styles.navLink, 'breadcrumb', 'button', isMobile && 'mobile-link')}
-              onClick={isMobile ? () => setIsMenuOpen(false) : undefined}
+              className={cs(styles.navLink, 'breadcrumb', 'button', 'nav-link-item')}
             >
               {link.title}
             </components.Link>
@@ -79,38 +68,18 @@ export function NotionPageHeader({ block }: { block: any }) {
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
-        {/* LEFT: Logo */}
+        {/* LEFT: Logo / Breadcrumbs */}
         <div className="nav-left">
           <Breadcrumbs block={block} rootOnly={true} />
         </div>
 
-        {/* RIGHT: Desktop Menu (Hidden on Mobile) */}
-        <div className='nav-right-desktop'>
-          {renderLinks(false)}
+        {/* RIGHT: Links + Theme + Search (Always visible) */}
+        <div className='nav-right-rhs'>
+          {renderLinks()}
           <ToggleThemeButton />
           {isSearchEnabled && <Search block={block} title={null} />}
         </div>
-
-        {/* RIGHT: Mobile Toggle (Hidden on Desktop) */}
-        <div 
-          className='nav-mobile-toggle' 
-          onClick={toggleMenu}
-        >
-          {isMenuOpen ? <IoClose /> : <IoMenu />}
-        </div>
       </div>
-
-      {/* MOBILE OVERLAY - Rendered outside the nav-header div */}
-      {isMenuOpen && (
-        <div className='nav-mobile-overlay'>
-          <div className="mobile-links-wrapper">
-            {renderLinks(true)}
-          </div>
-          <div className="mobile-utils">
-            <ToggleThemeButton />
-          </div>
-        </div>
-      )}
     </header>
   )
 }
