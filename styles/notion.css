@@ -13,7 +13,7 @@ html, body {
 .notion-page {
   padding-bottom: calc(max(5vh, 32px)) !important;
   margin: 0 auto !important;
-  max-width: 820px !important; /* Forces 2x2 grid on Desktop */
+  max-width: 800px !important; /* Forces 2x2 grid on Desktop */
   width: 100% !important;
 }
 
