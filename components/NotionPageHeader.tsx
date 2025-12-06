@@ -42,8 +42,8 @@ export function NotionPageHeader({ block }: { block: any }) {
           <Breadcrumbs block={block} rootOnly={true} />
         </div>
 
-        {/* Right: Scrollable Links Container */}
-        <div className='nav-right'>
+        {/* Right: Scrollable Horizontal Links */}
+        <div className='nav-right-scrollable'>
           {navigationLinks
             ?.map((link, index) => {
               if (!link?.pageId && !link?.url) return null
