@@ -1,4 +1,4 @@
-/* notion.css - Final Fix for Mobile Menu & Layout */
+/* notion.css - Final Refinement: Gap Reduction & Mobile Menu */
 
 /* 1. GLOBAL RESET */
 * {
@@ -11,10 +11,10 @@ html, body {
   overflow-x: hidden !important; 
 }
 
-/* 2. PUSH CONTENT DOWN (Fixes Header Cutting) */
-/* Apply padding to body so the header doesn't cover anything */
+/* 2. PUSH CONTENT DOWN (Gap Adjustment) */
+/* Reduced from 60px/85px to 55px to bring content closer to header */
 body {
-  padding-top: 60px !important; 
+  padding-top: 55px !important; 
 }
 
 .notion-app {
@@ -28,10 +28,9 @@ body {
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
-  height: 60px !important;
+  height: 50px !important; /* Slightly thinner header for nicer look */
   z-index: 99999 !important;
   
-  /* Visuals */
   background: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: blur(12px) !important;
   border-bottom: 1px solid rgba(0,0,0,0.05);
@@ -48,7 +47,6 @@ body {
   height: 100% !important;
 }
 
-/* Desktop Links */
 .notion-nav-header-rhs {
   display: flex !important;
   gap: 15px !important;
@@ -58,37 +56,40 @@ body {
 /* Mobile Menu Button */
 .notion-nav-mobile-menu-button {
   display: none !important;
-  font-size: 28px;
+  font-size: 26px;
   cursor: pointer;
   padding: 10px;
   color: #333;
   z-index: 100000 !important;
 }
 
-/* 4. CONTENT & AVATAR FIX */
+/* 4. CONTENT & THUMBNAIL SPACING */
 .notion-page {
-  padding-top: 40px !important; /* Space between header and content */
+  /* Reset internal padding */
+  padding-top: 20px !important; /* Minimal space below header */
   padding-bottom: 50px !important;
   margin: 0 auto !important;
   max-width: 800px !important; 
   width: 100% !important;
 }
 
-/* Fix Avatar Overlap */
+/* THUMBNAIL POSITIONING */
 .notion-page-icon-hero {
   position: relative !important;
-  margin-top: -40px !important; 
-  margin-bottom: 20px !important; 
+  /* Pull thumbnail UP to bridge the gap between cover and text */
+  margin-top: -30px !important; 
+  margin-bottom: 10px !important; /* Reduced bottom margin */
   z-index: 20 !important;
 }
 
-/* Ensure Title is visible */
+/* TITLE SPACING */
 .notion-title {
-  margin-top: 10px !important;
+  margin-top: 0 !important; /* Remove extra top margin */
+  padding-top: 0 !important;
   display: block !important;
 }
 
-/* 5. TEXT & EMBEDS */
+/* 5. GENERAL STYLING */
 .notion-text {
   text-align: justify !important;
   hyphens: none !important; 
@@ -109,7 +110,7 @@ body {
   background-color: transparent !important;
 }
 
-/* 6. MOBILE FIXES (Crucial Menu Logic) */
+/* 6. MOBILE FIXES & MENU (The Fix) */
 @media only screen and (max-width: 768px) {
   .notion-page {
     padding-left: 15px !important;
@@ -117,29 +118,32 @@ body {
     max-width: 100vw !important;
   }
 
-  /* Show Toggle */
   .notion-nav-mobile-menu-button {
     display: flex !important;
     align-items: center;
     justify-content: center;
   }
 
-  /* HIDE LINKS BY DEFAULT */
-  /* Using 'div' to be specific */
-  div.notion-nav-header-rhs {
+  /* HIDE DESKTOP LINKS */
+  /* We target the container generally to hide it */
+  .notion-nav-header-rhs {
     display: none !important;
   }
 
-  /* SHOW LINKS WHEN OPEN */
-  div.notion-nav-header-rhs.notion-nav-mobile-open {
+  /* === MOBILE MENU OPEN STATE === */
+  /* We use the specific OPEN class to force it visible */
+  .notion-nav-mobile-open {
     display: flex !important;
+    visibility: visible !important; /* Force visibility */
+    opacity: 1 !important;
+    
     flex-direction: column !important;
     position: fixed !important;
-    top: 60px !important;
+    top: 50px !important; /* Starts right after 50px header */
     left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
-    height: calc(100vh - 60px) !important;
+    height: calc(100vh - 50px) !important;
     
     background: #ffffff !important;
     padding: 20px !important;
@@ -148,8 +152,8 @@ body {
     border-top: 1px solid #eee;
   }
   
-  /* Style Mobile Links */
-  .notion-nav-header-rhs .breadcrumb.button {
+  /* Link Styling */
+  .notion-nav-mobile-open .breadcrumb.button {
     font-size: 18px !important;
     width: 100% !important;
     display: block !important;
@@ -160,14 +164,13 @@ body {
     background: transparent !important;
   }
 
-  /* Embed Fixes */
   .notion-row { flex-direction: column !important; }
   .notion-column { width: 100% !important; margin-bottom: 20px !important; }
   .notion-asset-wrapper iframe { width: 100% !important; max-width: 100% !important; }
   .notion-asset-wrapper img { height: auto !important; }
 }
 
-/* 7. Hide ToC */
+/* 7. Hide Table of Contents */
 .notion-aside {
   display: none !important;
 }
