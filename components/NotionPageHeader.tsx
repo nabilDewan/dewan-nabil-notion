@@ -47,10 +47,43 @@ export function NotionPageHeader({ block }: { block: any }) {
     setIsMenuOpen(false)
   }
 
+  // Helper to render links so we don't repeat code
+  const renderLinks = (isMobile: boolean) => {
+    return navigationLinks
+      ?.map((link, index) => {
+        if (!link?.pageId && !link?.url) return null
+
+        if (link.pageId) {
+          return (
+            <components.PageLink
+              href={mapPageUrl(link.pageId)}
+              key={index}
+              className={cs(styles.navLink, 'breadcrumb', 'button', isMobile && 'mobile-link')}
+              onClick={isMobile ? closeMenu : undefined}
+            >
+              {link.title}
+            </components.PageLink>
+          )
+        } else {
+          return (
+            <components.Link
+              href={link.url}
+              key={index}
+              className={cs(styles.navLink, 'breadcrumb', 'button', isMobile && 'mobile-link')}
+              onClick={isMobile ? closeMenu : undefined}
+            >
+              {link.title}
+            </components.Link>
+          )
+        }
+      })
+      .filter(Boolean)
+  }
+
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
-        {/* Left Side: Breadcrumbs */}
+        {/* Left: Breadcrumbs */}
         <Breadcrumbs block={block} rootOnly={true} />
 
         {/* Mobile Toggle Button */}
@@ -62,51 +95,23 @@ export function NotionPageHeader({ block }: { block: any }) {
           {isMenuOpen ? <IoClose /> : <IoMenu />}
         </div>
 
-        {/* Navigation Links Container */}
-        <div
-          className={cs(
-            'notion-nav-header-rhs',
-            // Only add 'breadcrumbs' on desktop (when menu is closed)
-            // This prevents the library from hiding our menu on mobile
-            !isMenuOpen && 'breadcrumbs', 
-            isMenuOpen && 'notion-nav-mobile-open'
-          )}
-        >
-          {navigationLinks
-            ?.map((link, index) => {
-              if (!link?.pageId && !link?.url) return null
-
-              if (link.pageId) {
-                return (
-                  <components.PageLink
-                    href={mapPageUrl(link.pageId)}
-                    key={index}
-                    className={cs(styles.navLink, 'breadcrumb', 'button')}
-                    onClick={closeMenu}
-                  >
-                    {link.title}
-                  </components.PageLink>
-                )
-              } else {
-                return (
-                  <components.Link
-                    href={link.url}
-                    key={index}
-                    className={cs(styles.navLink, 'breadcrumb', 'button')}
-                    onClick={closeMenu}
-                  >
-                    {link.title}
-                  </components.Link>
-                )
-              }
-            })
-            .filter(Boolean)}
-
+        {/* Desktop Links (Hidden on Mobile via CSS) */}
+        <div className='notion-nav-header-rhs desktop-menu'>
+          {renderLinks(false)}
           <ToggleThemeButton />
-
           {isSearchEnabled && <Search block={block} title={null} />}
         </div>
       </div>
+
+      {/* MOBILE OVERLAY (Rendered conditionally - Guaranteed to show) */}
+      {isMenuOpen && (
+        <div className='notion-mobile-menu-overlay'>
+          {renderLinks(true)}
+          <div className="mobile-utils">
+            <ToggleThemeButton />
+          </div>
+        </div>
+      )}
     </header>
   )
 }
