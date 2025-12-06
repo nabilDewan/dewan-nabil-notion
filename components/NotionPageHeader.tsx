@@ -3,6 +3,7 @@ import cs from 'classnames'
 import { Breadcrumbs, Search, useNotionContext } from 'react-notion-x'
 import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
 import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
+import { IoChevronForward } from '@react-icons/all-files/io5/IoChevronForward' // Import Arrow Icon
 
 import { navigationLinks, isSearchEnabled } from '@/lib/config'
 import { useDarkMode } from '@/lib/use-dark-mode'
@@ -34,46 +35,55 @@ function ToggleThemeButton() {
 export function NotionPageHeader({ block }: { block: any }) {
   const { components, mapPageUrl } = useNotionContext()
 
+  // Helper to render links
+  const renderLinks = () => {
+    return navigationLinks
+      ?.map((link, index) => {
+        if (!link?.pageId && !link?.url) return null
+
+        if (link.pageId) {
+          return (
+            <components.PageLink
+              href={mapPageUrl(link.pageId)}
+              key={index}
+              className={cs(styles.navLink, 'breadcrumb', 'button', 'nav-item')}
+            >
+              {link.title}
+            </components.PageLink>
+          )
+        } else {
+          return (
+            <components.Link
+              href={link.url}
+              key={index}
+              className={cs(styles.navLink, 'breadcrumb', 'button', 'nav-item')}
+            >
+              {link.title}
+            </components.Link>
+          )
+        }
+      })
+      .filter(Boolean)
+  }
+
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
-        {/* Left: Logo/Breadcrumbs */}
+        {/* LEFT: Logo (Hidden on Mobile) */}
         <div className="nav-left">
           <Breadcrumbs block={block} rootOnly={true} />
         </div>
 
-        {/* Right: Scrollable Horizontal Links */}
+        {/* RIGHT: Scrollable Links */}
         <div className='nav-right-scrollable'>
-          {navigationLinks
-            ?.map((link, index) => {
-              if (!link?.pageId && !link?.url) return null
-
-              if (link.pageId) {
-                return (
-                  <components.PageLink
-                    href={mapPageUrl(link.pageId)}
-                    key={index}
-                    className={cs(styles.navLink, 'breadcrumb', 'button', 'nav-item')}
-                  >
-                    {link.title}
-                  </components.PageLink>
-                )
-              } else {
-                return (
-                  <components.Link
-                    href={link.url}
-                    key={index}
-                    className={cs(styles.navLink, 'breadcrumb', 'button', 'nav-item')}
-                  >
-                    {link.title}
-                  </components.Link>
-                )
-              }
-            })
-            .filter(Boolean)}
-
+          {renderLinks()}
           <ToggleThemeButton />
           {isSearchEnabled && <Search block={block} title={null} />}
+        </div>
+
+        {/* MOBILE ARROW OVERLAY (Only visible on mobile CSS) */}
+        <div className='nav-scroll-arrow'>
+          <IoChevronForward />
         </div>
       </div>
     </header>

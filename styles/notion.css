@@ -1,4 +1,4 @@
-/* notion.css - Icon-Free Mobile Nav & Scroll Indicator */
+/* notion.css - Arrow Scroll Indicator & Optimized Layout */
 
 /* 1. GLOBAL RESET */
 * { box-sizing: border-box !important; }
@@ -21,7 +21,7 @@ body {
   height: 60px !important;
   
   /* Glass Effect */
-  background: rgba(255, 255, 255, 0.8) !important; 
+  background: rgba(255, 255, 255, 0.85) !important; 
   backdrop-filter: blur(16px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
   
@@ -29,7 +29,6 @@ body {
   z-index: 1000 !important;
   padding: 0 !important;
   display: block !important;
-  transition: all 0.3s ease;
 }
 
 .notion-nav-header {
@@ -42,6 +41,7 @@ body {
   height: 100% !important;
   width: 100% !important;
   background: transparent !important;
+  position: relative !important; /* For arrow positioning */
 }
 
 /* 4. NAV BUTTONS (Desktop Styles) */
@@ -68,12 +68,17 @@ body {
   transform: translateY(-1px) !important;
 }
 
-/* 5. CONTENT CONTAINER */
+/* 5. ARROW INDICATOR (Default Hidden) */
+.nav-scroll-arrow {
+  display: none !important;
+}
+
+/* 6. CONTENT CONTAINER */
 .notion-page {
   padding-top: 0 !important; 
   padding-bottom: 50px !important;
   margin: 0 auto !important;
-  max-width: 900px !important; 
+  max-width: 800px !important; 
   width: 100% !important;
 }
 
@@ -90,45 +95,66 @@ body {
   display: block !important;
 }
 
-/* 6. GENERAL TEXT STYLES */
+/* 7. GENERAL TEXT STYLES */
 .notion-text { 
   text-align: justify !important; 
   hyphens: none !important; 
 }
 .notion-asset-wrapper, iframe { background: transparent !important; }
 
-/* 7. MOBILE RESPONSIVENESS (The Changes) */
+/* 8. MOBILE RESPONSIVENESS */
 @media only screen and (max-width: 768px) {
   
-  /* FIX 1: HIDE LOGO COMPLETELY */
-  /* This removes the left section entirely to give full width to buttons */
+  /* HIDE LOGO COMPLETELY */
   .nav-left {
     display: none !important;
   }
 
-  /* Adjust Header Padding for maximum space */
+  /* Adjust Header Padding */
   .notion-nav-header {
-    padding: 0 10px !important; /* Minimal padding on edges */
+    padding: 0 5px 0 10px !important;
   }
 
-  /* FIX 2: MOBILE SCROLL NAV & INDICATOR */
+  /* MOBILE SCROLL NAV */
   .nav-right-scrollable {
     justify-content: flex-start !important; 
     overflow-x: auto !important; 
     white-space: nowrap !important;
     width: 100% !important; 
     padding-bottom: 0px; 
+    padding-right: 35px !important; /* Space for the arrow */
     
-    /* Scrollbar Hiding */
     -ms-overflow-style: none;
     scrollbar-width: none;
     
-    /* THE SCROLL INDICATOR (Fade Out) */
-    /* This creates a fade effect on the right side */
-    mask-image: linear-gradient(to right, black 85%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    /* Gentle Fade Mask */
+    mask-image: linear-gradient(to right, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
   }
   .nav-right-scrollable::-webkit-scrollbar { display: none; }
+
+  /* ARROW SCROLL INDICATOR */
+  .nav-scroll-arrow {
+    display: flex !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 40px !important;
+    
+    /* Fade Background: Transparent -> White */
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.9) 60%) !important;
+    
+    align-items: center !important;
+    justify-content: center !important;
+    pointer-events: none !important; /* Allows clicking through it if needed */
+    z-index: 20 !important;
+    color: #999 !important; /* Subtle arrow color */
+    font-size: 20px !important;
+    
+    /* Subtle Animation */
+    animation: bounceRight 2s infinite;
+  }
 
   /* MOBILE TEXT PADDING */
   .notion-page {
@@ -146,7 +172,7 @@ body {
     border-radius: 20px !important;
     color: #333 !important;
     flex-shrink: 0;
-    margin-right: 5px !important; /* Space between buttons */
+    margin-right: 5px !important;
   }
   
   .nav-item:active {
@@ -154,10 +180,14 @@ body {
     color: #0b6e99 !important;
   }
 
-  /* Embed Fixes */
   .notion-row { flex-direction: column !important; }
   .notion-column { width: 100% !important; margin-bottom: 20px !important; }
   .notion-asset-wrapper img { height: auto !important; }
+}
+
+@keyframes bounceRight {
+  0%, 100% { transform: translateX(0); opacity: 0.7; }
+  50% { transform: translateX(3px); opacity: 1; }
 }
 
 /* Hide Table of Contents */
