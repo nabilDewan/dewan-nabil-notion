@@ -1,4 +1,4 @@
-/* notion.css - Smart SEO Layout & Dotted Mobile Nav */
+/* notion.css - Final Tweak: Tighter Mobile Buttons */
 
 /* 1. GLOBAL RESET */
 * { box-sizing: border-box !important; }
@@ -99,9 +99,8 @@ body {
 /* 8. MOBILE RESPONSIVENESS */
 @media only screen and (max-width: 768px) {
   
-  /* === GLASSIER MOBILE HEADER === */
+  /* GLASS HEADER */
   .notion-header {
-    /* More transparent (0.65) for that "Glassy" feel */
     background: rgba(255, 255, 255, 0.65) !important; 
     backdrop-filter: blur(20px) saturate(200%) !important;
   }
@@ -125,30 +124,33 @@ body {
   }
   .nav-right-scrollable::-webkit-scrollbar { display: none; }
 
-  /* === MINIMAL DOTTED BUTTONS === */
+  /* === TIGHTER MOBILE BUTTONS === */
   .nav-item {
     font-size: 13px !important;
-    padding: 5px 12px !important;
+    
+    /* Slightly Reduced Padding (12px -> 10px) */
+    padding: 5px 10px !important;
     
     /* Transparent Background */
     background: rgba(255, 255, 255, 0.3) !important; 
-    
-    /* DOTTED BORDER */
+    /* Dotted Border */
     border: 1.5px dotted rgba(55, 53, 47, 0.4) !important;
     border-radius: 20px !important;
     
     color: #111 !important;
     flex-shrink: 0;
-    margin-right: 6px !important;
+    
+    /* Slightly Reduced Gap (6px -> 4px) */
+    margin-right: 4px !important;
   }
   
   .nav-item:active {
     background: rgba(65, 105, 225, 0.1) !important;
-    border-color: #4169E1 !important; /* Blue on click */
+    border-color: #4169E1 !important;
     color: #4169E1 !important;
   }
 
-  /* === ENGAGING ARROW (Royal Blue) === */
+  /* ARROW INDICATOR */
   .nav-scroll-arrow {
     display: flex !important;
     position: absolute !important;
@@ -161,12 +163,8 @@ body {
     justify-content: center;
     pointer-events: none !important;
     z-index: 20 !important;
-    
-    /* VIBRANT ROYAL BLUE */
     color: #4169E1 !important; 
     font-size: 24px !important;
-    
-    /* Pulse Animation */
     animation: pulseArrow 1.5s infinite;
   }
 
