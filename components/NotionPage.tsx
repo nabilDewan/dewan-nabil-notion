@@ -5,7 +5,6 @@ import { NotionRenderer } from 'react-notion-x'
 import { getPageTitle } from 'notion-utils'
 import { searchNotion } from '@/lib/search-notion'
 
-// 1. Dynamic imports for heavy Notion blocks
 const Code = dynamic(() =>
   import('react-notion-x/build/third-party/code').then((m) => m.Code)
 )
@@ -26,27 +25,23 @@ const Modal = dynamic(
   { ssr: false }
 )
 
-// 2. RELAXED TYPES
-// We use 'any' here to stop the build from failing on strict mismatches.
+// FIX IS HERE: Added '?' to recordMap to match the rest of the app
 interface NotionPageProps {
-  recordMap: any 
+  recordMap?: any
   rootPageId?: string
-  // This line allows any other props (like 'site', 'error') to pass through safely
-  [key: string]: any 
+  [key: string]: any
 }
 
 export const NotionPage = ({
   recordMap,
   rootPageId
 }: NotionPageProps) => {
-  // If data is missing, render nothing (prevents crash)
   if (!recordMap) {
     return null
   }
 
   const title = getPageTitle(recordMap)
 
-  // 3. Simple Page Mapper
   const mapPageUrl = (pageId: string) => {
     if (pageId === rootPageId) {
       return '/'
@@ -71,7 +66,7 @@ export const NotionPage = ({
         showCollectionViewDropdown={false}
         showTableOfContents={true}
         minTableOfContentsItems={3}
-        defaultPageIcon={undefined} 
+        defaultPageIcon={undefined}
         defaultPageCover={undefined}
         defaultPageCoverPosition={0.5}
         
