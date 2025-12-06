@@ -34,48 +34,44 @@ function ToggleThemeButton() {
 export function NotionPageHeader({ block }: { block: any }) {
   const { components, mapPageUrl } = useNotionContext()
 
-  // Helper to render links consistently
-  const renderLinks = () => {
-    return navigationLinks
-      ?.map((link, index) => {
-        if (!link?.pageId && !link?.url) return null
-
-        if (link.pageId) {
-          return (
-            <components.PageLink
-              href={mapPageUrl(link.pageId)}
-              key={index}
-              className={cs(styles.navLink, 'breadcrumb', 'button', 'nav-link-item')}
-            >
-              {link.title}
-            </components.PageLink>
-          )
-        } else {
-          return (
-            <components.Link
-              href={link.url}
-              key={index}
-              className={cs(styles.navLink, 'breadcrumb', 'button', 'nav-link-item')}
-            >
-              {link.title}
-            </components.Link>
-          )
-        }
-      })
-      .filter(Boolean)
-  }
-
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
-        {/* LEFT: Logo / Breadcrumbs */}
+        {/* Left: Logo/Breadcrumbs */}
         <div className="nav-left">
           <Breadcrumbs block={block} rootOnly={true} />
         </div>
 
-        {/* RIGHT: Links + Theme + Search (Always visible) */}
-        <div className='nav-right-rhs'>
-          {renderLinks()}
+        {/* Right: Scrollable Links Container */}
+        <div className='nav-right'>
+          {navigationLinks
+            ?.map((link, index) => {
+              if (!link?.pageId && !link?.url) return null
+
+              if (link.pageId) {
+                return (
+                  <components.PageLink
+                    href={mapPageUrl(link.pageId)}
+                    key={index}
+                    className={cs(styles.navLink, 'breadcrumb', 'button', 'nav-item')}
+                  >
+                    {link.title}
+                  </components.PageLink>
+                )
+              } else {
+                return (
+                  <components.Link
+                    href={link.url}
+                    key={index}
+                    className={cs(styles.navLink, 'breadcrumb', 'button', 'nav-item')}
+                  >
+                    {link.title}
+                  </components.Link>
+                )
+              }
+            })
+            .filter(Boolean)}
+
           <ToggleThemeButton />
           {isSearchEnabled && <Search block={block} title={null} />}
         </div>
