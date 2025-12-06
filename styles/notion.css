@@ -16,7 +16,7 @@ html, body {
   
   /* EXACT NOTION STANDARD WIDTH */
   /* This forces widgets to stack 2x2 exactly like your Notion page */
-  max-width: 720px !important; 
+  max-width: 800px !important; 
   width: 100% !important;
 }
 
