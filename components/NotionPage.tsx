@@ -5,6 +5,9 @@ import { NotionRenderer } from 'react-notion-x'
 import { getPageTitle } from 'notion-utils'
 import { searchNotion } from '@/lib/search-notion'
 
+// 1. IMPORT THE HEADER COMPONENT
+import { NotionPageHeader } from './NotionPageHeader'
+
 const Code = dynamic(() =>
   import('react-notion-x/build/third-party/code').then((m) => m.Code)
 )
@@ -57,7 +60,6 @@ export const NotionPage = ({
       <NotionRenderer
         recordMap={recordMap}
         fullPage={true}
-        // 1. FORCE LIGHT MODE (No toggling)
         darkMode={false}
         rootPageId={rootPageId}
         mapPageUrl={mapPageUrl}
@@ -65,7 +67,7 @@ export const NotionPage = ({
         previewImages={!!recordMap.preview_images}
         showCollectionViewDropdown={false}
         
-        // Keep Table of Contents OFF
+        // Disable ToC
         showTableOfContents={false}
         minTableOfContentsItems={3}
         
@@ -73,12 +75,14 @@ export const NotionPage = ({
         defaultPageCover={undefined}
         defaultPageCoverPosition={0.5}
         
+        // 2. CONNECT THE COMPONENTS
         components={{
           Code,
           Collection,
           Equation,
           Pdf,
-          Modal
+          Modal,
+          Header: NotionPageHeader // <--- THIS IS THE FIX
         }}
       />
     </>
