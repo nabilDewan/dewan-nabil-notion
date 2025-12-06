@@ -25,7 +25,6 @@ const Modal = dynamic(
   { ssr: false }
 )
 
-// FIX IS HERE: Added '?' to recordMap to match the rest of the app
 interface NotionPageProps {
   recordMap?: any
   rootPageId?: string
@@ -64,8 +63,11 @@ export const NotionPage = ({
         searchNotion={searchNotion}
         previewImages={!!recordMap.preview_images}
         showCollectionViewDropdown={false}
-        showTableOfContents={true}
+        
+        // FIX: Force Table of Contents to OFF
+        showTableOfContents={false}
         minTableOfContentsItems={3}
+        
         defaultPageIcon={undefined}
         defaultPageCover={undefined}
         defaultPageCoverPosition={0.5}
