@@ -50,8 +50,10 @@ export function NotionPageHeader({ block }: { block: any }) {
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
+        {/* Left Side: Breadcrumbs */}
         <Breadcrumbs block={block} rootOnly={true} />
 
+        {/* Mobile Toggle Button */}
         <div 
           className='notion-nav-mobile-menu-button' 
           onClick={toggleMenu}
@@ -60,10 +62,11 @@ export function NotionPageHeader({ block }: { block: any }) {
           {isMenuOpen ? <IoClose /> : <IoMenu />}
         </div>
 
+        {/* Navigation Links Container */}
+        {/* Removed 'breadcrumbs' class to prevent CSS conflicts */}
         <div
           className={cs(
             'notion-nav-header-rhs',
-            'breadcrumbs',
             isMenuOpen ? 'notion-nav-mobile-open' : ''
           )}
         >
