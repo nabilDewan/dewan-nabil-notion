@@ -14,7 +14,9 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async (
   try {
     const props = await resolveNotionPage(domain, rawPageId)
 
-    return { props, revalidate: 10 }
+    // UPDATED: Changed from 10 to 3600 (1 hour)
+    // This prevents Notion from blocking your Vercel server
+    return { props, revalidate: 3600 }
   } catch (err) {
     console.error('page error', domain, rawPageId, err)
 
