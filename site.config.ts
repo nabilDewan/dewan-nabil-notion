@@ -10,13 +10,13 @@ export default siteConfig({
   author: 'Dewan Hafiz Nabil',
   description: 'Dewan Hafiz Nabil is a Ph.D. researcher at Warwick Manufacturing Group (WMG), University of Warwick, UK.',
 
-  // Socials - Set to null to hide them
-  twitter: null,
-  github: null,
-  linkedin: null,
-  mastodon: null,
-  newsletter: null,
-  youtube: null,
+  // Socials - Set to undefined to hide them (do not use null)
+  twitter: undefined,
+  github: undefined,
+  linkedin: undefined,
+  mastodon: undefined,
+  newsletter: undefined,
+  youtube: undefined,
 
   // Images
   defaultPageIcon: null,
