@@ -1,4 +1,4 @@
-/* notion.css - Optimized Layout & Separate Mobile Menu */
+/* notion.css - Final Vertical Menu, Glass Header & Layout */
 
 /* 1. GLOBAL RESET */
 * {
@@ -11,39 +11,52 @@ html, body {
   overflow-x: hidden !important; 
 }
 
-/* 2. BODY SPACING */
+/* 2. BODY SPACING (Fixes Overlap) */
 body {
-  padding-top: 50px !important; /* EXACT match for header height */
+  padding-top: 60px !important; /* Clears the header height */
 }
 
 .notion-app {
   height: auto !important; 
 }
 
-/* 3. HEADER BAR */
+/* 3. HEADER BAR (Glassy & Fixed) */
 .notion-header {
   display: block !important;
   position: fixed !important;     
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
-  height: 50px !important; /* Compact & Nice */
+  height: 50px !important; 
   z-index: 99999 !important;
   
-  background: rgba(255, 255, 255, 0.95) !important;
-  backdrop-filter: blur(12px) !important;
+  /* GLASS EFFECT (More Transparent) */
+  background: rgba(255, 255, 255, 0.75) !important; 
+  backdrop-filter: blur(15px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+  
   border-bottom: 1px solid rgba(0,0,0,0.05);
   padding: 0 !important;
+  transition: background 0.3s ease;
 }
 
 .notion-nav-header {
   display: flex !important;
-  justify-content: space-between !important;
+  justify-content: space-between !important; /* Pushes items to edges */
   align-items: center !important;
   max-width: 900px !important;
   margin: 0 auto !important;
   padding: 0 15px !important;
   height: 100% !important;
+  width: 100% !important;
+}
+
+/* Logo Area */
+.nav-left {
+  flex-shrink: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 /* Desktop Menu Container */
@@ -53,7 +66,7 @@ body {
   align-items: center !important;
 }
 
-/* Mobile Menu Button */
+/* Mobile Menu Button (Right Side) */
 .notion-nav-mobile-menu-button {
   display: none !important;
   font-size: 26px;
@@ -61,32 +74,25 @@ body {
   padding: 5px;
   color: #333;
   z-index: 100000 !important;
+  margin-left: auto !important; /* Forces right alignment */
 }
 
-/* 4. CONTENT & OPTIMIZED GAPS */
+/* 4. CONTENT & GAPS */
 .notion-page {
-  padding-top: 0 !important; 
+  padding-top: 20px !important; 
   padding-bottom: 50px !important;
   margin: 0 auto !important;
   max-width: 800px !important; 
   width: 100% !important;
 }
 
-/* THUMBNAIL (The Circle Image) */
 .notion-page-icon-hero {
   position: relative !important;
-  
-  /* OPTIMIZED GAP 1: Pull up slightly to overlap cover */
   margin-top: -25px !important; 
-  
-  /* OPTIMIZED GAP 2: Push text down slightly */
   margin-bottom: 20px !important; 
-  
   z-index: 20 !important;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Optional: nice shadow */
 }
 
-/* TITLE TEXT */
 .notion-title {
   margin-top: 0 !important;
   padding-top: 0 !important;
@@ -114,7 +120,7 @@ body {
   background-color: transparent !important;
 }
 
-/* 6. MOBILE FIXES & NEW MENU OVERLAY */
+/* 6. MOBILE FIXES & VERTICAL MENU */
 @media only screen and (max-width: 768px) {
   .notion-page {
     padding-left: 15px !important;
@@ -125,8 +131,6 @@ body {
   /* Show Hamburger */
   .notion-nav-mobile-menu-button {
     display: flex !important;
-    align-items: center;
-    justify-content: center;
   }
 
   /* Hide Desktop Links */
@@ -134,35 +138,42 @@ body {
     display: none !important;
   }
 
-  /* === NEW INDEPENDENT MOBILE OVERLAY === */
+  /* === MOBILE OVERLAY (VERTICAL LIST) === */
   .notion-mobile-menu-overlay {
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: column !important; /* Forces Vertical Stack */
     position: fixed !important;
     
-    /* Position below header */
     top: 50px !important; 
     left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
     
-    background: #ffffff !important;
+    background: #ffffff !important; /* Force White Background */
     padding: 20px !important;
     z-index: 99998 !important;
     overflow-y: auto !important;
     border-top: 1px solid #eee;
-    animation: fadeIn 0.2s ease-out;
   }
   
-  /* Link Styling */
+  .mobile-links-container {
+    display: flex !important;
+    flex-direction: column !important; /* Ensure Layout is Column */
+    width: 100% !important;
+    gap: 10px !important;
+  }
+  
+  /* Link Styling (High Contrast) */
   .notion-mobile-menu-overlay .mobile-link {
     font-size: 18px !important;
     width: 100% !important;
     display: block !important;
     padding: 15px 10px !important;
-    border-bottom: 1px solid #f5f5f5;
+    border-bottom: 1px solid #f0f0f0;
+    
     text-align: left !important;
-    color: #333 !important;
+    color: #000000 !important; /* Pure Black Text */
+    background: transparent !important;
     text-decoration: none !important;
   }
   
@@ -177,12 +188,6 @@ body {
   .notion-column { width: 100% !important; margin-bottom: 20px !important; }
   .notion-asset-wrapper iframe { width: 100% !important; max-width: 100% !important; }
   .notion-asset-wrapper img { height: auto !important; }
-}
-
-/* Animation for menu */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 /* 7. Hide ToC */

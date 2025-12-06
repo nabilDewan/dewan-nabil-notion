@@ -47,7 +47,7 @@ export function NotionPageHeader({ block }: { block: any }) {
     setIsMenuOpen(false)
   }
 
-  // Helper to render links so we don't repeat code
+  // Helper to render links
   const renderLinks = (isMobile: boolean) => {
     return navigationLinks
       ?.map((link, index) => {
@@ -83,10 +83,12 @@ export function NotionPageHeader({ block }: { block: any }) {
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
-        {/* Left: Breadcrumbs */}
-        <Breadcrumbs block={block} rootOnly={true} />
+        {/* Left: Breadcrumbs (Logo) */}
+        <div className="nav-left">
+          <Breadcrumbs block={block} rootOnly={true} />
+        </div>
 
-        {/* Mobile Toggle Button */}
+        {/* Right: Mobile Button (Visible on Mobile) */}
         <div 
           className='notion-nav-mobile-menu-button' 
           onClick={toggleMenu}
@@ -95,7 +97,7 @@ export function NotionPageHeader({ block }: { block: any }) {
           {isMenuOpen ? <IoClose /> : <IoMenu />}
         </div>
 
-        {/* Desktop Links (Hidden on Mobile via CSS) */}
+        {/* Right: Desktop Links (Hidden on Mobile) */}
         <div className='notion-nav-header-rhs desktop-menu'>
           {renderLinks(false)}
           <ToggleThemeButton />
@@ -103,10 +105,12 @@ export function NotionPageHeader({ block }: { block: any }) {
         </div>
       </div>
 
-      {/* MOBILE OVERLAY (Rendered conditionally - Guaranteed to show) */}
+      {/* MOBILE OVERLAY (Vertical List) */}
       {isMenuOpen && (
         <div className='notion-mobile-menu-overlay'>
-          {renderLinks(true)}
+          <div className="mobile-links-container">
+            {renderLinks(true)}
+          </div>
           <div className="mobile-utils">
             <ToggleThemeButton />
           </div>
