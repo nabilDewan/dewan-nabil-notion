@@ -3,11 +3,11 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { NotionRenderer } from 'react-notion-x'
 import { getPageTitle } from 'notion-utils'
+import { ExtendedRecordMap } from 'notion-types'
 import { mapPageUrl } from '@/lib/map-page-url'
 import { searchNotion } from '@/lib/search-notion'
 
-// 1. Dynamic imports for heavy Notion blocks (Code, Equations, Collections)
-// This keeps the site fast while keeping all Notion features working.
+// 1. Dynamic imports for heavy Notion blocks
 const Code = dynamic(() =>
   import('react-notion-x/build/third-party/code').then((m) => m.Code)
 )
@@ -28,10 +28,16 @@ const Modal = dynamic(
   { ssr: false }
 )
 
+// 2. Define the exact types so TypeScript doesn't complain
+interface NotionPageProps {
+  recordMap: ExtendedRecordMap
+  rootPageId?: string
+}
+
 export const NotionPage = ({
   recordMap,
   rootPageId
-}) => {
+}: NotionPageProps) => {
   if (!recordMap) {
     return null
   }
@@ -59,7 +65,6 @@ export const NotionPage = ({
         defaultPageCover={null}
         defaultPageCoverPosition={0.5}
         
-        // Pass standard components so code/math/databases work
         components={{
           Code,
           Collection,
