@@ -1,4 +1,4 @@
-/* notion.css - Final Vertical Menu, Glass Header & Layout */
+/* notion.css - Final Vertical Mobile Dropdown & Layout */
 
 /* 1. GLOBAL RESET */
 * {
@@ -11,16 +11,16 @@ html, body {
   overflow-x: hidden !important; 
 }
 
-/* 2. BODY SPACING (Fixes Overlap) */
+/* 2. BODY SPACING */
 body {
-  padding-top: 60px !important; /* Clears the header height */
+  padding-top: 60px !important; 
 }
 
 .notion-app {
   height: auto !important; 
 }
 
-/* 3. HEADER BAR (Glassy & Fixed) */
+/* 3. HEADER BAR */
 .notion-header {
   display: block !important;
   position: fixed !important;     
@@ -30,19 +30,17 @@ body {
   height: 50px !important; 
   z-index: 99999 !important;
   
-  /* GLASS EFFECT (More Transparent) */
-  background: rgba(255, 255, 255, 0.75) !important; 
+  /* Glass Effect */
+  background: rgba(255, 255, 255, 0.75) !important;
   backdrop-filter: blur(15px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
-  
   border-bottom: 1px solid rgba(0,0,0,0.05);
   padding: 0 !important;
-  transition: background 0.3s ease;
 }
 
 .notion-nav-header {
   display: flex !important;
-  justify-content: space-between !important; /* Pushes items to edges */
+  justify-content: space-between !important; /* Pushes Logo Left, Menu Right */
   align-items: center !important;
   max-width: 900px !important;
   margin: 0 auto !important;
@@ -59,14 +57,14 @@ body {
   text-overflow: ellipsis;
 }
 
-/* Desktop Menu Container */
+/* DESKTOP MENU (Horizontal) */
 .notion-nav-header-rhs.desktop-menu {
   display: flex !important;
   gap: 15px !important;
   align-items: center !important;
 }
 
-/* Mobile Menu Button (Right Side) */
+/* MOBILE BUTTON (Right Side) */
 .notion-nav-mobile-menu-button {
   display: none !important;
   font-size: 26px;
@@ -74,7 +72,7 @@ body {
   padding: 5px;
   color: #333;
   z-index: 100000 !important;
-  margin-left: auto !important; /* Forces right alignment */
+  margin-left: auto !important; /* Force Right Align */
 }
 
 /* 4. CONTENT & GAPS */
@@ -120,7 +118,7 @@ body {
   background-color: transparent !important;
 }
 
-/* 6. MOBILE FIXES & VERTICAL MENU */
+/* 6. MOBILE MENU (VERTICAL LIST) */
 @media only screen and (max-width: 768px) {
   .notion-page {
     padding-left: 15px !important;
@@ -133,51 +131,44 @@ body {
     display: flex !important;
   }
 
-  /* Hide Desktop Links */
+  /* Hide Desktop Horizontal Menu */
   .desktop-menu {
     display: none !important;
   }
 
-  /* === MOBILE OVERLAY (VERTICAL LIST) === */
-  .notion-mobile-menu-overlay {
+  /* === NEW VERTICAL DROPDOWN === */
+  .mobile-menu-container {
     display: flex !important;
     flex-direction: column !important; /* Forces Vertical Stack */
     position: fixed !important;
     
-    top: 50px !important; 
+    top: 50px !important; /* Below Header */
     left: 0 !important;
     right: 0 !important;
-    bottom: 0 !important;
+    bottom: 0 !important; /* Full Screen Height */
     
-    background: #ffffff !important; /* Force White Background */
+    background: #ffffff !important; /* Solid White */
     padding: 20px !important;
     z-index: 99998 !important;
     overflow-y: auto !important;
     border-top: 1px solid #eee;
   }
   
-  .mobile-links-container {
-    display: flex !important;
-    flex-direction: column !important; /* Ensure Layout is Column */
-    width: 100% !important;
-    gap: 10px !important;
-  }
-  
-  /* Link Styling (High Contrast) */
-  .notion-mobile-menu-overlay .mobile-link {
+  /* Link Styles (Big & Blocky) */
+  .mobile-menu-container .mobile-link {
     font-size: 18px !important;
     width: 100% !important;
-    display: block !important;
+    display: block !important; /* Takes full width */
     padding: 15px 10px !important;
     border-bottom: 1px solid #f0f0f0;
     
     text-align: left !important;
-    color: #000000 !important; /* Pure Black Text */
+    color: #000000 !important; /* Black Text */
     background: transparent !important;
     text-decoration: none !important;
   }
   
-  .notion-mobile-menu-overlay .mobile-utils {
+  .mobile-utils {
     padding-top: 20px;
     display: flex;
     justify-content: center;
