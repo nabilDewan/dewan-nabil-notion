@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { NotionRenderer } from 'react-notion-x'
 import { getPageTitle } from 'notion-utils'
-import { ExtendedRecordMap } from 'notion-types'
+import type { ExtendedRecordMap } from 'notion-types' // Added 'type' here
 import { mapPageUrl } from '@/lib/map-page-url'
 import { searchNotion } from '@/lib/search-notion'
 
@@ -28,7 +28,7 @@ const Modal = dynamic(
   { ssr: false }
 )
 
-// 2. Define the exact types so TypeScript doesn't complain
+// 2. Define the exact types
 interface NotionPageProps {
   recordMap: ExtendedRecordMap
   rootPageId?: string
