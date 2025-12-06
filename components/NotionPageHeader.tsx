@@ -37,14 +37,12 @@ export function NotionPageHeader({ block }: { block: any }) {
   const { components, mapPageUrl } = useNotionContext()
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
-  // Toggle Logic
-  const toggleMenu = (e: any) => {
+  const toggleMenu = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    setIsMenuOpen(prev => !prev)
+    setIsMenuOpen(!isMenuOpen)
   }
 
-  // Close logic when clicking a link
   const closeMenu = () => {
     setIsMenuOpen(false)
   }
@@ -52,10 +50,8 @@ export function NotionPageHeader({ block }: { block: any }) {
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
-        {/* Left: Breadcrumbs */}
         <Breadcrumbs block={block} rootOnly={true} />
 
-        {/* Mobile Toggle Button */}
         <div 
           className='notion-nav-mobile-menu-button' 
           onClick={toggleMenu}
@@ -64,11 +60,11 @@ export function NotionPageHeader({ block }: { block: any }) {
           {isMenuOpen ? <IoClose /> : <IoMenu />}
         </div>
 
-        {/* Navigation Links */}
         <div
           className={cs(
             'notion-nav-header-rhs',
-            isMenuOpen && 'notion-nav-mobile-open'
+            'breadcrumbs',
+            isMenuOpen ? 'notion-nav-mobile-open' : ''
           )}
         >
           {navigationLinks
