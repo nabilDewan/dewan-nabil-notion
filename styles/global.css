@@ -13,30 +13,27 @@ body, html {
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   overflow-x: hidden;
-  color: #37352f; /* Native Notion Gray Text */
+  color: #37352f;
 }
 
-/* 3. LAYOUT RESET (The Critical Part) */
-/* This removes the "Blog" centering and spacing */
+/* 3. HIDE WEBSITE UI ELEMENTS */
+.notion-header,
+.notion-topbar, 
+.notion-nav-header,
+.notion-header-right,
+.notion-search-icon,
+footer { 
+  display: none !important; 
+}
+
+/* 4. LAYOUT RESET (Centers content) */
 .notion-frame {
   padding: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
   display: flex !important;
   flex-direction: column !important;
-  align-items: center !important; /* Centers the content column like Notion */
-}
-
-.notion-page-scroller {
-  min-height: 100vh !important;
-}
-
-/* 4. HIDE EXTRA UI */
-.notion-header,
-.notion-topbar, 
-.notion-nav-header,
-.notion-header-right { 
-  display: none !important; 
+  align-items: center !important; 
 }
 
 /* 5. FORCE LIGHT MODE COLORS */
@@ -44,13 +41,10 @@ body {
   --bg-color: #ffffff !important;
   --bg-color-0: #ffffff !important;
   --bg-color-1: #f7f6f3 !important;
-  
   --fg-color: #37352f !important;
   --fg-color-0: #37352f !important;
-  --fg-color-1: #37352f !important;
   --fg-color-icon: #37352f !important;
   
-  /* Standard Notion Colors */
   --notion-red: #e03e3e !important;
   --notion-pink: #ad1a72 !important;
   --notion-blue: #0b6e99 !important;

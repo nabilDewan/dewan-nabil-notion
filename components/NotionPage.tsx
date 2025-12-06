@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { NotionRenderer } from 'react-notion-x'
 import { getPageTitle } from 'notion-utils'
-import type { ExtendedRecordMap } from 'notion-types'
+import type { ExtendedRecordMap } from 'notion-types' // Fix: Added 'type'
 import { searchNotion } from '@/lib/search-notion'
 
 // 1. Dynamic imports for heavy Notion blocks
@@ -27,7 +27,7 @@ const Modal = dynamic(
   { ssr: false }
 )
 
-// 2. Define the exact types
+// 2. Define Types
 interface NotionPageProps {
   recordMap: ExtendedRecordMap
   rootPageId?: string
@@ -43,7 +43,7 @@ export const NotionPage = ({
 
   const title = getPageTitle(recordMap)
 
-  // 3. FIX: A simple function to handle links without the complex library
+  // 3. Simple Page Mapper (Fixes build error)
   const mapPageUrl = (pageId: string) => {
     if (pageId === rootPageId) {
       return '/'
@@ -62,22 +62,24 @@ export const NotionPage = ({
         fullPage={true}
         darkMode={false}
         rootPageId={rootPageId}
-        mapPageUrl={mapPageUrl} 
+        mapPageUrl={mapPageUrl}
         searchNotion={searchNotion}
         previewImages={!!recordMap.preview_images}
         showCollectionViewDropdown={false}
         showTableOfContents={true}
         minTableOfContentsItems={3}
-        defaultPageIcon={null}
-        defaultPageCover={null}
+        defaultPageIcon={undefined} 
+        defaultPageCover={undefined}
         defaultPageCoverPosition={0.5}
         
+        // Pass components so blocks render correctly
         components={{
           Code,
           Collection,
           Equation,
           Pdf,
-          Modal
+          Modal,
+          // We explicitly do NOT pass Header or Footer here
         }}
       />
     </>
