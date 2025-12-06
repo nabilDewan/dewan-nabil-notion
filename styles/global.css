@@ -1,3 +1,4 @@
+/* 1. RESET AND BASICS */
 * {
   box-sizing: border-box;
 }
@@ -11,67 +12,25 @@ body,
 html {
   padding: 0;
   margin: 0;
+  background-color: #ffffff;
 }
 
+/* 2. NOTION NATIVE FONT STACK */
 body {
-  --notion-font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', 'Noto Sans', sans-serif;
+  --notion-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   font-family: var(--notion-font);
   overflow-x: hidden;
+  color: #37352f;
 }
 
-.static-tweet blockquote {
-  margin: 0;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
-}
-
-.static-tweet-emoji {
-  height: 1.2em !important;
-  width: 1.2em !important;
-}
-
-.searchInput {
-  color: var(--fg-color);
-  caret-color: var(--fg-color);
-}
-
-/* Custom Scrollbar Styles */
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-  background-color: var(--bg-color-1);
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #555;
-  background-color: var(--fg-color-1);
-}
-
-::-webkit-scrollbar-track {
-  background-color: var(--bg-color);
-}
-
-/* ------------------------------------------------------------------ */
-/* CUSTOMIZATIONS FOR "NATIVE NOTION" LOOK                           */
-/* ------------------------------------------------------------------ */
-
-/* 1. Hide the Dark Mode toggle and Search button in the top right */
-.notion-header-right {
-  display: none !important;
-}
-
-/* 2. Hide the breadcrumb navigation bar icon to look cleaner */
+/* 3. HIDE EXTRA UI ELEMENTS */
+/* Hides the search button, dark mode toggle, and any header leftovers */
+.notion-header-right, 
 .notion-nav-header {
   display: none !important;
 }
 
-/* 3. Force Light Mode Colors (Overrides system Dark Mode) */
+/* 4. NOTION COLOR VARIABLES (Light Mode Forced) */
 :root {
   --fg-color: #37352f !important;
   --fg-color-0: #37352f !important;
@@ -99,7 +58,21 @@ body {
   --notion-gray: #9b9a97 !important;
 }
 
-/* 4. Ensure the background is always white */
-body {
-  background-color: #ffffff !important;
+/* 5. TWEAKS FOR SPACING */
+/* Ensure the page content centers correctly like Notion */
+.notion-frame {
+  padding-top: 20px !important; /* Slight padding top like a doc */
+}
+
+/* Custom Scrollbar to match Notion */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d3d1cb;
+  border: 2px solid #ffffff;
+  border-radius: 20px;
 }
