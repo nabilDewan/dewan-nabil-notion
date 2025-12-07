@@ -1,4 +1,4 @@
-/* notion.css - Safe Backgrounds, Optimized Gaps & Final Mobile Polish */
+/* notion.css - Dynamic Backgrounds & Final Polish */
 
 /* 1. GLOBAL RESET */
 * { box-sizing: border-box !important; }
@@ -9,15 +9,18 @@ html, body {
   width: 100%;
 }
 
-/* 2. BODY PADDING & BACKGROUND (The Gap Fix) */
-/* We set the background here to ensure the "Padding Gap" matches the theme */
+/* 2. BODY PADDING & DYNAMIC BACKGROUND */
 body {
   padding-top: 85px !important; 
-  background-color: #ffffff !important; /* Default Light */
+  
+  /* DEFAULT (Light Mode) */
+  /* We removed !important so Dark Mode can override this */
+  background-color: #ffffff; 
+  
   transition: background-color 0.3s ease;
 }
 
-/* 3. HEADER BAR (Light Mode Default) */
+/* 3. HEADER BAR (Default Light) */
 .notion-header {
   position: fixed !important;
   top: 0; left: 0; right: 0;
@@ -56,7 +59,7 @@ body {
   justify-content: flex-end;
 }
 
-/* Light Mode Link Styles */
+/* Light Mode Buttons */
 .nav-item {
   transition: all 0.2s ease !important;
   border-radius: 8px !important;
@@ -87,13 +90,8 @@ body {
 /* 7. OPTIMIZED THUMBNAIL GAPS */
 .notion-page-icon-hero {
   position: relative !important;
-  
-  /* RESTORED: This is the "Previous Optimized" gap you liked */
   margin-top: -25px !important; 
-  
-  /* Keeps text at a nice distance */
   margin-bottom: 20px !important; 
-  
   z-index: 20 !important;
 }
 
@@ -134,16 +132,16 @@ body {
   }
   .nav-right-scrollable::-webkit-scrollbar { display: none; }
 
-  /* Mobile Buttons (Dotted & Tight) */
+  /* Mobile Buttons */
   .nav-item {
     font-size: 13px !important;
-    padding: 5px 11px !important; /* Your optimized padding */
+    padding: 5px 11px !important; 
     background: rgba(255, 255, 255, 0.3) !important; 
     border: 1.5px dotted rgba(55, 53, 47, 0.4) !important;
     border-radius: 20px !important;
     color: #111 !important;
     flex-shrink: 0;
-    margin-right: 5px !important; /* Your optimized margin */
+    margin-right: 5px !important;
   }
   
   .nav-item:active {
@@ -152,7 +150,7 @@ body {
     color: #4169E1 !important;
   }
 
-  /* Clickable Arrow */
+  /* Arrow Indicator */
   .nav-scroll-arrow {
     display: flex !important;
     position: absolute !important;
@@ -183,16 +181,16 @@ body {
   .notion-asset-wrapper img { height: auto !important; }
 }
 
-/* === 10. SYSTEM DARK MODE (The Safe Fix) === */
+/* === 10. SYSTEM DARK MODE FIX === */
 @media (prefers-color-scheme: dark) {
   
-  /* FIX: Force Body Background Dark so the gap isn't white */
+  /* FIX: Ensure the Gap (Body Background) turns Dark */
   html, body {
     background-color: #191919 !important; 
     color: #e5e5e5 !important;
   }
 
-  /* Dark Header */
+  /* Dark Glass Header */
   .notion-header {
     background: rgba(25, 25, 25, 0.85) !important; 
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -225,7 +223,6 @@ body {
 }
 
 /* === 11. MANUAL TOGGLE OVERRIDE === */
-/* Ensure the gap is fixed even if user manually toggles dark mode */
 .dark-mode body {
   background-color: #191919 !important;
 }
