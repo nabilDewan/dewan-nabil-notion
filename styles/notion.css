@@ -1,4 +1,4 @@
-/* notion.css - Dynamic Backgrounds & Final Polish */
+/* notion.css - Fixed Scroll, Adaptive Glass & Seamless Dark Mode */
 
 /* 1. GLOBAL RESET */
 * { box-sizing: border-box !important; }
@@ -9,30 +9,37 @@ html, body {
   width: 100%;
 }
 
-/* 2. BODY PADDING & DYNAMIC BACKGROUND */
+/* 2. BODY PADDING & BACKGROUND (The Gap Fix) */
 body {
   padding-top: 85px !important; 
   
-  /* DEFAULT (Light Mode) */
-  /* We removed !important so Dark Mode can override this */
+  /* DEFAULT LIGHT BACKGROUND */
   background-color: #ffffff; 
+  color: #37352f;
   
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* 3. HEADER BAR (Default Light) */
+/* 3. HEADER BAR (Base - Light Mode) */
 .notion-header {
   position: fixed !important;
   top: 0; left: 0; right: 0;
   height: 60px !important;
   
-  /* Light Glass */
+  /* LIGHT GLASS */
   background: rgba(255, 255, 255, 0.8) !important; 
   backdrop-filter: blur(16px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
   
   border-bottom: 1px solid rgba(0,0,0,0.05);
-  z-index: 1000 !important;
+  
+  /* === SCROLL VANISHING FIX === */
+  /* This forces the browser to keep the header painted on a separate layer */
+  z-index: 999999 !important;
+  transform: translateZ(0); 
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  
   padding: 0 !important;
   display: block !important;
   transition: background 0.3s ease, border 0.3s ease;
@@ -59,7 +66,7 @@ body {
   justify-content: flex-end;
 }
 
-/* Light Mode Buttons */
+/* Light Mode Links */
 .nav-item {
   transition: all 0.2s ease !important;
   border-radius: 8px !important;
@@ -107,7 +114,7 @@ body {
 /* 9. MOBILE RESPONSIVENESS */
 @media only screen and (max-width: 768px) {
   
-  /* Glassier Mobile Header */
+  /* Glassier Mobile Header (Light) */
   .notion-header {
     background: rgba(255, 255, 255, 0.65) !important; 
     backdrop-filter: blur(20px) saturate(200%) !important;
@@ -150,7 +157,7 @@ body {
     color: #4169E1 !important;
   }
 
-  /* Arrow Indicator */
+  /* Arrow Indicator (Light) */
   .nav-scroll-arrow {
     display: flex !important;
     position: absolute !important;
@@ -181,34 +188,34 @@ body {
   .notion-asset-wrapper img { height: auto !important; }
 }
 
-/* === 10. SYSTEM DARK MODE FIX === */
+/* === 10. SYSTEM DARK MODE (Automatic) === */
 @media (prefers-color-scheme: dark) {
   
-  /* FIX: Ensure the Gap (Body Background) turns Dark */
+  /* GAP & BODY FIX */
   html, body {
-    background-color: #191919 !important; 
+    background-color: #191919 !important; /* Matches Notion Dark Gray */
     color: #e5e5e5 !important;
   }
 
-  /* Dark Glass Header */
+  /* DARK GLASS HEADER */
   .notion-header {
     background: rgba(25, 25, 25, 0.85) !important; 
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
   
-  /* Dark Links */
+  /* DARK BUTTONS */
   .nav-item {
     color: #e5e5e5 !important;
   }
   
-  /* Desktop Hover */
+  /* Desktop Hover (Dark) */
   .nav-item:hover {
     background: rgba(255, 255, 255, 0.15) !important;
-    color: #60a5fa !important;
+    color: #60a5fa !important; /* Lighter Blue */
     box-shadow: 0 0 15px rgba(96, 165, 250, 0.2) !important;
   }
 
-  /* Mobile Overrides for Dark Mode */
+  /* Mobile Dark Mode Specifics */
   @media only screen and (max-width: 768px) {
     .nav-item {
       background: rgba(255, 255, 255, 0.1) !important;
@@ -223,6 +230,7 @@ body {
 }
 
 /* === 11. MANUAL TOGGLE OVERRIDE === */
+/* This ensures the fix works even if you use the toggle button */
 .dark-mode body {
   background-color: #191919 !important;
 }
@@ -232,6 +240,11 @@ body {
 }
 .dark-mode .nav-item {
   color: #e5e5e5 !important;
+}
+/* Ensure arrow matches manual dark mode too */
+.dark-mode .nav-scroll-arrow {
+  background: linear-gradient(to right, transparent, rgba(25,25,25,0.9) 60%) !important;
+  color: #60a5fa !important;
 }
 
 @keyframes pulseArrow {
