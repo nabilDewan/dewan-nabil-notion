@@ -1,4 +1,4 @@
-/* notion.css - Clickable Arrow & Final Spacing Tweaks */
+/* notion.css - Fixed Scroll, Dark Mode Support & Final Polish */
 
 /* 1. GLOBAL RESET */
 * { box-sizing: border-box !important; }
@@ -14,21 +14,28 @@ body {
   padding-top: 85px !important; 
 }
 
-/* 3. HEADER BAR (Default Desktop) */
+/* 3. HEADER BAR (Default Light Mode) */
 .notion-header {
   position: fixed !important;
   top: 0; left: 0; right: 0;
   height: 60px !important;
   
-  /* Desktop: Standard Glass */
+  /* LIGHT GLASS EFFECT */
   background: rgba(255, 255, 255, 0.8) !important; 
   backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  
   border-bottom: 1px solid rgba(0,0,0,0.05);
   
-  z-index: 1000 !important;
+  /* FORCE FIX: Prevents header from vanishing on scroll */
+  z-index: 999999 !important;
+  transform: translateZ(0); 
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  
   padding: 0 !important;
   display: block !important;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, border 0.3s ease;
 }
 
 .notion-nav-header {
@@ -41,10 +48,9 @@ body {
   height: 100% !important;
   width: 100% !important;
   background: transparent !important;
-  position: relative !important;
 }
 
-/* 4. NAV BUTTONS */
+/* 4. NAV BUTTONS (Desktop) */
 .nav-right-scrollable {
   display: flex !important;
   gap: 8px !important;
@@ -57,6 +63,8 @@ body {
   transition: all 0.2s ease !important;
   border-radius: 8px !important;
   padding: 6px 12px !important;
+  
+  /* Default Light Mode Colors */
   color: #37352f !important;
   font-weight: 500 !important;
 }
@@ -100,9 +108,9 @@ body {
 /* 8. MOBILE RESPONSIVENESS */
 @media only screen and (max-width: 768px) {
   
-  /* GLASS HEADER */
+  /* GLASS HEADER (Light Mode Default) */
   .notion-header {
-    background: rgba(255, 255, 255, 0.65) !important; 
+    background: rgba(255, 255, 255, 0.75) !important; 
     backdrop-filter: blur(20px) saturate(200%) !important;
   }
 
@@ -120,28 +128,22 @@ body {
     padding-right: 40px !important; 
     -ms-overflow-style: none;
     scrollbar-width: none;
+    
+    /* Fade Mask (Light Mode) */
     mask-image: linear-gradient(to right, black 85%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
   }
   .nav-right-scrollable::-webkit-scrollbar { display: none; }
 
-  /* === TIGHTER MOBILE BUTTONS === */
+  /* MOBILE BUTTONS (Light Mode) */
   .nav-item {
     font-size: 13px !important;
-    
-    /* Padding: 11px horizontal */
     padding: 5px 11px !important;
-    
-    /* Transparent Background */
-    background: rgba(255, 255, 255, 0.3) !important; 
-    /* Dotted Border */
+    background: rgba(255, 255, 255, 0.4) !important; 
     border: 1.5px dotted rgba(55, 53, 47, 0.4) !important;
     border-radius: 20px !important;
-    
     color: #111 !important;
     flex-shrink: 0;
-    
-    /* Gap: 5px margin */
     margin-right: 5px !important;
   }
   
@@ -151,7 +153,7 @@ body {
     color: #4169E1 !important;
   }
 
-  /* CLICKABLE ARROW INDICATOR */
+  /* ARROW INDICATOR (Light Mode) */
   .nav-scroll-arrow {
     display: flex !important;
     position: absolute !important;
@@ -159,15 +161,16 @@ body {
     top: 0 !important;
     bottom: 0 !important;
     width: 45px !important;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.6) 60%) !important;
+    
+    /* Fade White */
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.8) 60%) !important;
+    
     align-items: center;
     justify-content: center;
-    
-    /* ENABLE CLICKS */
     pointer-events: auto !important; 
     cursor: pointer !important;
-    
     z-index: 20 !important;
+    
     color: #4169E1 !important; 
     font-size: 24px !important;
     animation: pulseArrow 1.5s infinite;
@@ -183,6 +186,42 @@ body {
   .notion-row { flex-direction: column !important; }
   .notion-column { width: 100% !important; margin-bottom: 20px !important; }
   .notion-asset-wrapper img { height: auto !important; }
+}
+
+/* === 9. SYSTEM DARK MODE OVERRIDES === */
+/* This activates ONLY when the user's phone is in Dark Mode */
+@media (prefers-color-scheme: dark) {
+  
+  /* Dark Glass Header */
+  .notion-header {
+    background: rgba(25, 25, 25, 0.85) !important; /* Dark Gray Glass */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  /* Dark Mode Buttons */
+  .nav-item {
+    color: #e5e5e5 !important; /* White Text */
+    background: rgba(255, 255, 255, 0.1) !important; /* Subtle light overlay */
+    border-color: rgba(255, 255, 255, 0.2) !important; /* Lighter Dotted Border */
+  }
+  
+  /* Dark Mode Button Active State */
+  .nav-item:active {
+    background: rgba(65, 105, 225, 0.3) !important;
+    color: #ffffff !important;
+  }
+  
+  /* Dark Mode Arrow Fade */
+  .nav-scroll-arrow {
+    /* Fade to Dark Gray instead of White */
+    background: linear-gradient(to right, transparent, rgba(25,25,25,0.9) 60%) !important;
+    color: #60a5fa !important; /* Lighter Blue for visibility on dark */
+  }
+  
+  /* Adjust Body background if needed (Optional safety) */
+  body {
+    background-color: #191919 !important;
+  }
 }
 
 @keyframes pulseArrow {
