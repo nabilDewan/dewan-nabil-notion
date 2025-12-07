@@ -35,17 +35,29 @@ function ToggleThemeButton() {
 export function NotionPageHeader({ block }: { block: any }) {
   const { components, mapPageUrl } = useNotionContext()
   
-  // 1. Create a reference to the scrollable container
+  // Reference to the scroll container
   const scrollRef = React.useRef<HTMLDivElement>(null)
 
-  // 2. Function to scroll right when arrow is clicked
+  // SMART SCROLL LOGIC: Loop back to start if at end
   const handleScrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 150, behavior: 'smooth' })
+    const container = scrollRef.current
+    if (container) {
+      const { scrollLeft, scrollWidth, clientWidth } = container
+      
+      // Check if we are near the end (within 10px tolerance)
+      const isAtEnd = scrollLeft + clientWidth >= scrollWidth - 10
+
+      if (isAtEnd) {
+        // Loop back to the first button
+        container.scrollTo({ left: 0, behavior: 'smooth' })
+      } else {
+        // Scroll right normally
+        container.scrollBy({ left: 150, behavior: 'smooth' })
+      }
     }
   }
 
-  // Helper to render links
+  // Render Links Helper
   const renderLinks = () => {
     return navigationLinks
       ?.map((link, index) => {
@@ -85,14 +97,13 @@ export function NotionPageHeader({ block }: { block: any }) {
         </div>
 
         {/* RIGHT: Scrollable Links */}
-        {/* 3. Attach ref to the container */}
         <div className='nav-right-scrollable' ref={scrollRef}>
           {renderLinks()}
           <ToggleThemeButton />
           {isSearchEnabled && <Search block={block} title={null} />}
         </div>
 
-        {/* 4. Clickable Arrow */}
+        {/* CLICKABLE ARROW (Loops to start when at end) */}
         <div 
           className='nav-scroll-arrow' 
           onClick={handleScrollRight}
