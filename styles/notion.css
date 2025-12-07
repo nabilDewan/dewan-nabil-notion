@@ -1,48 +1,94 @@
-/* notion.css - Fixed Scroll, Adaptive Glass & Seamless Dark Mode */
+/* notion.css - Final Unified Theme & Layout */
 
-/* 1. GLOBAL RESET */
+/* 1. CSS VARIABLES (The Source of Truth) */
+/* These define the colors for the whole site in one place */
+:root {
+  /* LIGHT MODE DEFAULTS */
+  --bg-color: #ffffff;
+  --header-bg: rgba(255, 255, 255, 0.85); /* Light Glass */
+  --text-color: #37352f;
+  --nav-item-bg: rgba(255, 255, 255, 0.3);
+  --nav-item-border: rgba(55, 53, 47, 0.4);
+  --arrow-bg-end: rgba(255, 255, 255, 0.9);
+}
+
+/* SYSTEM DARK MODE (Automatic) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #121212; /* Uniform "Normal" Dark */
+    --header-bg: rgba(18, 18, 18, 0.9); /* Dark Glass */
+    --text-color: #e5e5e5;
+    --nav-item-bg: rgba(255, 255, 255, 0.1);
+    --nav-item-border: rgba(255, 255, 255, 0.2);
+    --arrow-bg-end: rgba(18, 18, 18, 0.9);
+  }
+}
+
+/* MANUAL DARK MODE OVERRIDE (Toggle Button) */
+body.dark-mode {
+  --bg-color: #121212 !important;
+  --header-bg: rgba(18, 18, 18, 0.9) !important;
+  --text-color: #e5e5e5 !important;
+  --nav-item-bg: rgba(255, 255, 255, 0.1) !important;
+  --nav-item-border: rgba(255, 255, 255, 0.2) !important;
+  --arrow-bg-end: rgba(18, 18, 18, 0.9) !important;
+}
+
+/* MANUAL LIGHT MODE OVERRIDE (Toggle Button) */
+/* This ensures Light Mode works even if phone system is Dark */
+body.light-mode, body.notion-lite {
+  --bg-color: #ffffff !important;
+  --header-bg: rgba(255, 255, 255, 0.85) !important;
+  --text-color: #37352f !important;
+  --nav-item-bg: rgba(255, 255, 255, 0.3) !important;
+  --nav-item-border: rgba(55, 53, 47, 0.4) !important;
+  --arrow-bg-end: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* 2. GLOBAL RESET & BODY */
 * { box-sizing: border-box !important; }
-html, body { 
+
+html {
+  background-color: var(--bg-color) !important; /* Fixes overscroll color */
+}
+
+body { 
   margin: 0; 
   padding: 0; 
   overflow-x: hidden !important; 
   width: 100%;
-}
-
-/* 2. BODY PADDING & BACKGROUND (The Gap Fix) */
-body {
-  padding-top: 85px !important; 
   
-  /* DEFAULT LIGHT BACKGROUND */
-  background-color: #ffffff; 
-  color: #37352f;
+  /* UNIFIED BACKGROUND (Fixes The Gap) */
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
   
+  padding-top: 85px !important; /* Safe Header Space */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* 3. HEADER BAR (Base - Light Mode) */
+/* 3. HEADER BAR */
 .notion-header {
   position: fixed !important;
   top: 0; left: 0; right: 0;
   height: 60px !important;
   
-  /* LIGHT GLASS */
-  background: rgba(255, 255, 255, 0.8) !important; 
+  /* Dynamic Background */
+  background: var(--header-bg) !important;
+  
   backdrop-filter: blur(16px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
   
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-  
-  /* === SCROLL VANISHING FIX === */
-  /* This forces the browser to keep the header painted on a separate layer */
+  border-bottom: 1px solid rgba(128, 128, 128, 0.1);
   z-index: 999999 !important;
-  transform: translateZ(0); 
+  padding: 0 !important;
+  display: block !important;
+  
+  /* MOBILE SCROLL FIX (Keeps header from vanishing) */
+  transform: translateZ(0);
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
   
-  padding: 0 !important;
-  display: block !important;
-  transition: background 0.3s ease, border 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .notion-nav-header {
@@ -66,26 +112,21 @@ body {
   justify-content: flex-end;
 }
 
-/* Light Mode Links */
 .nav-item {
   transition: all 0.2s ease !important;
   border-radius: 8px !important;
   padding: 6px 12px !important;
-  color: #37352f !important;
+  color: var(--text-color) !important; /* Adapts to theme */
   font-weight: 500 !important;
 }
 
 .nav-item:hover {
-  background: rgba(255, 255, 255, 0.8) !important;
+  background: rgba(128, 128, 128, 0.15) !important;
   color: #0b6e99 !important;
-  box-shadow: 0 0 15px rgba(11, 110, 153, 0.2) !important; 
   transform: translateY(-1px) !important;
 }
 
-/* 5. ARROW (Default Hidden) */
-.nav-scroll-arrow { display: none !important; }
-
-/* 6. CONTENT */
+/* 5. CONTENT & GAPS */
 .notion-page {
   padding-top: 0 !important; 
   padding-bottom: 50px !important;
@@ -94,10 +135,10 @@ body {
   width: 100% !important;
 }
 
-/* 7. OPTIMIZED THUMBNAIL GAPS */
+/* Thumbnail Positioning */
 .notion-page-icon-hero {
   position: relative !important;
-  margin-top: -25px !important; 
+  margin-top: -20px !important; 
   margin-bottom: 20px !important; 
   z-index: 20 !important;
 }
@@ -105,21 +146,17 @@ body {
 .notion-title {
   margin-top: 0 !important;
   display: block !important;
+  color: var(--text-color) !important;
 }
 
-/* 8. GENERAL STYLES */
+/* 6. GENERAL */
 .notion-text { text-align: justify !important; hyphens: none !important; }
 .notion-asset-wrapper, iframe { background: transparent !important; }
+.nav-scroll-arrow { display: none !important; }
 
-/* 9. MOBILE RESPONSIVENESS */
+/* 7. MOBILE RESPONSIVENESS */
 @media only screen and (max-width: 768px) {
   
-  /* Glassier Mobile Header (Light) */
-  .notion-header {
-    background: rgba(255, 255, 255, 0.65) !important; 
-    backdrop-filter: blur(20px) saturate(200%) !important;
-  }
-
   /* Hide Logo */
   .nav-left { display: none !important; }
   .notion-nav-header { padding: 0 5px 0 10px !important; }
@@ -143,21 +180,21 @@ body {
   .nav-item {
     font-size: 13px !important;
     padding: 5px 11px !important; 
-    background: rgba(255, 255, 255, 0.3) !important; 
-    border: 1.5px dotted rgba(55, 53, 47, 0.4) !important;
+    background: var(--nav-item-bg) !important; 
+    border: 1.5px dotted var(--nav-item-border) !important;
     border-radius: 20px !important;
-    color: #111 !important;
+    color: var(--text-color) !important;
     flex-shrink: 0;
     margin-right: 5px !important;
   }
   
   .nav-item:active {
-    background: rgba(65, 105, 225, 0.1) !important;
+    background: rgba(65, 105, 225, 0.2) !important;
     border-color: #4169E1 !important;
     color: #4169E1 !important;
   }
 
-  /* Arrow Indicator (Light) */
+  /* Clickable Arrow */
   .nav-scroll-arrow {
     display: flex !important;
     position: absolute !important;
@@ -165,7 +202,10 @@ body {
     top: 0 !important;
     bottom: 0 !important;
     width: 45px !important;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.6) 60%) !important;
+    
+    /* Dynamic Fade Background */
+    background: linear-gradient(to right, transparent, var(--arrow-bg-end) 60%) !important;
+    
     align-items: center;
     justify-content: center;
     pointer-events: auto !important; 
@@ -186,65 +226,6 @@ body {
   .notion-row { flex-direction: column !important; }
   .notion-column { width: 100% !important; margin-bottom: 20px !important; }
   .notion-asset-wrapper img { height: auto !important; }
-}
-
-/* === 10. SYSTEM DARK MODE (Automatic) === */
-@media (prefers-color-scheme: dark) {
-  
-  /* GAP & BODY FIX */
-  html, body {
-    background-color: #191919 !important; /* Matches Notion Dark Gray */
-    color: #e5e5e5 !important;
-  }
-
-  /* DARK GLASS HEADER */
-  .notion-header {
-    background: rgba(25, 25, 25, 0.85) !important; 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-  }
-  
-  /* DARK BUTTONS */
-  .nav-item {
-    color: #e5e5e5 !important;
-  }
-  
-  /* Desktop Hover (Dark) */
-  .nav-item:hover {
-    background: rgba(255, 255, 255, 0.15) !important;
-    color: #60a5fa !important; /* Lighter Blue */
-    box-shadow: 0 0 15px rgba(96, 165, 250, 0.2) !important;
-  }
-
-  /* Mobile Dark Mode Specifics */
-  @media only screen and (max-width: 768px) {
-    .nav-item {
-      background: rgba(255, 255, 255, 0.1) !important;
-      border-color: rgba(255, 255, 255, 0.3) !important;
-    }
-    
-    .nav-scroll-arrow {
-      background: linear-gradient(to right, transparent, rgba(25,25,25,0.9) 60%) !important;
-      color: #60a5fa !important;
-    }
-  }
-}
-
-/* === 11. MANUAL TOGGLE OVERRIDE === */
-/* This ensures the fix works even if you use the toggle button */
-.dark-mode body {
-  background-color: #191919 !important;
-}
-.dark-mode .notion-header {
-  background: rgba(25, 25, 25, 0.85) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-.dark-mode .nav-item {
-  color: #e5e5e5 !important;
-}
-/* Ensure arrow matches manual dark mode too */
-.dark-mode .nav-scroll-arrow {
-  background: linear-gradient(to right, transparent, rgba(25,25,25,0.9) 60%) !important;
-  color: #60a5fa !important;
 }
 
 @keyframes pulseArrow {
