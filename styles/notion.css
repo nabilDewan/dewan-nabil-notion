@@ -1,4 +1,4 @@
-/* notion.css - Final Tweak: Adjusted Mobile Button Spacing */
+/* notion.css - Clickable Arrow & Final Spacing Tweaks */
 
 /* 1. GLOBAL RESET */
 * { box-sizing: border-box !important; }
@@ -41,6 +41,7 @@ body {
   height: 100% !important;
   width: 100% !important;
   background: transparent !important;
+  position: relative !important;
 }
 
 /* 4. NAV BUTTONS */
@@ -75,7 +76,7 @@ body {
   padding-top: 0 !important; 
   padding-bottom: 50px !important;
   margin: 0 auto !important;
-  max-width: 800px !important; 
+  max-width: 900px !important; 
   width: 100% !important;
 }
 
@@ -128,7 +129,7 @@ body {
   .nav-item {
     font-size: 13px !important;
     
-    /* UPDATED Padding: 11px horizontal */
+    /* Padding: 11px horizontal */
     padding: 5px 11px !important;
     
     /* Transparent Background */
@@ -140,7 +141,7 @@ body {
     color: #111 !important;
     flex-shrink: 0;
     
-    /* UPDATED Gap: 5px margin */
+    /* Gap: 5px margin */
     margin-right: 5px !important;
   }
   
@@ -150,7 +151,7 @@ body {
     color: #4169E1 !important;
   }
 
-  /* ARROW INDICATOR */
+  /* CLICKABLE ARROW INDICATOR */
   .nav-scroll-arrow {
     display: flex !important;
     position: absolute !important;
@@ -161,7 +162,11 @@ body {
     background: linear-gradient(to right, transparent, rgba(255,255,255,0.6) 60%) !important;
     align-items: center;
     justify-content: center;
-    pointer-events: none !important;
+    
+    /* ENABLE CLICKS */
+    pointer-events: auto !important; 
+    cursor: pointer !important;
+    
     z-index: 20 !important;
     color: #4169E1 !important; 
     font-size: 24px !important;

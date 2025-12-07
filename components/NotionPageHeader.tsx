@@ -3,7 +3,7 @@ import cs from 'classnames'
 import { Breadcrumbs, Search, useNotionContext } from 'react-notion-x'
 import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
 import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
-import { IoChevronForward } from '@react-icons/all-files/io5/IoChevronForward' // Import Arrow Icon
+import { IoChevronForward } from '@react-icons/all-files/io5/IoChevronForward'
 
 import { navigationLinks, isSearchEnabled } from '@/lib/config'
 import { useDarkMode } from '@/lib/use-dark-mode'
@@ -34,6 +34,16 @@ function ToggleThemeButton() {
 
 export function NotionPageHeader({ block }: { block: any }) {
   const { components, mapPageUrl } = useNotionContext()
+  
+  // 1. Create a reference to the scrollable container
+  const scrollRef = React.useRef<HTMLDivElement>(null)
+
+  // 2. Function to scroll right when arrow is clicked
+  const handleScrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 150, behavior: 'smooth' })
+    }
+  }
 
   // Helper to render links
   const renderLinks = () => {
@@ -75,14 +85,20 @@ export function NotionPageHeader({ block }: { block: any }) {
         </div>
 
         {/* RIGHT: Scrollable Links */}
-        <div className='nav-right-scrollable'>
+        {/* 3. Attach ref to the container */}
+        <div className='nav-right-scrollable' ref={scrollRef}>
           {renderLinks()}
           <ToggleThemeButton />
           {isSearchEnabled && <Search block={block} title={null} />}
         </div>
 
-        {/* MOBILE ARROW OVERLAY (Only visible on mobile CSS) */}
-        <div className='nav-scroll-arrow'>
+        {/* 4. Clickable Arrow */}
+        <div 
+          className='nav-scroll-arrow' 
+          onClick={handleScrollRight}
+          role="button"
+          tabIndex={0}
+        >
           <IoChevronForward />
         </div>
       </div>
