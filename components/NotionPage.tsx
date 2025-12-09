@@ -5,9 +5,9 @@ import { NotionRenderer } from 'react-notion-x'
 import { getPageTitle, getTextContent } from 'notion-utils'
 import { searchNotion } from '@/lib/search-notion'
 import { mapImageUrl } from '@/lib/map-image-url' 
-import * as config from '@/lib/config'
-import { useDarkMode } from '@/lib/use-dark-mode'
+import * as config from '@/lib/config' // Ensure config is imported for schema
 
+// 1. IMPORT THE HEADER COMPONENT
 import { NotionPageHeader } from './NotionPageHeader'
 
 const Code = dynamic(() =>
@@ -45,8 +45,8 @@ export const NotionPage = ({
   }
 
   const title = getPageTitle(recordMap)
-  const { isDarkMode } = useDarkMode()
 
+  // SMART SHARING LOGIC: Extract Text & Image from Body
   const { autoDescription, autoImage } = React.useMemo(() => {
     let text = null
     let img = null
@@ -58,15 +58,17 @@ export const NotionPage = ({
         const child = recordMap?.block?.[childId]?.value
         if (!child) continue
         
+        // Grab first paragraph text for description
         if (!text && child.type === 'text') {
           const t = getTextContent(child.properties?.title)
           if (t) text = t
         }
+        // Grab first image for social card
         if (!img && child.type === 'image') {
           const src = child.properties?.source?.[0]?.[0]
           if (src) img = mapImageUrl(src, child)
         }
-        if (text && img) break 
+        if (text && img) break // Stop once we have both
       }
     }
     return { autoDescription: text, autoImage: img }
@@ -79,17 +81,19 @@ export const NotionPage = ({
     return `/${pageId}`
   }
 
+  // SEO SCHEMA: Define the Person for Google
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Dewan Hafiz Nabil',
-    alternateName: ['Dewan Hafiz', 'Dewan Nabil', 'Hafiz Nabil', 'Nabil', 'Nabil Dewan'],
+    alternateName: ['Dewan Hafiz', 'Dewan Nabil', 'Hafiz Nabil','Dewan', 'Nabil', 'Nabil Dewan'],
     url: `https://${config.domain}`,
     image: config.defaultPageIcon || autoImage,
     sameAs: [
       config.twitter ? `https://twitter.com/${config.twitter}` : null,
       config.github ? `https://github.com/${config.github}` : null,
       config.linkedin ? `https://linkedin.com/in/${config.linkedin}` : null,
+      // Add Google Scholar manually here if you have the link
     ].filter(Boolean),
     jobTitle: 'Ph.D. Researcher',
     worksFor: {
@@ -103,18 +107,28 @@ export const NotionPage = ({
     <>
       <Head>
         <title>{title}</title>
+        
+        {/* KEYWORDS META TAG (For Name Variations) */}
         <meta 
           name="keywords" 
           content="Dewan Hafiz Nabil, Dewan Hafiz, Nabil WMG, Dewan Nabil, Industrial Engineering, Hydrogen Supply Chain, Warwick Researcher" 
         />
+
+        {/* SEO META TAGS */}
         <meta name="description" content={autoDescription || config.description || "Dewan Hafiz Nabil - Researcher & Engineer"} />
+        
+        {/* Open Graph / Facebook / LinkedIn */}
         <meta property="og:title" content={title} />
         <meta property="og:description" content={autoDescription || config.description || "Dewan Hafiz Nabil - Researcher & Engineer"} />
         {autoImage && <meta property="og:image" content={autoImage} />}
+        
+        {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={autoDescription || config.description || "Dewan Hafiz Nabil - Researcher & Engineer"} />
         {autoImage && <meta name="twitter:image" content={autoImage} />}
+
+        {/* INJECT SCHEMA.ORG JSON-LD */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -122,21 +136,25 @@ export const NotionPage = ({
       </Head>
 
       <NotionRenderer
-        // KEY REMOVED: No more flashing/reloading!
         recordMap={recordMap}
         fullPage={true}
-        darkMode={isDarkMode}
+        darkMode={false}
         rootPageId={rootPageId}
         mapPageUrl={mapPageUrl}
         searchNotion={searchNotion}
         previewImages={!!recordMap.preview_images}
         showCollectionViewDropdown={false}
+        
+        // Disable ToC
         showTableOfContents={false}
         minTableOfContentsItems={3}
+        
         defaultPageIcon={undefined}
         defaultPageCover={undefined}
         defaultPageCoverPosition={0.5}
         mapImageUrl={mapImageUrl}
+        
+        // 2. CONNECT THE COMPONENTS
         components={{
           Code,
           Collection,
