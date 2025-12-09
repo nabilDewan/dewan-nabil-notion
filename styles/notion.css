@@ -1,51 +1,54 @@
-/* notion.css - 100% Unified Theme & No-Flash Widget Fix */
+/* notion.css - Final Unified Theme (No Flash, No Grey) */
 
-/* 1. CSS VARIABLES (Single Source of Truth) */
+/* 1. CSS VARIABLES */
 :root {
-  /* LIGHT MODE */
+  /* LIGHT MODE DEFAULTS */
   --bg-color: #ffffff;
-  --fg-color: #37352f;
-  --header-bg: rgba(255, 255, 255, 0.85);
+  --header-bg: rgba(255, 255, 255, 0.85); 
+  --text-color: #37352f;
   --nav-item-bg: rgba(255, 255, 255, 0.3);
   --nav-item-border: rgba(55, 53, 47, 0.4);
   --arrow-bg-end: rgba(255, 255, 255, 0.9);
 }
 
-/* DARK MODE (Unified #191919) */
+/* SYSTEM DARK MODE (Automatic) */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #191919; 
-    --fg-color: #e5e5e5;
-    --header-bg: rgba(25, 25, 25, 0.95); /* Matches body */
+    --bg-color: #121212; /* Unified Standard Dark */
+    --header-bg: rgba(18, 18, 18, 0.95); /* Matches Body */
+    --text-color: #e5e5e5;
     --nav-item-bg: rgba(255, 255, 255, 0.08);
     --nav-item-border: rgba(255, 255, 255, 0.15);
-    --arrow-bg-end: rgba(25, 25, 25, 0.95);
+    --arrow-bg-end: rgba(18, 18, 18, 0.95);
   }
 }
 
-/* MANUAL OVERRIDES (Must match above exactly) */
+/* MANUAL DARK MODE OVERRIDE */
 body.dark-mode {
-  --bg-color: #191919 !important;
-  --fg-color: #e5e5e5 !important;
-  --header-bg: rgba(25, 25, 25, 0.95) !important;
+  --bg-color: #121212 !important;
+  --header-bg: rgba(18, 18, 18, 0.95) !important;
+  --text-color: #e5e5e5 !important;
   --nav-item-bg: rgba(255, 255, 255, 0.08) !important;
   --nav-item-border: rgba(255, 255, 255, 0.15) !important;
-  --arrow-bg-end: rgba(25, 25, 25, 0.95) !important;
+  --arrow-bg-end: rgba(18, 18, 18, 0.95) !important;
 }
 
-body.light-mode {
+/* MANUAL LIGHT MODE OVERRIDE */
+body.light-mode, body.notion-lite {
   --bg-color: #ffffff !important;
-  --fg-color: #37352f !important;
   --header-bg: rgba(255, 255, 255, 0.85) !important;
+  --text-color: #37352f !important;
   --nav-item-bg: rgba(255, 255, 255, 0.3) !important;
   --nav-item-border: rgba(55, 53, 47, 0.4) !important;
   --arrow-bg-end: rgba(255, 255, 255, 0.9) !important;
 }
 
-/* 2. GLOBAL RESET */
+/* 2. GLOBAL RESET & BODY */
 * { box-sizing: border-box !important; }
 
-html { background-color: var(--bg-color) !important; }
+html {
+  background-color: var(--bg-color) !important;
+}
 
 body { 
   margin: 0; 
@@ -53,9 +56,9 @@ body {
   overflow-x: hidden !important; 
   width: 100%;
   
-  /* APPLY UNIFIED VARIABLES */
+  /* FORCE UNIFIED BACKGROUND ON BODY */
   background-color: var(--bg-color) !important;
-  color: var(--fg-color) !important;
+  color: var(--text-color) !important;
   
   padding-top: 85px !important; 
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -103,7 +106,7 @@ body {
   transition: all 0.2s ease !important;
   border-radius: 8px !important;
   padding: 6px 12px !important;
-  color: var(--fg-color) !important;
+  color: var(--text-color) !important;
   font-weight: 500 !important;
 }
 
@@ -122,6 +125,7 @@ body {
   width: 100% !important;
 }
 
+/* Thumbnail Positioning */
 .notion-page-icon-hero {
   position: relative !important;
   margin-top: -20px !important; 
@@ -132,7 +136,13 @@ body {
 .notion-title {
   margin-top: 0 !important;
   display: block !important;
-  color: var(--fg-color) !important;
+  color: var(--text-color) !important;
+}
+
+/* FORCE NOTION CONTAINER TO MATCH BODY BACKGROUND */
+.notion, .notion-app, .notion-frame {
+  background: transparent !important; /* Let body color show through */
+  background-color: transparent !important;
 }
 
 /* 6. GENERAL */
@@ -166,7 +176,7 @@ body {
     background: var(--nav-item-bg) !important; 
     border: 1.5px dotted var(--nav-item-border) !important;
     border-radius: 20px !important;
-    color: var(--fg-color) !important;
+    color: var(--text-color) !important;
     flex-shrink: 0;
     margin-right: 5px !important;
   }
@@ -215,24 +225,22 @@ body {
 
 .notion-aside { display: none !important; }
 
-/* === 8. WIDGET THEME AUTOMATION (CSS FILTER) === */
+/* === 8. WIDGET THEME AUTOMATION (Instant No-Flash) === */
 .notion-asset-wrapper iframe {
   filter: none;
+  /* No transition = No Flash */
 }
 
-/* System Dark Mode */
 @media (prefers-color-scheme: dark) {
   .notion-asset-wrapper iframe {
     filter: invert(1) hue-rotate(180deg);
   }
 }
 
-/* Manual Dark Mode */
 body.dark-mode .notion-asset-wrapper iframe {
   filter: invert(1) hue-rotate(180deg) !important;
 }
 
-/* Manual Light Mode */
 body.light-mode .notion-asset-wrapper iframe {
   filter: none !important;
 }

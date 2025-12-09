@@ -122,10 +122,10 @@ export const NotionPage = ({
       </Head>
 
       <NotionRenderer
-        // KEY REMOVED: This stops the flash/reload!
+        // KEY REMOVED: No more flashing/reloading!
         recordMap={recordMap}
         fullPage={true}
-        darkMode={isDarkMode} 
+        darkMode={isDarkMode}
         rootPageId={rootPageId}
         mapPageUrl={mapPageUrl}
         searchNotion={searchNotion}
