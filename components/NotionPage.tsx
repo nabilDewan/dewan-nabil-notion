@@ -5,7 +5,8 @@ import { NotionRenderer } from 'react-notion-x'
 import { getPageTitle, getTextContent } from 'notion-utils'
 import { searchNotion } from '@/lib/search-notion'
 import { mapImageUrl } from '@/lib/map-image-url' 
-import * as config from '@/lib/config' // Ensure config is imported for schema
+import * as config from '@/lib/config'
+import { useDarkMode } from '@/lib/use-dark-mode' // Ensure this is imported
 
 // 1. IMPORT THE HEADER COMPONENT
 import { NotionPageHeader } from './NotionPageHeader'
@@ -45,6 +46,7 @@ export const NotionPage = ({
   }
 
   const title = getPageTitle(recordMap)
+  const { isDarkMode } = useDarkMode() // Get the live theme state
 
   // SMART SHARING LOGIC: Extract Text & Image from Body
   const { autoDescription, autoImage } = React.useMemo(() => {
@@ -93,7 +95,6 @@ export const NotionPage = ({
       config.twitter ? `https://twitter.com/${config.twitter}` : null,
       config.github ? `https://github.com/${config.github}` : null,
       config.linkedin ? `https://linkedin.com/in/${config.linkedin}` : null,
-      // Add Google Scholar manually here if you have the link
     ].filter(Boolean),
     jobTitle: 'Ph.D. Researcher',
     worksFor: {
@@ -108,7 +109,7 @@ export const NotionPage = ({
       <Head>
         <title>{title}</title>
         
-        {/* KEYWORDS META TAG (For Name Variations) */}
+        {/* KEYWORDS META TAG */}
         <meta 
           name="keywords" 
           content="Dewan Hafiz Nabil, Dewan Hafiz, Nabil WMG, Dewan Nabil, Industrial Engineering, Hydrogen Supply Chain, Warwick Researcher" 
@@ -117,7 +118,7 @@ export const NotionPage = ({
         {/* SEO META TAGS */}
         <meta name="description" content={autoDescription || config.description || "Dewan Hafiz Nabil - Researcher & Engineer"} />
         
-        {/* Open Graph / Facebook / LinkedIn */}
+        {/* Open Graph */}
         <meta property="og:title" content={title} />
         <meta property="og:description" content={autoDescription || config.description || "Dewan Hafiz Nabil - Researcher & Engineer"} />
         {autoImage && <meta property="og:image" content={autoImage} />}
@@ -128,7 +129,7 @@ export const NotionPage = ({
         <meta name="twitter:description" content={autoDescription || config.description || "Dewan Hafiz Nabil - Researcher & Engineer"} />
         {autoImage && <meta name="twitter:image" content={autoImage} />}
 
-        {/* INJECT SCHEMA.ORG JSON-LD */}
+        {/* INJECT SCHEMA */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -136,9 +137,11 @@ export const NotionPage = ({
       </Head>
 
       <NotionRenderer
+        // KEY CHANGE: Adding 'key' forces re-render when theme changes
+        key={isDarkMode ? 'dark' : 'light'} 
         recordMap={recordMap}
         fullPage={true}
-        darkMode={false}
+        darkMode={isDarkMode}
         rootPageId={rootPageId}
         mapPageUrl={mapPageUrl}
         searchNotion={searchNotion}
@@ -154,7 +157,6 @@ export const NotionPage = ({
         defaultPageCoverPosition={0.5}
         mapImageUrl={mapImageUrl}
         
-        // 2. CONNECT THE COMPONENTS
         components={{
           Code,
           Collection,

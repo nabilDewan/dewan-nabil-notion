@@ -1,7 +1,6 @@
-/* notion.css - Final Unified Theme & Layout */
+/* notion.css - Final Unified Theme, Clickable Arrow & Adjusted Mobile Spacing */
 
 /* 1. CSS VARIABLES (The Source of Truth) */
-/* These define the colors for the whole site in one place */
 :root {
   /* LIGHT MODE DEFAULTS */
   --bg-color: #ffffff;
@@ -15,7 +14,7 @@
 /* SYSTEM DARK MODE (Automatic) */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #121212; /* Uniform "Normal" Dark */
+    --bg-color: #121212; /* Uniform Dark */
     --header-bg: rgba(18, 18, 18, 0.9); /* Dark Glass */
     --text-color: #e5e5e5;
     --nav-item-bg: rgba(255, 255, 255, 0.1);
@@ -24,7 +23,7 @@
   }
 }
 
-/* MANUAL DARK MODE OVERRIDE (Toggle Button) */
+/* MANUAL DARK MODE OVERRIDE */
 body.dark-mode {
   --bg-color: #121212 !important;
   --header-bg: rgba(18, 18, 18, 0.9) !important;
@@ -34,8 +33,7 @@ body.dark-mode {
   --arrow-bg-end: rgba(18, 18, 18, 0.9) !important;
 }
 
-/* MANUAL LIGHT MODE OVERRIDE (Toggle Button) */
-/* This ensures Light Mode works even if phone system is Dark */
+/* MANUAL LIGHT MODE OVERRIDE */
 body.light-mode, body.notion-lite {
   --bg-color: #ffffff !important;
   --header-bg: rgba(255, 255, 255, 0.85) !important;
@@ -49,7 +47,7 @@ body.light-mode, body.notion-lite {
 * { box-sizing: border-box !important; }
 
 html {
-  background-color: var(--bg-color) !important; /* Fixes overscroll color */
+  background-color: var(--bg-color) !important;
 }
 
 body { 
@@ -58,11 +56,11 @@ body {
   overflow-x: hidden !important; 
   width: 100%;
   
-  /* UNIFIED BACKGROUND (Fixes The Gap) */
+  /* UNIFIED BACKGROUND */
   background-color: var(--bg-color) !important;
   color: var(--text-color) !important;
   
-  padding-top: 85px !important; /* Safe Header Space */
+  padding-top: 85px !important; 
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -83,7 +81,7 @@ body {
   padding: 0 !important;
   display: block !important;
   
-  /* MOBILE SCROLL FIX (Keeps header from vanishing) */
+  /* MOBILE SCROLL FIX */
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
@@ -116,7 +114,7 @@ body {
   transition: all 0.2s ease !important;
   border-radius: 8px !important;
   padding: 6px 12px !important;
-  color: var(--text-color) !important; /* Adapts to theme */
+  color: var(--text-color) !important;
   font-weight: 500 !important;
 }
 
@@ -135,7 +133,7 @@ body {
   width: 100% !important;
 }
 
-/* Thumbnail Positioning */
+/* THUMBNAIL */
 .notion-page-icon-hero {
   position: relative !important;
   margin-top: -20px !important; 
@@ -176,15 +174,20 @@ body {
   }
   .nav-right-scrollable::-webkit-scrollbar { display: none; }
 
-  /* Mobile Buttons */
+  /* === UPDATED MOBILE BUTTON SPACING === */
   .nav-item {
     font-size: 13px !important;
+    
+    /* PADDING: 11px */
     padding: 5px 11px !important; 
+    
     background: var(--nav-item-bg) !important; 
     border: 1.5px dotted var(--nav-item-border) !important;
     border-radius: 20px !important;
     color: var(--text-color) !important;
     flex-shrink: 0;
+    
+    /* MARGIN: 5px */
     margin-right: 5px !important;
   }
   
@@ -203,7 +206,6 @@ body {
     bottom: 0 !important;
     width: 45px !important;
     
-    /* Dynamic Fade Background */
     background: linear-gradient(to right, transparent, var(--arrow-bg-end) 60%) !important;
     
     align-items: center;
@@ -235,3 +237,17 @@ body {
 }
 
 .notion-aside { display: none !important; }
+
+/* 8. DIVIDER */
+.notion-hr {
+  border-bottom: none !important;
+  height: 1px !important;
+  margin: 2.5em 0 !important;
+  background: #D1D9E6 !important;
+  opacity: 1 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .notion-hr { opacity: 0.15 !important; }
+}
+.dark-mode .notion-hr { opacity: 0.15 !important; }
