@@ -8,7 +8,6 @@ import { mapImageUrl } from '@/lib/map-image-url'
 import * as config from '@/lib/config'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
-// 1. IMPORT THE HEADER COMPONENT
 import { NotionPageHeader } from './NotionPageHeader'
 
 const Code = dynamic(() =>
@@ -48,7 +47,6 @@ export const NotionPage = ({
   const title = getPageTitle(recordMap)
   const { isDarkMode } = useDarkMode()
 
-  // SMART SHARING LOGIC
   const { autoDescription, autoImage } = React.useMemo(() => {
     let text = null
     let img = null
@@ -81,7 +79,6 @@ export const NotionPage = ({
     return `/${pageId}`
   }
 
-  // SEO SCHEMA
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -125,11 +122,9 @@ export const NotionPage = ({
       </Head>
 
       <NotionRenderer
-        // FORCE RE-RENDER ON THEME CHANGE
-        key={isDarkMode ? 'dark' : 'light'} 
+        // KEY REMOVED: This stops the flash/reload!
         recordMap={recordMap}
         fullPage={true}
-        // PASS DYNAMIC THEME STATE
         darkMode={isDarkMode} 
         rootPageId={rootPageId}
         mapPageUrl={mapPageUrl}
