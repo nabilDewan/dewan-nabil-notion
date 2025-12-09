@@ -1,4 +1,4 @@
-/* notion.css - Final Unified Theme, Layout & Widget Fix */
+/* notion.css - Final True Dark Mode & Instant Widget Fix */
 
 /* 1. CSS VARIABLES (The Source of Truth) */
 :root {
@@ -14,26 +14,26 @@
 /* SYSTEM DARK MODE (Automatic) */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #121212; /* Uniform "Normal" Dark */
-    --header-bg: rgba(18, 18, 18, 0.9); /* Dark Glass */
+    --bg-color: #0a0a0a; /* TRUE DARK (Near Black), not gray */
+    --header-bg: rgba(10, 10, 10, 0.9); /* Matching Dark Glass */
     --text-color: #e5e5e5;
     --nav-item-bg: rgba(255, 255, 255, 0.1);
     --nav-item-border: rgba(255, 255, 255, 0.2);
-    --arrow-bg-end: rgba(18, 18, 18, 0.9);
+    --arrow-bg-end: rgba(10, 10, 10, 0.9);
   }
 }
 
-/* MANUAL DARK MODE OVERRIDE (Toggle Button) */
+/* MANUAL DARK MODE OVERRIDE */
 body.dark-mode {
-  --bg-color: #121212 !important;
-  --header-bg: rgba(18, 18, 18, 0.9) !important;
+  --bg-color: #0a0a0a !important; /* Force True Dark */
+  --header-bg: rgba(10, 10, 10, 0.9) !important;
   --text-color: #e5e5e5 !important;
   --nav-item-bg: rgba(255, 255, 255, 0.1) !important;
   --nav-item-border: rgba(255, 255, 255, 0.2) !important;
-  --arrow-bg-end: rgba(18, 18, 18, 0.9) !important;
+  --arrow-bg-end: rgba(10, 10, 10, 0.9) !important;
 }
 
-/* MANUAL LIGHT MODE OVERRIDE (Toggle Button) */
+/* MANUAL LIGHT MODE OVERRIDE */
 body.light-mode, body.notion-lite {
   --bg-color: #ffffff !important;
   --header-bg: rgba(255, 255, 255, 0.85) !important;
@@ -56,11 +56,13 @@ body {
   overflow-x: hidden !important; 
   width: 100%;
   
-  /* UNIFIED BACKGROUND (Fixes The Gap) */
+  /* UNIFIED BACKGROUND (Fixes The Gap & Body Color) */
   background-color: var(--bg-color) !important;
   color: var(--text-color) !important;
   
-  padding-top: 85px !important; /* Safe Header Space */
+  padding-top: 85px !important; 
+  
+  /* Only transition background color, NOT filters */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -201,6 +203,7 @@ body {
     bottom: 0 !important;
     width: 45px !important;
     
+    /* Dynamic Fade Background */
     background: linear-gradient(to right, transparent, var(--arrow-bg-end) 60%) !important;
     
     align-items: center;
@@ -233,12 +236,12 @@ body {
 
 .notion-aside { display: none !important; }
 
-/* === 8. WIDGET THEME AUTOMATION (The Fix) === */
+/* === 8. WIDGET THEME AUTOMATION (Instant Fix) === */
 
-/* Base state for all iframes (Widgets) */
+/* Base state: No filter, NO TRANSITION (prevents flash) */
 .notion-asset-wrapper iframe {
-  transition: filter 0.3s ease;
   filter: none;
+  /* Removed 'transition: filter' to make switch instant */
 }
 
 /* System Dark Mode: Invert colors */
