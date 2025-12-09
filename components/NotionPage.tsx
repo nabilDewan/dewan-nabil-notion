@@ -6,7 +6,7 @@ import { getPageTitle, getTextContent } from 'notion-utils'
 import { searchNotion } from '@/lib/search-notion'
 import { mapImageUrl } from '@/lib/map-image-url' 
 import * as config from '@/lib/config'
-import { useDarkMode } from '@/lib/use-dark-mode' // Ensure this is imported
+import { useDarkMode } from '@/lib/use-dark-mode'
 
 // 1. IMPORT THE HEADER COMPONENT
 import { NotionPageHeader } from './NotionPageHeader'
@@ -46,9 +46,9 @@ export const NotionPage = ({
   }
 
   const title = getPageTitle(recordMap)
-  const { isDarkMode } = useDarkMode() // Get live theme state
+  const { isDarkMode } = useDarkMode()
 
-  // SMART SHARING LOGIC: Extract Text & Image from Body
+  // SMART SHARING LOGIC
   const { autoDescription, autoImage } = React.useMemo(() => {
     let text = null
     let img = null
@@ -60,17 +60,15 @@ export const NotionPage = ({
         const child = recordMap?.block?.[childId]?.value
         if (!child) continue
         
-        // Grab first paragraph text for description
         if (!text && child.type === 'text') {
           const t = getTextContent(child.properties?.title)
           if (t) text = t
         }
-        // Grab first image for social card
         if (!img && child.type === 'image') {
           const src = child.properties?.source?.[0]?.[0]
           if (src) img = mapImageUrl(src, child)
         }
-        if (text && img) break // Stop once we have both
+        if (text && img) break 
       }
     }
     return { autoDescription: text, autoImage: img }
@@ -83,7 +81,7 @@ export const NotionPage = ({
     return `/${pageId}`
   }
 
-  // SEO SCHEMA: Define the Person for Google
+  // SEO SCHEMA
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -108,28 +106,18 @@ export const NotionPage = ({
     <>
       <Head>
         <title>{title}</title>
-        
-        {/* KEYWORDS META TAG */}
         <meta 
           name="keywords" 
           content="Dewan Hafiz Nabil, Dewan Hafiz, Nabil WMG, Dewan Nabil, Industrial Engineering, Hydrogen Supply Chain, Warwick Researcher" 
         />
-
-        {/* SEO META TAGS */}
         <meta name="description" content={autoDescription || config.description || "Dewan Hafiz Nabil - Researcher & Engineer"} />
-        
-        {/* Open Graph */}
         <meta property="og:title" content={title} />
         <meta property="og:description" content={autoDescription || config.description || "Dewan Hafiz Nabil - Researcher & Engineer"} />
         {autoImage && <meta property="og:image" content={autoImage} />}
-        
-        {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={autoDescription || config.description || "Dewan Hafiz Nabil - Researcher & Engineer"} />
         {autoImage && <meta name="twitter:image" content={autoImage} />}
-
-        {/* INJECT SCHEMA */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -137,28 +125,23 @@ export const NotionPage = ({
       </Head>
 
       <NotionRenderer
-        // KEY CHANGE: Force re-render on theme toggle
+        // FORCE RE-RENDER ON THEME CHANGE
         key={isDarkMode ? 'dark' : 'light'} 
         recordMap={recordMap}
         fullPage={true}
-        // KEY CHANGE: Pass dynamic theme state
+        // PASS DYNAMIC THEME STATE
         darkMode={isDarkMode} 
         rootPageId={rootPageId}
         mapPageUrl={mapPageUrl}
         searchNotion={searchNotion}
         previewImages={!!recordMap.preview_images}
         showCollectionViewDropdown={false}
-        
-        // Disable ToC
         showTableOfContents={false}
         minTableOfContentsItems={3}
-        
         defaultPageIcon={undefined}
         defaultPageCover={undefined}
         defaultPageCoverPosition={0.5}
         mapImageUrl={mapImageUrl}
-        
-        // 2. CONNECT THE COMPONENTS
         components={{
           Code,
           Collection,
