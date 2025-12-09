@@ -1,4 +1,4 @@
-/* notion.css - Final Unified #121212 Theme & Instant Widget Fix */
+/* notion.css - Final Unified Theme & Instant Widget Fix */
 
 /* 1. CSS VARIABLES (The Source of Truth) */
 :root {
@@ -14,22 +14,22 @@
 /* SYSTEM DARK MODE (Automatic) */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #121212; /* UNIFIED STANDARD DARK */
+    --bg-color: #121212; /* Unified Standard Dark */
     --header-bg: rgba(18, 18, 18, 0.95); /* Matches Body */
     --text-color: #e5e5e5;
-    --nav-item-bg: rgba(255, 255, 255, 0.1);
-    --nav-item-border: rgba(255, 255, 255, 0.2);
+    --nav-item-bg: rgba(255, 255, 255, 0.08);
+    --nav-item-border: rgba(255, 255, 255, 0.15);
     --arrow-bg-end: rgba(18, 18, 18, 0.95);
   }
 }
 
 /* MANUAL DARK MODE OVERRIDE (Toggle Button) */
 body.dark-mode {
-  --bg-color: #121212 !important; /* UNIFIED STANDARD DARK */
+  --bg-color: #121212 !important;
   --header-bg: rgba(18, 18, 18, 0.95) !important;
   --text-color: #e5e5e5 !important;
-  --nav-item-bg: rgba(255, 255, 255, 0.1) !important;
-  --nav-item-border: rgba(255, 255, 255, 0.2) !important;
+  --nav-item-bg: rgba(255, 255, 255, 0.08) !important;
+  --nav-item-border: rgba(255, 255, 255, 0.15) !important;
   --arrow-bg-end: rgba(18, 18, 18, 0.95) !important;
 }
 
@@ -200,7 +200,9 @@ body {
     top: 0 !important;
     bottom: 0 !important;
     width: 45px !important;
+    
     background: linear-gradient(to right, transparent, var(--arrow-bg-end) 60%) !important;
+    
     align-items: center;
     justify-content: center;
     pointer-events: auto !important; 
@@ -231,27 +233,26 @@ body {
 
 .notion-aside { display: none !important; }
 
-/* === 8. WIDGET THEME AUTOMATION (Instant Fix) === */
-
-/* Base state: No transition (prevents flash) */
+/* === 8. WIDGET THEME AUTOMATION (Instant No-Flash) === */
 .notion-asset-wrapper iframe {
-  transition: none !important; 
   filter: none;
+  /* FORCE NO TRANSITION to prevent flashing */
+  transition: none !important;
 }
 
-/* System Dark Mode: Invert colors */
 @media (prefers-color-scheme: dark) {
   .notion-asset-wrapper iframe {
     filter: invert(1) hue-rotate(180deg);
+    transition: none !important;
   }
 }
 
-/* Manual Dark Mode: Force Invert */
 body.dark-mode .notion-asset-wrapper iframe {
   filter: invert(1) hue-rotate(180deg) !important;
+  transition: none !important;
 }
 
-/* Manual Light Mode: Force Reset */
 body.light-mode .notion-asset-wrapper iframe {
   filter: none !important;
+  transition: none !important;
 }
