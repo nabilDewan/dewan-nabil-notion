@@ -4,7 +4,8 @@ import Head from 'next/head'
 import { NotionRenderer } from 'react-notion-x'
 import { getPageTitle, getTextContent } from 'notion-utils'
 import { searchNotion } from '@/lib/search-notion'
-import { mapImageUrl } from '@/lib/map-image-url' // Ensure this exists in your lib
+import { mapImageUrl } from '@/lib/map-image-url' 
+import * as config from '@/lib/config' // Ensure config is imported for schema
 
 // 1. IMPORT THE HEADER COMPONENT
 import { NotionPageHeader } from './NotionPageHeader'
@@ -80,23 +81,58 @@ export const NotionPage = ({
     return `/${pageId}`
   }
 
+  // SEO SCHEMA: Define the Person for Google
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Dewan Hafiz Nabil',
+    alternateName: ['Dewan Hafiz', 'Dewan Nabil', 'Hafiz Nabil', 'Nabil', 'Nabil Dewan'],
+    url: `https://${config.domain}`,
+    image: config.defaultPageIcon || autoImage,
+    sameAs: [
+      config.twitter ? `https://twitter.com/${config.twitter}` : null,
+      config.github ? `https://github.com/${config.github}` : null,
+      config.linkedin ? `https://linkedin.com/in/${config.linkedin}` : null,
+      // Add Google Scholar manually here if you have the link
+    ].filter(Boolean),
+    jobTitle: 'Ph.D. Researcher',
+    worksFor: {
+      '@type': 'Organization',
+      name: 'WMG, University of Warwick'
+    },
+    description: config.description
+  }
+
   return (
     <>
       <Head>
         <title>{title}</title>
+        
+        {/* KEYWORDS META TAG (For Name Variations) */}
+        <meta 
+          name="keywords" 
+          content="Dewan Hafiz Nabil, Dewan Hafiz, Nabil WMG, Dewan Nabil, Industrial Engineering, Hydrogen Supply Chain, Warwick Researcher" 
+        />
+
         {/* SEO META TAGS */}
-        <meta name="description" content={autoDescription || "Dewan Hafiz Nabil - Researcher & Engineer"} />
+        <meta name="description" content={autoDescription || config.description || "Dewan Hafiz Nabil - Researcher & Engineer"} />
         
         {/* Open Graph / Facebook / LinkedIn */}
         <meta property="og:title" content={title} />
-        <meta property="og:description" content={autoDescription || "Dewan Hafiz Nabil - Researcher & Engineer"} />
+        <meta property="og:description" content={autoDescription || config.description || "Dewan Hafiz Nabil - Researcher & Engineer"} />
         {autoImage && <meta property="og:image" content={autoImage} />}
         
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={autoDescription || "Dewan Hafiz Nabil - Researcher & Engineer"} />
+        <meta name="twitter:description" content={autoDescription || config.description || "Dewan Hafiz Nabil - Researcher & Engineer"} />
         {autoImage && <meta name="twitter:image" content={autoImage} />}
+
+        {/* INJECT SCHEMA.ORG JSON-LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </Head>
 
       <NotionRenderer

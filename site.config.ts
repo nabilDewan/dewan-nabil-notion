@@ -5,26 +5,26 @@ export default siteConfig({
   rootNotionPageId: '7fa50bcefad34a29af1feae083c179f6',
 
   // 2. DOMAIN SETTINGS
-  // Essential for Sitemap generation and Canonical URLs (prevents duplicate content issues)
   domain: 'dewanhafiznabil.com',
   
-  // 3. SITE METADATA
-  name: 'Dewan Hafiz Nabil',
+  // 3. SITE METADATA (SEO OPTIMIZED)
+  // Adding the title helps rank for "Researcher" queries
+  name: 'Dewan Hafiz Nabil | PhD Researcher', 
+  
   author: 'Dewan Hafiz Nabil',
-  // This description acts as the "fallback" meta description for pages without one
-  description: 'Dewan Hafiz Nabil is a Ph.D. researcher at Warwick Manufacturing Group (WMG), University of Warwick, UK, specializing in sustainable supply chains and hydrogen energy.',
+  
+  // 4. KEYWORD-RICH DESCRIPTION
+  // This sentence includes: "Dewan Hafiz", "Dewan Nabil", "Nabil", "Industrial Engineer"
+  description: 'Official portfolio of Dewan Hafiz Nabil (Dewan Nabil). Ph.D. researcher in Clean Energy Supply Chains at WMG, University of Warwick. Expert in Hydrogen Supply Chains, Nabil is dedicated to sustainable energy solutions.',
 
-  // 4. SOCIALS (CRITICAL FOR SEO)
-  // Search engines use this to build your "Knowledge Graph" card.
-  // Replace these nulls with your actual usernames (no @ symbols).
-  twitter: 'your_twitter_username', 
-  github: 'your_github_username',   
-  linkedin: 'your_linkedin_username', 
-  // mastodon: '...', // Optional
-  // youtube: '...', // Optional
+  // 5. SOCIALS (CRITICAL FOR KNOWLEDGE GRAPH)
+  // Google uses these to verify you are a real person.
+  // REPLACE these with your actual usernames (remove the 'your_' part).
+  twitter: 'dewanhafiznabil1', 
+  github: 'nabilDewan',           
+  linkedin: 'dh-nabil',    
 
-  // 5. IMAGES & PREVIEWS
-  // 'true' helps Core Web Vitals (CLS score) by loading a blurry preview first
+  // 6. IMAGES & PREVIEWS
   defaultPageIcon: null,
   defaultPageCover: null,
   defaultPageCoverPosition: 0.5,
@@ -32,13 +32,13 @@ export default siteConfig({
   isTweetEmbedSupportEnabled: true,
   isRedisEnabled: false, 
 
-  // 6. STICKY NAVIGATION CONFIGURATION
+  // 7. NAVIGATION CONFIGURATION
   navigationStyle: 'custom',
   
   navigationLinks: [
     { 
       title: 'Home', 
-      pageId: '7fa50bcefad34a29af1feae083c179f6' // Root ID
+      pageId: '7fa50bcefad34a29af1feae083c179f6' 
     },
     { 
       title: 'About Me', 
