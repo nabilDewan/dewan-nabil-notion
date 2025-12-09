@@ -46,7 +46,7 @@ export const NotionPage = ({
   }
 
   const title = getPageTitle(recordMap)
-  const { isDarkMode } = useDarkMode() // Get the live theme state
+  const { isDarkMode } = useDarkMode() // Get live theme state
 
   // SMART SHARING LOGIC: Extract Text & Image from Body
   const { autoDescription, autoImage } = React.useMemo(() => {
@@ -137,11 +137,12 @@ export const NotionPage = ({
       </Head>
 
       <NotionRenderer
-        // KEY CHANGE: Adding 'key' forces re-render when theme changes
+        // KEY CHANGE: Force re-render on theme toggle
         key={isDarkMode ? 'dark' : 'light'} 
         recordMap={recordMap}
         fullPage={true}
-        darkMode={isDarkMode}
+        // KEY CHANGE: Pass dynamic theme state
+        darkMode={isDarkMode} 
         rootPageId={rootPageId}
         mapPageUrl={mapPageUrl}
         searchNotion={searchNotion}
@@ -157,6 +158,7 @@ export const NotionPage = ({
         defaultPageCoverPosition={0.5}
         mapImageUrl={mapImageUrl}
         
+        // 2. CONNECT THE COMPONENTS
         components={{
           Code,
           Collection,
