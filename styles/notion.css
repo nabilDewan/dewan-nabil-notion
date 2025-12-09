@@ -1,10 +1,10 @@
-/* notion.css - Final Unified Theme & Instant Widget Fix */
+/* notion.css - Final Unified Deep Dark & Widget Fix */
 
-/* 1. CSS VARIABLES (The Source of Truth) */
+/* 1. CSS VARIABLES */
 :root {
   /* LIGHT MODE DEFAULTS */
   --bg-color: #ffffff;
-  --header-bg: rgba(255, 255, 255, 0.85); /* Light Glass */
+  --header-bg: rgba(255, 255, 255, 0.85); 
   --text-color: #37352f;
   --nav-item-bg: rgba(255, 255, 255, 0.3);
   --nav-item-border: rgba(55, 53, 47, 0.4);
@@ -14,26 +14,27 @@
 /* SYSTEM DARK MODE (Automatic) */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #121212; /* Unified Standard Dark */
-    --header-bg: rgba(18, 18, 18, 0.95); /* Matches Body */
+    /* CHANGED: Deeper Black (#0a0a0a) instead of Grey (#121212) */
+    --bg-color: #0a0a0a; 
+    --header-bg: rgba(10, 10, 10, 0.95); /* Matches Body */
     --text-color: #e5e5e5;
     --nav-item-bg: rgba(255, 255, 255, 0.08);
     --nav-item-border: rgba(255, 255, 255, 0.15);
-    --arrow-bg-end: rgba(18, 18, 18, 0.95);
+    --arrow-bg-end: rgba(10, 10, 10, 0.95);
   }
 }
 
-/* MANUAL DARK MODE OVERRIDE (Toggle Button) */
+/* MANUAL DARK MODE OVERRIDE */
 body.dark-mode {
-  --bg-color: #121212 !important;
-  --header-bg: rgba(18, 18, 18, 0.95) !important;
+  --bg-color: #0a0a0a !important; /* Force Deeper Black */
+  --header-bg: rgba(10, 10, 10, 0.95) !important;
   --text-color: #e5e5e5 !important;
   --nav-item-bg: rgba(255, 255, 255, 0.08) !important;
   --nav-item-border: rgba(255, 255, 255, 0.15) !important;
-  --arrow-bg-end: rgba(18, 18, 18, 0.95) !important;
+  --arrow-bg-end: rgba(10, 10, 10, 0.95) !important;
 }
 
-/* MANUAL LIGHT MODE OVERRIDE (Toggle Button) */
+/* MANUAL LIGHT MODE OVERRIDE */
 body.light-mode, body.notion-lite {
   --bg-color: #ffffff !important;
   --header-bg: rgba(255, 255, 255, 0.85) !important;
@@ -56,11 +57,11 @@ body {
   overflow-x: hidden !important; 
   width: 100%;
   
-  /* UNIFIED BACKGROUND (Fixes The Gap) */
+  /* FORCE UNIFIED BACKGROUND */
   background-color: var(--bg-color) !important;
   color: var(--text-color) !important;
   
-  padding-top: 85px !important; /* Safe Header Space */
+  padding-top: 85px !important; 
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -69,23 +70,15 @@ body {
   position: fixed !important;
   top: 0; left: 0; right: 0;
   height: 60px !important;
-  
-  /* Dynamic Background */
   background: var(--header-bg) !important;
-  
-  backdrop-filter: blur(16px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
-  
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(128, 128, 128, 0.1);
   z-index: 999999 !important;
   padding: 0 !important;
   display: block !important;
-  
-  /* MOBILE SCROLL FIX */
   transform: translateZ(0);
-  -webkit-transform: translateZ(0);
   backface-visibility: hidden;
-  
   transition: background 0.3s ease;
 }
 
@@ -129,7 +122,7 @@ body {
   padding-top: 0 !important; 
   padding-bottom: 50px !important;
   margin: 0 auto !important;
-  max-width: 800px !important; 
+  max-width: 900px !important; 
   width: 100% !important;
 }
 
@@ -147,19 +140,25 @@ body {
   color: var(--text-color) !important;
 }
 
+/* FORCE CONTAINER BACKGROUNDS TRANSPARENT */
+/* This prevents Notion's default grey/white blocks from flashing */
+.notion, .notion-app, .notion-frame, .notion-page-scroller {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
 /* 6. GENERAL */
 .notion-text { text-align: justify !important; hyphens: none !important; }
-.notion-asset-wrapper, iframe { background: transparent !important; }
+/* Ensure wrapper is transparent so it doesn't flash white */
+.notion-asset-wrapper { background: transparent !important; } 
 .nav-scroll-arrow { display: none !important; }
 
 /* 7. MOBILE RESPONSIVENESS */
 @media only screen and (max-width: 768px) {
   
-  /* Hide Logo */
   .nav-left { display: none !important; }
   .notion-nav-header { padding: 0 5px 0 10px !important; }
 
-  /* Mobile Nav Scroll */
   .nav-right-scrollable {
     justify-content: flex-start !important; 
     overflow-x: auto !important; 
@@ -174,7 +173,6 @@ body {
   }
   .nav-right-scrollable::-webkit-scrollbar { display: none; }
 
-  /* Mobile Buttons */
   .nav-item {
     font-size: 13px !important;
     padding: 5px 11px !important; 
@@ -192,7 +190,6 @@ body {
     color: #4169E1 !important;
   }
 
-  /* Clickable Arrow */
   .nav-scroll-arrow {
     display: flex !important;
     position: absolute !important;
@@ -200,9 +197,7 @@ body {
     top: 0 !important;
     bottom: 0 !important;
     width: 45px !important;
-    
     background: linear-gradient(to right, transparent, var(--arrow-bg-end) 60%) !important;
-    
     align-items: center;
     justify-content: center;
     pointer-events: auto !important; 
@@ -234,24 +229,32 @@ body {
 .notion-aside { display: none !important; }
 
 /* === 8. WIDGET THEME AUTOMATION (Instant No-Flash) === */
-.notion-asset-wrapper iframe {
-  filter: none;
-  /* FORCE NO TRANSITION to prevent flashing */
-  transition: none !important;
+
+/* Force transparency on the wrapper to prevent white block flash */
+.notion-asset-wrapper {
+  background: transparent !important;
 }
 
+.notion-asset-wrapper iframe {
+  filter: none;
+  transition: none !important; /* INSTANT SWITCH */
+  will-change: filter; /* Optimize rendering */
+}
+
+/* System Dark Mode */
 @media (prefers-color-scheme: dark) {
   .notion-asset-wrapper iframe {
     filter: invert(1) hue-rotate(180deg);
-    transition: none !important;
   }
 }
 
+/* Manual Dark Mode */
 body.dark-mode .notion-asset-wrapper iframe {
   filter: invert(1) hue-rotate(180deg) !important;
   transition: none !important;
 }
 
+/* Manual Light Mode */
 body.light-mode .notion-asset-wrapper iframe {
   filter: none !important;
   transition: none !important;
