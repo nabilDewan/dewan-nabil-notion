@@ -1,4 +1,4 @@
-/* notion.css - Final Unified Theme, Layout & Instant Widget Fix */
+/* notion.css - Final Unified #121212 Theme & Instant Widget Fix */
 
 /* 1. CSS VARIABLES (The Source of Truth) */
 :root {
@@ -14,23 +14,23 @@
 /* SYSTEM DARK MODE (Automatic) */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #121212; /* Uniform "Normal" Dark */
-    --header-bg: rgba(18, 18, 18, 0.9); /* Dark Glass */
+    --bg-color: #121212; /* UNIFIED STANDARD DARK */
+    --header-bg: rgba(18, 18, 18, 0.95); /* Matches Body */
     --text-color: #e5e5e5;
     --nav-item-bg: rgba(255, 255, 255, 0.1);
     --nav-item-border: rgba(255, 255, 255, 0.2);
-    --arrow-bg-end: rgba(18, 18, 18, 0.9);
+    --arrow-bg-end: rgba(18, 18, 18, 0.95);
   }
 }
 
 /* MANUAL DARK MODE OVERRIDE (Toggle Button) */
 body.dark-mode {
-  --bg-color: #121212 !important;
-  --header-bg: rgba(18, 18, 18, 0.9) !important;
+  --bg-color: #121212 !important; /* UNIFIED STANDARD DARK */
+  --header-bg: rgba(18, 18, 18, 0.95) !important;
   --text-color: #e5e5e5 !important;
   --nav-item-bg: rgba(255, 255, 255, 0.1) !important;
   --nav-item-border: rgba(255, 255, 255, 0.2) !important;
-  --arrow-bg-end: rgba(18, 18, 18, 0.9) !important;
+  --arrow-bg-end: rgba(18, 18, 18, 0.95) !important;
 }
 
 /* MANUAL LIGHT MODE OVERRIDE (Toggle Button) */
@@ -233,10 +233,10 @@ body {
 
 /* === 8. WIDGET THEME AUTOMATION (Instant Fix) === */
 
-/* Base state: No filter, NO TRANSITION (prevents flash) */
+/* Base state: No transition (prevents flash) */
 .notion-asset-wrapper iframe {
+  transition: none !important; 
   filter: none;
-  /* Removed 'transition: filter' to make switch instant */
 }
 
 /* System Dark Mode: Invert colors */
