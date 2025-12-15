@@ -1,6 +1,6 @@
-/* notion.css - Mobile Navbar Fix & Unified Theme */
+/* notion.css - Mobile Navbar Vanish Fix (GPU Force) */
 
-/* 1. CSS VARIABLES (The Source of Truth) */
+/* 1. CSS VARIABLES */
 :root {
   /* LIGHT MODE DEFAULTS */
   --bg-color: #ffffff;
@@ -11,7 +11,7 @@
   --arrow-bg-end: rgba(255, 255, 255, 0.9);
 }
 
-/* SYSTEM DARK MODE (Automatic) */
+/* SYSTEM DARK MODE */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-color: #121212; 
@@ -64,13 +64,13 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* 3. HEADER BAR */
+/* 3. HEADER BAR - FIXED VANISHING BUG */
 .notion-header {
   position: fixed !important;
   top: 0; 
   left: 0; 
   right: 0;
-  width: 100% !important; /* Ensure full width */
+  width: 100% !important;
   height: 60px !important;
   
   /* Dynamic Background */
@@ -84,9 +84,12 @@ body {
   padding: 0 !important;
   display: block !important;
   
-  /* FIXED: Removed transform hacks that break mobile fixed positioning */
-  transform: none !important;
-  -webkit-transform: none !important;
+  /* === KEY FIX FOR MOBILE CHROME === */
+  /* This Forces Hardware Acceleration (GPU) */
+  /* Keeps the header rendered even during scroll calculation */
+  transform: translate3d(0, 0, 0) !important;
+  -webkit-transform: translate3d(0, 0, 0) !important;
+  will-change: transform;
   
   transition: background 0.3s ease;
 }
