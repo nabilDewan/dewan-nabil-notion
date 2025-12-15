@@ -1,9 +1,11 @@
+/* components/Footer.module.css */
 .footer {
-  background-color: var(--bg-color);
+  background-color: var(--bg-color); /* Uses global theme var */
   color: var(--text-color);
   padding: 3rem 0;
   border-top: 1px solid var(--nav-item-border);
-  margin-top: auto; /* Pushes footer to bottom if content is short */
+  margin-top: auto;
+  width: 100%;
 }
 
 .container {
@@ -16,21 +18,25 @@
   gap: 2.5rem;
 }
 
-/* --- 1) Navigation --- */
+/* --- Navigation --- */
 .nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.8rem;
   justify-content: center;
 }
 
+/* Anchor tag styling for Link */
 .navLink {
   padding: 0.5rem 1rem;
   border-radius: 4px;
   font-weight: 600;
   text-decoration: none;
-  color: #fff; /* Text color for labels */
+  color: #fff;
   transition: transform 0.2s ease, filter 0.2s ease;
+  font-size: 0.95rem;
+  cursor: pointer; /* Ensure pointer shows */
+  display: inline-block;
 }
 
 .navLink:hover {
@@ -38,16 +44,16 @@
   filter: brightness(1.1);
 }
 
-/* Specific Link Colors (from image_5.png) */
+/* Button Colors */
 .home { background-color: #6d5a47; }
 .about { background-color: #6d5a47; }
 .education { background-color: #5a5b3e; }
 .research { background-color: #2e4a6d; }
+.experience { background-color: #4a5d6d; } /* New Slate Blue for Experience */
 .blogs { background-color: #5a5b3e; }
 .contact { background-color: #6d3e3e; }
 
-
-/* --- 2) Social Media Links --- */
+/* --- Social Icons --- */
 .social {
   display: flex;
   flex-wrap: wrap;
@@ -86,7 +92,6 @@
   filter: brightness(1.1);
 }
 
-/* Brand Colors */
 .facebook { background: linear-gradient(135deg, #1877F2, #0d47a1); }
 .linkedin { background: linear-gradient(135deg, #0A66C2, #004182); }
 .youtube { background: linear-gradient(135deg, #FF0000, #cc0000); }
@@ -100,68 +105,55 @@
   transition: opacity 0.3s;
 }
 
-.socialLink:hover .socialLabel {
-  opacity: 1;
-}
+.socialLink:hover .socialLabel { opacity: 1; }
 
-
-/* --- 3) Copyright --- */
+/* --- Copyright --- */
 .copyright {
   display: inline-block;
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--text-color);
-  background: var(--nav-item-bg); /* Matches existing UI elements */
+  background: var(--nav-item-bg);
   border: 1px solid var(--nav-item-border);
   padding: 0.75rem 2rem;
-  border-radius: 50px; /* Pill shape */
-  letter-spacing: 0.02em;
+  border-radius: 50px;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   text-align: center;
 }
 
-
-/* --- Mobile Optimization --- */
+/* --- Mobile Optimization (The Key Fixes) --- */
 @media (max-width: 600px) {
   .footer {
     padding: 2rem 0;
   }
+  
+  /* 1. Nav Buttons: Tighter and smaller */
+  .nav { gap: 0.5rem; }
+  .navLink { font-size: 0.8rem; padding: 0.4rem 0.6rem; }
 
-  .container {
-    gap: 2rem;
-  }
-
-  .nav {
-    gap: 0.75rem;
-  }
-
-  .navLink {
-    font-size: 0.9rem;
-    padding: 0.4rem 0.8rem;
-  }
-
+  /* 2. Social Icons: ONE ROW Forced */
   .social {
-    gap: 1.5rem;
-  }
-
-  .socialIcon {
-    width: 3rem;
-    height: 3rem;
+    gap: 0.6rem; /* Very tight gap */
+    flex-wrap: nowrap; /* Force single line */
+    width: 100%;
+    justify-content: center;
   }
   
-  .socialIcon svg {
-    width: 20px;
-    height: 20px;
+  .socialIcon { 
+    width: 2.2rem; /* Approx 36px - Standard Touch Size */
+    height: 2.2rem; 
+    margin-bottom: 0; /* Remove bottom margin to keep compact */
   }
-
-  .socialLabel {
-    font-size: 0.8rem;
+  
+  .socialIcon svg { 
+    width: 18px; 
+    height: 18px; 
   }
-
-  .copyright {
-    font-size: 0.75rem;
-    padding: 0.6rem 1rem;
-    width: 90%;
-  }
+  
+  /* Hide labels on mobile to prevent clutter and ensuring 1-row fit */
+  .socialLabel { display: none; }
+  
+  /* 3. Copyright: Smaller */
+  .copyright { font-size: 0.7rem; padding: 0.5rem 0.8rem; width: 95%; }
 }

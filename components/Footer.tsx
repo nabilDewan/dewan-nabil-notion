@@ -1,6 +1,17 @@
 import Link from 'next/link'
 import styles from './Footer.module.css'
 
+// 1. EXACT PAGE IDs FROM YOUR SITE.CONFIG.TS
+const ROUTES = {
+  home: '/', 
+  about: '/a293502a14dd4315b9b4ec6242f1c792',
+  academics: '/524cba980d3547d89a873d772a590bcc',
+  research: '/25110164209144858a9c9be596dd7b46',
+  experience: '/9ec541bcbb944e38942f09b4525bf67b',
+  blogs: '/6bad9a8286f246479c235939659999c7',
+  contact: '/e766c2c57a354ea3891a7ec8d9173276'
+}
+
 const Footer = () => {
   const currentYear = new Date().getFullYear()
 
@@ -8,17 +19,38 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.container}>
         
-        {/* 1) Navigation */}
+        {/* Navigation - Matches site.config.ts order */}
         <nav className={styles.nav}>
-          <Link href="/" className={`${styles.navLink} ${styles.home}`}>Home</Link>
-          <Link href="/about" className={`${styles.navLink} ${styles.about}`}>About Me</Link>
-          <Link href="/education" className={`${styles.navLink} ${styles.education}`}>Education</Link>
-          <Link href="/research" className={`${styles.navLink} ${styles.research}`}>Research</Link>
-          <Link href="/blog" className={`${styles.navLink} ${styles.blogs}`}>Blogs</Link>
-          <Link href="/contact" className={`${styles.navLink} ${styles.contact}`}>Contact</Link>
+          <Link href={ROUTES.home} passHref legacyBehavior>
+            <a className={`${styles.navLink} ${styles.home}`}>Home</a>
+          </Link>
+          
+          <Link href={ROUTES.about} passHref legacyBehavior>
+            <a className={`${styles.navLink} ${styles.about}`}>About Me</a>
+          </Link>
+          
+          <Link href={ROUTES.academics} passHref legacyBehavior>
+            <a className={`${styles.navLink} ${styles.education}`}>Academics</a>
+          </Link>
+          
+          <Link href={ROUTES.research} passHref legacyBehavior>
+            <a className={`${styles.navLink} ${styles.research}`}>Research</a>
+          </Link>
+
+          <Link href={ROUTES.experience} passHref legacyBehavior>
+            <a className={`${styles.navLink} ${styles.experience}`}>Experience</a>
+          </Link>
+          
+          <Link href={ROUTES.blogs} passHref legacyBehavior>
+            <a className={`${styles.navLink} ${styles.blogs}`}>Blogs</a>
+          </Link>
+          
+          <Link href={ROUTES.contact} passHref legacyBehavior>
+            <a className={`${styles.navLink} ${styles.contact}`}>Contact</a>
+          </Link>
         </nav>
 
-        {/* 2) Social Media Links */}
+        {/* Social Links (Optimized for One Row on Mobile) */}
         <div className={styles.social}>
           <a href="https://www.facebook.com/nabil.mursalin1456" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="Facebook">
             <div className={`${styles.socialIcon} ${styles.facebook}`}>
@@ -56,7 +88,7 @@ const Footer = () => {
           </a>
         </div>
 
-        {/* 3) Copyright */}
+        {/* Copyright */}
         <div className={styles.copyright}>
           Copyright©{currentYear}. Dewan Hafiz Nabil. All Right Reserved
         </div>
