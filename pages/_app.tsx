@@ -65,9 +65,12 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.events])
 
   return (
-    <>
-      <Component {...pageProps} />
+    // Flex wrapper to ensure sticky footer and proper width containment
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <main style={{ flex: '1 0 auto', width: '100%', position: 'relative' }}>
+        <Component {...pageProps} />
+      </main>
       <Footer />
-    </>
+    </div>
   )
 }
