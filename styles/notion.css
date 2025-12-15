@@ -1,4 +1,4 @@
-/* notion.css - Final Stability Fix (Solid Mobile Header) */
+/* notion.css - Final Stability Fix (Solid Mobile Header + Equation Scroll Fix) */
 
 /* 1. CSS VARIABLES */
 :root {
@@ -159,7 +159,16 @@ body {
 .notion-asset-wrapper, iframe { background: transparent !important; }
 .nav-scroll-arrow { display: none !important; }
 
-/* 7. MOBILE RESPONSIVENESS */
+/* === 7. EQUATION SCROLL FIX (NEW) === */
+/* Prevents LaTeX dividers from creating scrollbars on mobile */
+.katex-display {
+  overflow-x: hidden !important; 
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 1em 0 !important;
+}
+
+/* 8. MOBILE RESPONSIVENESS */
 @media only screen and (max-width: 768px) {
   
   /* === KEY FIX FOR MOBILE === */
