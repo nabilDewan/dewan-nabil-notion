@@ -1,10 +1,11 @@
-/* notion.css - Final Stability Fix (Nav + Photos) */
+/* notion.css - Final Stability Fix (Solid Mobile Header) */
 
 /* 1. CSS VARIABLES */
 :root {
   /* LIGHT MODE DEFAULTS */
   --bg-color: #ffffff;
   --header-bg: rgba(255, 255, 255, 0.85); 
+  --header-bg-solid: #ffffff; /* New solid color for mobile stability */
   --text-color: #37352f;
   --nav-item-bg: rgba(255, 255, 255, 0.3);
   --nav-item-border: rgba(55, 53, 47, 0.4);
@@ -16,6 +17,7 @@
   :root {
     --bg-color: #121212; 
     --header-bg: rgba(18, 18, 18, 0.95); 
+    --header-bg-solid: #121212; /* New solid color for mobile stability */
     --text-color: #e5e5e5;
     --nav-item-bg: rgba(255, 255, 255, 0.1);
     --nav-item-border: rgba(255, 255, 255, 0.2);
@@ -27,6 +29,7 @@
 body.dark-mode {
   --bg-color: #121212 !important;
   --header-bg: rgba(18, 18, 18, 0.95) !important;
+  --header-bg-solid: #121212 !important;
   --text-color: #e5e5e5 !important;
   --nav-item-bg: rgba(255, 255, 255, 0.1) !important;
   --nav-item-border: rgba(255, 255, 255, 0.2) !important;
@@ -37,6 +40,7 @@ body.dark-mode {
 body.light-mode, body.notion-lite {
   --bg-color: #ffffff !important;
   --header-bg: rgba(255, 255, 255, 0.85) !important;
+  --header-bg-solid: #ffffff !important;
   --text-color: #37352f !important;
   --nav-item-bg: rgba(255, 255, 255, 0.3) !important;
   --nav-item-border: rgba(55, 53, 47, 0.4) !important;
@@ -55,22 +59,18 @@ body {
   padding: 0; 
   overflow-x: hidden !important; 
   width: 100%;
-  
-  /* UNIFIED BACKGROUND */
   background-color: var(--bg-color) !important;
   color: var(--text-color) !important;
-  
   padding-top: 85px !important; 
   
-  /* FIXED: Removed 'transform' from body. */
-  /* Transforms on body break 'position: fixed' children in Chrome Mobile */
+  /* Reset transforms to ensure fixed elements work */
   transform: none !important;
   -webkit-transform: none !important;
   
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* 3. HEADER BAR - FIXED & STABLE */
+/* 3. HEADER BAR */
 .notion-header {
   position: fixed !important;
   top: 0; 
@@ -79,10 +79,8 @@ body {
   width: 100% !important;
   height: 60px !important;
   
-  /* Dynamic Background */
+  /* Standard Desktop: Glass Effect */
   background: var(--header-bg) !important;
-  
-  /* Glass Effect */
   backdrop-filter: blur(16px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
   
@@ -91,13 +89,10 @@ body {
   padding: 0 !important;
   display: block !important;
   
-  /* === SAFE CHROME FIX === */
-  /* 'contain' helps Chrome optimize without breaking 'fixed' pos */
-  /* 'transform: none' ensures it stays pinned to viewport */
+  /* Clean slate for transforms */
   transform: none !important;
   -webkit-transform: none !important;
   will-change: auto;
-  contain: layout paint;
   
   transition: background 0.3s ease;
 }
@@ -146,7 +141,6 @@ body {
   width: 100% !important;
 }
 
-/* Thumbnail Positioning */
 .notion-page-icon-hero {
   position: relative !important;
   margin-top: -20px !important; 
@@ -168,11 +162,18 @@ body {
 /* 7. MOBILE RESPONSIVENESS */
 @media only screen and (max-width: 768px) {
   
-  /* Hide Logo */
+  /* === KEY FIX FOR MOBILE === */
+  /* Remove Glass Effect to prevent vanishing bug */
+  .notion-header {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--header-bg-solid) !important; /* Solid color */
+    border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+  }
+
   .nav-left { display: none !important; }
   .notion-nav-header { padding: 0 5px 0 10px !important; }
 
-  /* Mobile Nav Scroll */
   .nav-right-scrollable {
     justify-content: flex-start !important; 
     overflow-x: auto !important; 
@@ -187,7 +188,6 @@ body {
   }
   .nav-right-scrollable::-webkit-scrollbar { display: none; }
 
-  /* Mobile Buttons */
   .nav-item {
     font-size: 13px !important;
     padding: 5px 11px !important; 
@@ -205,7 +205,6 @@ body {
     color: #4169E1 !important;
   }
 
-  /* Clickable Arrow */
   .nav-scroll-arrow {
     display: flex !important;
     position: absolute !important;
@@ -243,28 +242,3 @@ body {
 }
 
 .notion-aside { display: none !important; }
-
-/* === 8. WIDGET THEME AUTOMATION (DISABLED) === */
-/* Disabled to prevent photos from burning out/inverting in dark mode */
-/*
-.notion-asset-wrapper iframe {
-  filter: none;
-  transition: none !important;
-}
-
-@media (prefers-color-scheme: dark) {
-  .notion-asset-wrapper iframe {
-    filter: invert(1) hue-rotate(180deg);
-  }
-}
-
-body.dark-mode .notion-asset-wrapper iframe {
-  filter: invert(1) hue-rotate(180deg) !important;
-  transition: none !important;
-}
-
-body.light-mode .notion-asset-wrapper iframe {
-  filter: none !important;
-  transition: none !important;
-}
-*/
