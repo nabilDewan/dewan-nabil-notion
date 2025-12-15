@@ -1,4 +1,4 @@
-/* notion.css - Mobile Navbar Vanish Fix (GPU Force) */
+/* notion.css - Chrome Mobile Navbar Fix */
 
 /* 1. CSS VARIABLES */
 :root {
@@ -61,10 +61,16 @@ body {
   color: var(--text-color) !important;
   
   padding-top: 85px !important; 
+  
+  /* === CHROME SCROLL FIX === */
+  /* Promoting the body to a layer helps Chrome track fixed elements better */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* 3. HEADER BAR - FIXED VANISHING BUG */
+/* 3. HEADER BAR - FIXED */
 .notion-header {
   position: fixed !important;
   top: 0; 
@@ -76,6 +82,7 @@ body {
   /* Dynamic Background */
   background: var(--header-bg) !important;
   
+  /* Glass Effect */
   backdrop-filter: blur(16px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
   
@@ -84,12 +91,11 @@ body {
   padding: 0 !important;
   display: block !important;
   
-  /* === KEY FIX FOR MOBILE CHROME === */
-  /* This Forces Hardware Acceleration (GPU) */
-  /* Keeps the header rendered even during scroll calculation */
-  transform: translate3d(0, 0, 0) !important;
-  -webkit-transform: translate3d(0, 0, 0) !important;
-  will-change: transform;
+  /* === KEY FIX: REMOVE TRANSFORMS FROM HEADER === */
+  /* Chrome hates 'transform' on 'fixed' elements with 'backdrop-filter' */
+  transform: none !important;
+  -webkit-transform: none !important;
+  will-change: auto;
   
   transition: background 0.3s ease;
 }
