@@ -5,17 +5,17 @@
   padding: 3rem 0;
   border-top: 1px solid var(--nav-item-border);
   margin-top: auto;
-  width: 100%; /* Footer background spans full width */
+  width: 100%;
   position: relative;
   z-index: 10;
 }
 
 .container {
-  /* MATCH YOUR BODY WIDTH EXACTLY */
+  /* Aligns footer content with your 800px body */
   max-width: 800px; 
   width: 100%;
   margin: 0 auto;
-  padding: 0 20px; /* Safe padding for mobile */
+  padding: 0 20px;
   box-sizing: border-box;
   
   display: flex;
@@ -136,22 +136,31 @@
   .nav { gap: 0.5rem; }
   .navLink { font-size: 0.8rem; padding: 0.4rem 0.6rem; }
 
+  /* FIX: Larger Icons + No Split */
   .social {
-    gap: 0.6rem;
-    flex-wrap: nowrap;
+    gap: 0.5rem; /* Reduced gap to fit larger icons */
+    flex-wrap: nowrap; /* Strictly enforce one row */
     width: 100%;
-    justify-content: center;
+    justify-content: center; /* Center strictly */
+    padding: 0 5px; /* Tiny padding to prevent edge touches */
   }
   
   .socialIcon { 
-    width: 2.2rem;
-    height: 2.2rem; 
+    /* INCREASED SIZE: ~40px */
+    width: 2.5rem; 
+    height: 2.5rem; 
     margin-bottom: 0;
+    
+    /* Ensure icon content scales */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
+  /* Scale inner SVG slightly up */
   .socialIcon svg { 
-    width: 18px; 
-    height: 18px; 
+    width: 20px; 
+    height: 20px; 
   }
   
   .socialLabel { display: none; }

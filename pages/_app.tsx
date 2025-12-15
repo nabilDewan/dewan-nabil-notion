@@ -1,16 +1,9 @@
-// used for rendering equations (optional)
+// pages/_app.tsx
 import 'katex/dist/katex.min.css'
-// used for code syntax highlighting (optional)
 import 'prismjs/themes/prism-coy.css'
-// core styles shared by all of react-notion-x (required)
 import 'react-notion-x/src/styles.css'
-// global styles shared across the entire site
 import 'styles/global.css'
-// this might be better for dark mode
-// import 'prismjs/themes/prism-okaidia.css'
-// global style overrides for notion
 import 'styles/notion.css'
-// global style overrides for prism theme (optional)
 import 'styles/prism-theme.css'
 
 import type { AppProps } from 'next/app'
@@ -28,7 +21,6 @@ import {
   posthogId
 } from '@/lib/config'
 
-// Import the Footer Component
 import Footer from '@/components/Footer' 
 
 if (!isServer) {
@@ -65,9 +57,23 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.events])
 
   return (
-    // Flex wrapper to ensure sticky footer and proper width containment
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <main style={{ flex: '1 0 auto', width: '100%', position: 'relative' }}>
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      minHeight: '100vh',
+      backgroundColor: 'var(--bg-color)' // Ensure background fills space
+    }}>
+      {/* FIX: Applied 800px constraint directly here.
+        This forces the "body" content to behave like it did before.
+      */}
+      <main style={{ 
+        flex: '1 0 auto', 
+        width: '100%', 
+        maxWidth: '800px', // The critical fix
+        margin: '0 auto',  // Centers the 800px column
+        position: 'relative',
+        padding: '0 20px'  // Safe padding for mobile edges
+      }}>
         <Component {...pageProps} />
       </main>
       <Footer />
