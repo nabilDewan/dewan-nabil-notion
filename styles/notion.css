@@ -1,4 +1,4 @@
-/* notion.css - Chrome Mobile Navbar Fix (Safe Method) */
+/* notion.css - Fixed Image Burnout in Dark Mode */
 
 /* 1. CSS VARIABLES */
 :root {
@@ -61,6 +61,11 @@ body {
   color: var(--text-color) !important;
   
   padding-top: 85px !important; 
+  
+  /* === CHROME SCROLL FIX === */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -86,8 +91,6 @@ body {
   display: block !important;
   
   /* === SAFE CHROME FIX === */
-  /* Remove 'transform' (it breaks 'fixed' context) */
-  /* Use 'contain' to force separate rendering layer safely */
   transform: none !important;
   -webkit-transform: none !important;
   will-change: auto;
@@ -238,10 +241,14 @@ body {
 
 .notion-aside { display: none !important; }
 
-/* === 8. WIDGET THEME AUTOMATION (Instant No-Flash) === */
+/* === 8. WIDGET THEME AUTOMATION (DISABLED) === */
+/* This section is commented out because it inverts colors on all widgets, */
+/* causing images to look "burned out". Your custom widgets handle their */
+/* own dark mode correctly, so this global filter is not needed. */
+
+/*
 .notion-asset-wrapper iframe {
   filter: none;
-  /* FORCE NO TRANSITION to stop the flash */
   transition: none !important;
 }
 
@@ -260,3 +267,4 @@ body.light-mode .notion-asset-wrapper iframe {
   filter: none !important;
   transition: none !important;
 }
+*/
