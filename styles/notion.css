@@ -1,4 +1,4 @@
-/* notion.css - Fixed Image Burnout in Dark Mode */
+/* notion.css - Final Stability Fix (Nav + Photos) */
 
 /* 1. CSS VARIABLES */
 :root {
@@ -62,9 +62,10 @@ body {
   
   padding-top: 85px !important; 
   
-  /* === CHROME SCROLL FIX === */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  /* FIXED: Removed 'transform' from body. */
+  /* Transforms on body break 'position: fixed' children in Chrome Mobile */
+  transform: none !important;
+  -webkit-transform: none !important;
   
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -91,6 +92,8 @@ body {
   display: block !important;
   
   /* === SAFE CHROME FIX === */
+  /* 'contain' helps Chrome optimize without breaking 'fixed' pos */
+  /* 'transform: none' ensures it stays pinned to viewport */
   transform: none !important;
   -webkit-transform: none !important;
   will-change: auto;
@@ -242,10 +245,7 @@ body {
 .notion-aside { display: none !important; }
 
 /* === 8. WIDGET THEME AUTOMATION (DISABLED) === */
-/* This section is commented out because it inverts colors on all widgets, */
-/* causing images to look "burned out". Your custom widgets handle their */
-/* own dark mode correctly, so this global filter is not needed. */
-
+/* Disabled to prevent photos from burning out/inverting in dark mode */
 /*
 .notion-asset-wrapper iframe {
   filter: none;
