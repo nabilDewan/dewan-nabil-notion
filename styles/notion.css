@@ -1,4 +1,4 @@
-/* notion.css - Chrome Mobile Navbar Fix */
+/* notion.css - Chrome Mobile Navbar Fix (Safe Method) */
 
 /* 1. CSS VARIABLES */
 :root {
@@ -61,16 +61,10 @@ body {
   color: var(--text-color) !important;
   
   padding-top: 85px !important; 
-  
-  /* === CHROME SCROLL FIX === */
-  /* Promoting the body to a layer helps Chrome track fixed elements better */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* 3. HEADER BAR - FIXED */
+/* 3. HEADER BAR - FIXED & STABLE */
 .notion-header {
   position: fixed !important;
   top: 0; 
@@ -91,11 +85,13 @@ body {
   padding: 0 !important;
   display: block !important;
   
-  /* === KEY FIX: REMOVE TRANSFORMS FROM HEADER === */
-  /* Chrome hates 'transform' on 'fixed' elements with 'backdrop-filter' */
+  /* === SAFE CHROME FIX === */
+  /* Remove 'transform' (it breaks 'fixed' context) */
+  /* Use 'contain' to force separate rendering layer safely */
   transform: none !important;
   -webkit-transform: none !important;
   will-change: auto;
+  contain: layout paint;
   
   transition: background 0.3s ease;
 }
