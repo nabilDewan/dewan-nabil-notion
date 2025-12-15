@@ -1,144 +1,68 @@
-import { FaEnvelopeOpenText } from '@react-icons/all-files/fa/FaEnvelopeOpenText'
-import { FaGithub } from '@react-icons/all-files/fa/FaGithub'
-import { FaLinkedin } from '@react-icons/all-files/fa/FaLinkedin'
-import { FaMastodon } from '@react-icons/all-files/fa/FaMastodon'
-import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter'
-import { FaYoutube } from '@react-icons/all-files/fa/FaYoutube'
-import { FaZhihu } from '@react-icons/all-files/fa/FaZhihu'
-import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
-import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
-import * as React from 'react'
+import Link from 'next/link'
+import styles from './Footer.module.css'
 
-import * as config from '@/lib/config'
-import { useDarkMode } from '@/lib/use-dark-mode'
-
-import styles from './styles.module.css'
-
-// TODO: merge the data and icons from PageSocial with the social links in Footer
-
-export function FooterImpl() {
-  const [hasMounted, setHasMounted] = React.useState(false)
-  const { isDarkMode, toggleDarkMode } = useDarkMode()
+const Footer = () => {
   const currentYear = new Date().getFullYear()
-
-  const onToggleDarkMode = React.useCallback(
-    (e: any) => {
-      e.preventDefault()
-      toggleDarkMode()
-    },
-    [toggleDarkMode]
-  )
-
-  React.useEffect(() => {
-    setHasMounted(true)
-  }, [])
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.copyright}>
-        Copyright {currentYear} {config.author}
-      </div>
+      <div className={styles.container}>
+        
+        {/* 1) Navigation */}
+        <nav className={styles.nav}>
+          <Link href="/" className={`${styles.navLink} ${styles.home}`}>Home</Link>
+          <Link href="/about" className={`${styles.navLink} ${styles.about}`}>About Me</Link>
+          <Link href="/education" className={`${styles.navLink} ${styles.education}`}>Education</Link>
+          <Link href="/research" className={`${styles.navLink} ${styles.research}`}>Research</Link>
+          <Link href="/blog" className={`${styles.navLink} ${styles.blogs}`}>Blogs</Link>
+          <Link href="/contact" className={`${styles.navLink} ${styles.contact}`}>Contact</Link>
+        </nav>
 
-      <div className={styles.settings}>
-        {hasMounted && (
-          <a
-            className={styles.toggleDarkMode}
-            href='#'
-            role='button'
-            onClick={onToggleDarkMode}
-            title='Toggle dark mode'
-          >
-            {isDarkMode ? <IoMoonSharp /> : <IoSunnyOutline />}
+        {/* 2) Social Media Links */}
+        <div className={styles.social}>
+          <a href="https://www.facebook.com/nabil.mursalin1456" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="Facebook">
+            <div className={`${styles.socialIcon} ${styles.facebook}`}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </div>
+            <span className={styles.socialLabel}>Facebook</span>
           </a>
-        )}
-      </div>
 
-      <div className={styles.social}>
-        {config.twitter && (
-          <a
-            className={styles.twitter}
-            href={`https://twitter.com/${config.twitter}`}
-            title={`Twitter @${config.twitter}`}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <FaTwitter />
+          <a href="https://www.linkedin.com/in/dh-nabil/" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="LinkedIn">
+            <div className={`${styles.socialIcon} ${styles.linkedin}`}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </div>
+            <span className={styles.socialLabel}>LinkedIn</span>
           </a>
-        )}
 
-        {config.mastodon && (
-          <a
-            className={styles.mastodon}
-            href={config.mastodon}
-            title={`Mastodon ${config.getMastodonHandle()}`}
-            rel='me'
-          >
-            <FaMastodon />
+          <a href="https://www.youtube.com/channel/UCJ4Y5YZkKhR-_kggMdaTUIg" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="YouTube">
+            <div className={`${styles.socialIcon} ${styles.youtube}`}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </div>
+            <span className={styles.socialLabel}>YouTube</span>
           </a>
-        )}
 
-        {config.zhihu && (
-          <a
-            className={styles.zhihu}
-            href={`https://zhihu.com/people/${config.zhihu}`}
-            title={`Zhihu @${config.zhihu}`}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <FaZhihu />
+          <a href="https://twitter.com/DEWANHAFIZNABI1" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="Twitter">
+            <div className={`${styles.socialIcon} ${styles.twitter}`}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+            </div>
+            <span className={styles.socialLabel}>Twitter</span>
           </a>
-        )}
 
-        {config.github && (
-          <a
-            className={styles.github}
-            href={`https://github.com/${config.github}`}
-            title={`GitHub @${config.github}`}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <FaGithub />
+          <a href="https://scholar.google.com/citations?user=DEWAN%20HAFIZ%20NABIL" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="Scholar">
+            <div className={`${styles.socialIcon} ${styles.scholar}`}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>
+            </div>
+            <span className={styles.socialLabel}>Scholar</span>
           </a>
-        )}
+        </div>
 
-        {config.linkedin && (
-          <a
-            className={styles.linkedin}
-            href={`https://www.linkedin.com/in/${config.linkedin}`}
-            title={`LinkedIn ${config.author}`}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <FaLinkedin />
-          </a>
-        )}
-
-        {config.newsletter && (
-          <a
-            className={styles.newsletter}
-            href={`${config.newsletter}`}
-            title={`Newsletter ${config.author}`}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <FaEnvelopeOpenText />
-          </a>
-        )}
-
-        {config.youtube && (
-          <a
-            className={styles.youtube}
-            href={`https://www.youtube.com/${config.youtube}`}
-            title={`YouTube ${config.author}`}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <FaYoutube />
-          </a>
-        )}
+        {/* 3) Copyright */}
+        <div className={styles.copyright}>
+          Copyright©{currentYear}. Dewan Hafiz Nabil. All Right Reserved
+        </div>
       </div>
     </footer>
   )
 }
 
-export const Footer = React.memo(FooterImpl)
+export default Footer

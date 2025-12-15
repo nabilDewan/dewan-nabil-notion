@@ -28,6 +28,9 @@ import {
   posthogId
 } from '@/lib/config'
 
+// Import the Footer Component
+import Footer from '@/components/Footer' 
+
 if (!isServer) {
   bootstrap()
 }
@@ -61,5 +64,10 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, [router.events])
 
-  return <Component {...pageProps} />
+  return (
+    <>
+      <Component {...pageProps} />
+      <Footer />
+    </>
+  )
 }
