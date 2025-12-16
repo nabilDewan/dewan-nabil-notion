@@ -9,18 +9,18 @@ export default siteConfig({
   
   // 3. SITE METADATA (SEO OPTIMIZED)
   // Adding the title helps rank for "Researcher" queries
-  name: 'Dewan Hafiz Nabil | PhD Researcher', 
+  name: 'Dewan Hafiz Nabil | Industrial Engineer| PhD Researcher', 
   
   author: 'Dewan Hafiz Nabil',
   
   // 4. KEYWORD-RICH DESCRIPTION
   // This sentence includes: "Dewan Hafiz", "Dewan Nabil", "Nabil", "Industrial Engineer"
-  description: 'Official portfolio of Dewan Hafiz Nabil (Dewan Nabil). Ph.D. researcher in Clean Energy Supply Chains at WMG, University of Warwick. Expert in Hydrogen Supply Chains, Nabil is dedicated to sustainable energy solutions.',
+  description: 'Official portfolio of Dewan Hafiz Nabil| PhD Researcher| @ WMG, University of Warwick| Specializing in Clean Energy Supply Chains',
 
   // 5. SOCIALS (CRITICAL FOR KNOWLEDGE GRAPH)
   // Google uses these to verify you are a real person.
   // REPLACE these with your actual usernames (remove the 'your_' part).
-  twitter: 'dewanhafiznabil1', 
+  twitter: 'DewanNabil14', 
   github: 'nabilDewan',           
   linkedin: 'dh-nabil',    
 

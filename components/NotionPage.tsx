@@ -86,7 +86,7 @@ export const NotionPage = ({
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Dewan Hafiz Nabil',
-    alternateName: ['Dewan Hafiz', 'Dewan Nabil', 'Hafiz Nabil','Dewan', 'Nabil', 'Nabil Dewan'],
+    alternateName: ['Dewan Hafiz', 'Dewan Nabil', 'Hafiz Nabil','Dewan', 'Nabil', 'Nabil Dewan''দেওয়ান হাফিজ নাবিল' ],
     url: `https://${config.domain}`,
     image: config.defaultPageIcon || autoImage,
     sameAs: [
@@ -95,7 +95,7 @@ export const NotionPage = ({
       config.linkedin ? `https://linkedin.com/in/${config.linkedin}` : null,
       // Add Google Scholar manually here if you have the link
     ].filter(Boolean),
-    jobTitle: 'Ph.D. Researcher',
+    jobTitle: 'PhD Researcher',
     worksFor: {
       '@type': 'Organization',
       name: 'WMG, University of Warwick'
@@ -111,15 +111,15 @@ export const NotionPage = ({
         {/* KEYWORDS META TAG (For Name Variations) */}
         <meta 
           name="keywords" 
-          content="Dewan Hafiz Nabil, Dewan Hafiz, Nabil WMG, Dewan Nabil, Industrial Engineering, Hydrogen Supply Chain, Warwick Researcher" 
+          content="Dewan Hafiz Nabil, Dewan Hafiz, Nabil WMG, Dewan Nabil, Industrial Engineering, Hydrogen Supply Chain, Warwick, Khulna University of Engineering & Technology Researcher" 
         />
 
         {/* SEO META TAGS */}
-        <meta name="description" content={autoDescription || config.description || "Dewan Hafiz Nabil - Researcher & Engineer"} />
+        <meta name="description" content={autoDescription || config.description || "Dewan Hafiz Nabil - PhD Researcher & Industrial Engineer"} />
         
         {/* Open Graph / Facebook / LinkedIn */}
         <meta property="og:title" content={title} />
-        <meta property="og:description" content={autoDescription || config.description || "Dewan Hafiz Nabil - Researcher & Engineer"} />
+        <meta property="og:description" content={autoDescription || config.description || "Dewan Hafiz Nabil - PhD Researcher & Industrial Engineer"} />
         {autoImage && <meta property="og:image" content={autoImage} />}
         
         {/* Twitter Card */}
