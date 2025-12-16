@@ -86,7 +86,7 @@ export const NotionPage = ({
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Dewan Hafiz Nabil',
-    alternateName: ['Dewan Hafiz', 'Dewan Nabil', 'Hafiz Nabil','Dewan', 'Nabil', 'Nabil Dewan''দেওয়ান হাফিজ নাবিল' ],
+    alternateName: ['Dewan Hafiz', 'Dewan Nabil', 'Hafiz Nabil','Dewan', 'Nabil', 'Nabil Dewan','দেওয়ান হাফিজ নাবিল' ],
     url: `https://${config.domain}`,
     image: config.defaultPageIcon || autoImage,
     sameAs: [
