@@ -1,11 +1,12 @@
-import * as React from 'react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import { NotionRenderer } from 'react-notion-x'
 import { getPageTitle, getTextContent } from 'notion-utils'
-import { searchNotion } from '@/lib/search-notion'
-import { mapImageUrl } from '@/lib/map-image-url' 
+import * as React from 'react'
+import { NotionRenderer } from 'react-notion-x'
+
 import * as config from '@/lib/config' // Ensure config is imported for schema
+import { mapImageUrl } from '@/lib/map-image-url' 
+import { searchNotion } from '@/lib/search-notion'
 
 // 1. IMPORT THE HEADER COMPONENT
 import { NotionPageHeader } from './NotionPageHeader'
@@ -36,10 +37,10 @@ interface NotionPageProps {
   [key: string]: any
 }
 
-export const NotionPage = ({
+export function NotionPage({
   recordMap,
   rootPageId
-}: NotionPageProps) => {
+}: NotionPageProps) {
   if (!recordMap) {
     return null
   }
