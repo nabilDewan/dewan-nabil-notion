@@ -1,4 +1,5 @@
 import Link from 'next/link'
+
 import styles from './Footer.module.css'
 
 // 1. EXACT PAGE IDs FROM YOUR SITE.CONFIG.TS
@@ -12,7 +13,7 @@ const ROUTES = {
   contact: '/e766c2c57a354ea3891a7ec8d9173276'
 }
 
-const Footer = () => {
+function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
