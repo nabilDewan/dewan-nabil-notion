@@ -1,5 +1,5 @@
 {
-  "extends": "@fisch0920/config/tsconfig-react",
+  "extends": "./node_modules/@fisch0920/config/config/tsconfig-react.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
