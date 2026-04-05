@@ -10,26 +10,6 @@ import { useDarkMode } from '@/lib/use-dark-mode'
 
 import styles from './styles.module.css'
 
-type HamburgerMenuProps = {
-  isOpen: boolean
-  onToggle: () => void
-}
-
-function HamburgerMenu({ isOpen, onToggle }: HamburgerMenuProps) {
-  return (
-    <button
-      className={cs(styles.hamburgerMenu, isOpen && styles.active)}
-      onClick={onToggle}
-      aria-label='Toggle menu'
-      aria-expanded={isOpen}
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  )
-}
-
 function ToggleThemeButton() {
   const [hasMounted, setHasMounted] = React.useState(false)
   const { isDarkMode, toggleDarkMode } = useDarkMode()
@@ -58,7 +38,6 @@ export function NotionPageHeader({
   block: types.CollectionViewPageBlock | types.PageBlock
 }) {
   const { components, mapPageUrl } = useNotionContext()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
 
   if (navigationStyle === 'default') {
     return <Header block={block} />
@@ -67,12 +46,7 @@ export function NotionPageHeader({
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
-        <HamburgerMenu
-          isOpen={isMobileMenuOpen}
-          onToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        />
-
-        <nav className={cs('notion-nav-header-rhs breadcrumbs', isMobileMenuOpen && styles.mobileMenuOpen)}>
+        <nav className={cs('notion-nav-header-rhs breadcrumbs', styles.scrollNav)} aria-label='Primary navigation'>
           {navigationLinks
             ?.map((link, index) => {
               if (!link?.pageId && !link?.url) {
@@ -85,7 +59,6 @@ export function NotionPageHeader({
                     href={mapPageUrl(link.pageId)}
                     key={index}
                     className={cs(styles.navLink, 'breadcrumb', 'button')}
-                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.title}
                   </components.PageLink>
@@ -96,7 +69,6 @@ export function NotionPageHeader({
                     href={link.url}
                     key={index}
                     className={cs(styles.navLink, 'breadcrumb', 'button')}
-                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.title}
                   </components.Link>
@@ -109,6 +81,7 @@ export function NotionPageHeader({
 
           {isSearchEnabled && <Search block={block} title={null} />}
         </nav>
+        <div className={styles.mobileNavHint} aria-hidden='true'>→</div>
       </div>
     </header>
   )
