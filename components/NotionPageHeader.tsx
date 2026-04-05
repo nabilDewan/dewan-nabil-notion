@@ -38,22 +38,23 @@ export function NotionPageHeader({
   block: types.CollectionViewPageBlock | types.PageBlock
 }) {
   const { components, mapPageUrl } = useNotionContext()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
 
   if (navigationStyle === 'default') {
     return <Header block={block} />
   }
 
+  const navItems = navigationLinks?.filter(
+    (link): link is NonNullable<typeof link> => !!link && (!!link.pageId || !!link.url)
+  ) ?? []
+
   return (
     <header className='notion-header'>
       <div className='notion-nav-header'>
-        <nav className={cs('notion-nav-header-rhs breadcrumbs', styles.scrollNav)} aria-label='Primary navigation'>
-          {navigationLinks
-            ?.map((link, index) => {
-              if (!link?.pageId && !link?.url) {
-                return null
-              }
-
-              if (link.pageId) {
+        <div className={styles.navDesktop}>
+          <nav className='notion-nav-header-rhs breadcrumbs' aria-label='Primary navigation'>
+            {navItems.map((link, index) => {
+              if (link?.pageId) {
                 return (
                   <components.PageLink
                     href={mapPageUrl(link.pageId)}
@@ -63,25 +64,67 @@ export function NotionPageHeader({
                     {link.title}
                   </components.PageLink>
                 )
-              } else {
+              }
+
+              return (
+                <components.Link
+                  href={link.url}
+                  key={index}
+                  className={cs(styles.navLink, 'breadcrumb', 'button')}
+                >
+                  {link.title}
+                </components.Link>
+              )
+            })}
+
+            <ToggleThemeButton />
+
+            {isSearchEnabled && <Search block={block} title={null} />}
+          </nav>
+        </div>
+
+        <div className={styles.navMobile}>
+          <button
+            type='button'
+            className={styles.mobileNavToggle}
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            aria-expanded={isMobileMenuOpen}
+          >
+            Menu {isMobileMenuOpen ? '▲' : '▼'}
+          </button>
+
+          {isMobileMenuOpen && (
+            <nav className={styles.mobileNavDropdown} aria-label='Mobile navigation'>
+              {navItems.map((link, index) => {
+                if (link?.pageId) {
+                  return (
+                    <components.PageLink
+                      href={mapPageUrl(link.pageId)}
+                      key={index}
+                      className={cs(styles.navLink, 'breadcrumb', 'button', styles.mobileNavLink)}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {link.title}
+                    </components.PageLink>
+                  )
+                }
+
                 return (
                   <components.Link
                     href={link.url}
                     key={index}
-                    className={cs(styles.navLink, 'breadcrumb', 'button')}
+                    className={cs(styles.navLink, 'breadcrumb', 'button', styles.mobileNavLink)}
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.title}
                   </components.Link>
                 )
-              }
-            })
-            .filter(Boolean)}
+              })}
 
-          <ToggleThemeButton />
-
-          {isSearchEnabled && <Search block={block} title={null} />}
-        </nav>
-        <div className={styles.mobileNavHint} aria-hidden='true'>→</div>
+              {isSearchEnabled && <Search block={block} title={null} />}
+            </nav>
+          )}
+        </div>
       </div>
     </header>
   )

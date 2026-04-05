@@ -61,8 +61,7 @@ export function FooterImpl() {
       </div>
 
       <div className={styles.copyright}>
-        <p>Copyright © {currentYear} {config.author}</p>
-        <p>All rights reserved.</p>
+        Copyright © {currentYear} | {config.author} | All rights reserved.
       </div>
     </footer>
   )
