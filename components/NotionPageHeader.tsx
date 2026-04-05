@@ -10,7 +10,7 @@ import { useDarkMode } from '@/lib/use-dark-mode'
 
 import styles from './styles.module.css'
 
-function ToggleThemeButton() {
+function ToggleThemeButton({ className }: { className?: string }) {
   const [hasMounted, setHasMounted] = React.useState(false)
   const { isDarkMode, toggleDarkMode } = useDarkMode()
 
@@ -24,7 +24,7 @@ function ToggleThemeButton() {
 
   return (
     <div
-      className={cs('breadcrumb', 'button', !hasMounted && styles.hidden)}
+      className={cs('breadcrumb', 'button', className, !hasMounted && styles.hidden)}
       onClick={onToggleTheme}
     >
       {hasMounted && isDarkMode ? <MoonIcon /> : <SunIcon />}
@@ -121,6 +121,7 @@ export function NotionPageHeader({
                 )
               })}
 
+              <ToggleThemeButton className={styles.mobileNavLink} />
               {isSearchEnabled && <Search block={block} title={null} />}
             </nav>
           )}
