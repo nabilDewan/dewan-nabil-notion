@@ -13,7 +13,7 @@
   max-width: 1100px;
   margin: 0 auto;
   width: 100%;
-  background: var(--page-bg);
+  background: transparent;
 }
 
 .notion-frame {
@@ -25,7 +25,7 @@
 
 .notion,
 .notion-page {
-  background: var(--page-bg);
+  background: transparent;
   color: var(--site-fg);
 }
 
@@ -42,7 +42,7 @@
 }
 
 .index-page {
-  --notion-max-width: 900px;
+  --notion-max-width: 1100px;
 }
 
 .notion-text {
@@ -265,11 +265,11 @@
 
 @media only screen and (max-width: 1200px) {
   .notion-page {
-    --notion-max-width: 800px;
+    --notion-max-width: 1000px;
   }
 
   .index-page {
-    --notion-max-width: 800px;
+    --notion-max-width: 1000px;
   }
 }
 

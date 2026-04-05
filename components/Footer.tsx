@@ -1,11 +1,25 @@
 import * as React from 'react'
 
 import * as config from '@/lib/config'
-import { GitHubIcon } from '@/lib/icons/github'
-import { LinkedInIcon } from '@/lib/icons/linkedin'
-import { TwitterIcon } from '@/lib/icons/twitter'
-
 import styles from './styles.module.css'
+
+const socialLinks = [
+  {
+    title: 'Google Scholar',
+    href: 'https://scholar.google.com/citations?user=gJ4XFLAAAAAJ&hl=en',
+    label: '🎓'
+  },
+  {
+    title: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/dh-nabil/',
+    label: 'in'
+  },
+  {
+    title: 'ResearchGate',
+    href: 'https://www.researchgate.net/profile/Dewan-Nabil',
+    label: 'RG'
+  }
+]
 
 export function FooterImpl() {
   const currentYear = new Date().getFullYear()
@@ -25,39 +39,20 @@ export function FooterImpl() {
       </div>
 
       <div className={styles.footerSocialNav}>
-        {config.twitter && (
+        {socialLinks.map((link) => (
           <a
-            href={`https://x.com/${config.twitter}`}
-            title={`X @${config.twitter}`}
+            key={link.title}
+            href={link.href}
+            title={link.title}
             target='_blank'
             rel='noopener noreferrer'
             className={styles.footerSocialButton}
           >
-            <TwitterIcon />
+            <span style={{ fontSize: '0.95rem', fontWeight: 700 }}>
+              {link.label}
+            </span>
           </a>
-        )}
-        {config.github && (
-          <a
-            href={`https://github.com/${config.github}`}
-            title={`GitHub @${config.github}`}
-            target='_blank'
-            rel='noopener noreferrer'
-            className={styles.footerSocialButton}
-          >
-            <GitHubIcon />
-          </a>
-        )}
-        {config.linkedin && (
-          <a
-            href={`https://www.linkedin.com/in/${config.linkedin}`}
-            title={`LinkedIn ${config.author}`}
-            target='_blank'
-            rel='noopener noreferrer'
-            className={styles.footerSocialButton}
-          >
-            <LinkedInIcon />
-          </a>
-        )}
+        ))}
       </div>
 
       <div className={styles.copyright}>

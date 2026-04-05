@@ -7,27 +7,48 @@ html {
 :root {
   --site-bg: #f7f9fb;
   --site-fg: #111827;
-  --page-bg: #f7f9fb;
+  --page-bg: var(--site-bg);
   --card-bg: #ffffff;
   --card-border: rgba(17, 24, 39, 0.1);
   --header-bg: rgba(255, 255, 255, 0.92);
   --nav-bg: rgba(255, 255, 255, 0.9);
   --nav-text: #111827;
   --nav-border: rgba(17, 24, 39, 0.08);
+  --footer-bg: rgba(255, 255, 255, 0.16);
+  --footer-link-bg: rgba(255, 255, 255, 0.12);
+  --footer-link-hover: rgba(255, 255, 255, 0.18);
   --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+  --bg-color: #f7f9fb;
+  --bg-color-1: #f1f5f9;
+  --fg-color: #111827;
+  --fg-color-0: rgba(17, 24, 39, 0.1);
+  --fg-color-1: rgba(17, 24, 39, 0.18);
+  --fg-color-2: rgba(17, 24, 39, 0.55);
+  --fg-color-3: rgba(17, 24, 39, 0.8);
 }
 
 body.dark-mode,
 html.dark-mode {
   --site-bg: #060b16;
   --site-fg: #f8fafc;
-  --page-bg: #0c1624;
-  --card-bg: rgba(10, 15, 25, 0.9);
+  --page-bg: var(--site-bg);
+  --card-bg: rgba(10, 15, 25, 0.95);
   --card-border: rgba(255, 255, 255, 0.08);
   --header-bg: rgba(10, 15, 30, 0.92);
   --nav-bg: rgba(255, 255, 255, 0.05);
   --nav-text: #f8fafc;
+  --nav-border: rgba(255, 255, 255, 0.08);
+  --footer-bg: rgba(255, 255, 255, 0.06);
+  --footer-link-bg: rgba(255, 255, 255, 0.08);
+  --footer-link-hover: rgba(255, 255, 255, 0.12);
   --shadow: 0 24px 54px rgba(0, 0, 0, 0.35);
+  --bg-color: #060b16;
+  --bg-color-1: #0b1220;
+  --fg-color: #f8fafc;
+  --fg-color-0: rgba(255, 255, 255, 0.08);
+  --fg-color-1: rgba(255, 255, 255, 0.18);
+  --fg-color-2: rgba(255, 255, 255, 0.55);
+  --fg-color-3: rgba(255, 255, 255, 0.85);
 }
 
 * {
