@@ -265,11 +265,11 @@
 
 @media only screen and (max-width: 1200px) {
   .notion-page {
-    --notion-max-width: 1000px;
+    --notion-max-width: 868px;
   }
 
   .index-page {
-    --notion-max-width: 1000px;
+    --notion-max-width: 868px;
   }
 }
 
@@ -661,20 +661,24 @@
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  width: 100% !important;
+  width: auto !important;
   max-width: 100% !important;
-  min-width: 100% !important;
-  overflow: visible !important;
+  min-width: auto !important;
+  overflow: hidden !important;
 }
 
 .notion-embed iframe,
 .notion-bookmark iframe,
 .notion-asset-wrapper iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: auto !important;
   height: auto !important;
 }
 
 .notion-asset-wrapper > div {
-  width: 100% !important;
+  width: auto !important;
+  max-width: 100% !important;
 }
 
 .notion-bookmark {
