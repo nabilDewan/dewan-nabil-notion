@@ -8,9 +8,9 @@
  */
 
 .notion {
-  --notion-max-width: 900px;
+  --notion-max-width: 868px;
   --notion-header-height: 54px;
-  max-width: 900px;
+  max-width: 868px;
   margin: 0 auto;
   width: 100%;
   background: transparent;
@@ -42,7 +42,7 @@
 }
 
 .index-page {
-  --notion-max-width: 900px;
+  --notion-max-width: 868px;
 }
 
 .notion-text {
@@ -66,7 +66,7 @@
 }
 
 .notion-header .notion-nav-header {
-  max-width: 900px;
+  max-width: 868px;
   margin: 0 auto;
   overflow-x: auto;
 }
@@ -671,7 +671,6 @@
 .notion-bookmark iframe,
 .notion-asset-wrapper iframe {
   height: auto !important;
-  min-height: 520px !important;
 }
 
 .notion-asset-wrapper > div {
