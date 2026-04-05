@@ -11,7 +11,39 @@ export default siteConfig({
   // basic site info (required)
   name: 'Next.js Notion Starter Kit',
   domain: 'nextjs-notion-starter-kit.transitivebullsh.it',
-  author: 'Travis Fischer',
+  author: 'Dewan Hafiz Nabil',
+
+  navigationStyle: 'custom',
+  navigationLinks: [
+    {
+      title: 'Home',
+      pageId: '7fa50bcefad34a29af1feae083c179f6'
+    },
+    {
+      title: 'About Me',
+      pageId: 'a293502a14dd4315b9b4ec6242f1c792'
+    },
+    {
+      title: 'Academics',
+      pageId: '524cba980d3547d89a873d772a590bcc'
+    },
+    {
+      title: 'Research',
+      pageId: '25110164209144858a9c9be596dd7b46'
+    },
+    {
+      title: 'Experience',
+      pageId: '9ec541bcbb944e38942f09b4525bf67b'
+    },
+    {
+      title: 'Blogs',
+      pageId: '6bad9a8286f246479c235939659999c7'
+    },
+    {
+      title: 'Contact',
+      pageId: 'e766c2c57a354ea3891a7ec8d9173276'
+    }
+  ],
 
   // open graph metadata (optional)
   description: 'Example Next.js Notion Starter Kit Site',
@@ -46,20 +78,5 @@ export default siteConfig({
   //   '/foo': '067dd719a912471ea9a3ac10710e7fdf',
   //   '/bar': '0be6efce9daf42688f65c76b89f8eb27'
   // }
-  pageUrlOverrides: null,
-
-  // whether to use the default notion navigation style or a custom one with links to
-  // important pages. To use `navigationLinks`, set `navigationStyle` to `custom`.
-  navigationStyle: 'default'
-  // navigationStyle: 'custom',
-  // navigationLinks: [
-  //   {
-  //     title: 'About',
-  //     pageId: 'f1199d37579b41cbabfc0b5174f4256a'
-  //   },
-  //   {
-  //     title: 'Contact',
-  //     pageId: '6a29ebcb935a4f0689fe661ab5f3b8d1'
-  //   }
-  // ]
+  pageUrlOverrides: null
 })

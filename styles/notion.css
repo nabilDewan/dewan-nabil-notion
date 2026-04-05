@@ -358,14 +358,90 @@
 }
 
 .notion-header {
-  background: hsla(0, 0%, 100%, 0.8);
-  backdrop-filter: saturate(180%) blur(16px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: hsla(0, 0%, 100%, 0.95);
+  backdrop-filter: saturate(180%) blur(20px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
 }
 
 .dark-mode .notion-header {
+  background: rgba(10, 14, 26, 0.92);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.notion-nav-header {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.65rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0rem;
+  overflow-x: auto;
+}
+
+.notion-nav-header-rhs {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.notion-nav-header .breadcrumb.button {
+  border-radius: 9999px;
+  padding: 0.65rem 1rem;
+  font-size: 0.95rem;
+  color: inherit;
   background: transparent;
-  box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.1);
-  backdrop-filter: saturate(180%) blur(20px);
+  transition: background-color 180ms ease, color 180ms ease,
+    transform 180ms ease;
+}
+
+.notion-nav-header .breadcrumb.button:hover {
+  transform: translateY(-1px);
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.dark-mode .notion-nav-header .breadcrumb.button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@media only screen and (max-width: 720px) {
+  .notion-nav-header {
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+  }
+
+  .notion-nav-header-rhs {
+    justify-content: flex-start;
+    width: 100%;
+  }
+}
+
+.notion-embed,
+.notion-bookmark,
+.notion-asset-wrapper,
+.notion-asset-wrapper > div,
+.notion-asset-wrapper iframe,
+.notion-embed-placeholder,
+.notion-embed > div,
+.notion-embed iframe {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.notion-bookmark {
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+.notion-bookmark iframe {
+  background: transparent !important;
 }
 
 /* Workaround for Firefox not supporting backdrop-filter yet */
