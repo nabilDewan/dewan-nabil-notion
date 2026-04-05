@@ -623,6 +623,7 @@
   font-size: 0.95rem;
   color: inherit;
   background: transparent;
+  border: 1px dotted var(--fg-color-0);
   transition: background-color 180ms ease, color 180ms ease,
     transform 180ms ease;
 }
@@ -660,6 +661,21 @@
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
+  overflow: visible !important;
+}
+
+.notion-embed iframe,
+.notion-bookmark iframe,
+.notion-asset-wrapper iframe {
+  height: auto !important;
+  min-height: 520px !important;
+}
+
+.notion-asset-wrapper > div {
+  width: 100% !important;
 }
 
 .notion-bookmark {
