@@ -654,27 +654,31 @@
 .notion-bookmark,
 .notion-asset-wrapper,
 .notion-asset-wrapper > div,
-.notion-asset-wrapper iframe,
 .notion-embed-placeholder,
-.notion-embed > div,
-.notion-embed iframe {
+.notion-embed > div {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  width: 100% !important;
   max-width: 100% !important;
-  min-width: 100% !important;
+  width: auto !important;
+  min-width: 0 !important;
   overflow: visible !important;
 }
 
 .notion-embed iframe,
 .notion-bookmark iframe,
 .notion-asset-wrapper iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
   height: auto !important;
+  min-height: 360px !important;
+  display: block !important;
 }
 
 .notion-asset-wrapper > div {
-  width: 100% !important;
+  width: auto !important;
+  max-width: 100% !important;
 }
 
 .notion-bookmark {
