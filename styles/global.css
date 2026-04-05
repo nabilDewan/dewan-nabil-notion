@@ -1,3 +1,9 @@
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -19,6 +25,38 @@ body {
     'Droid Sans', 'Helvetica Neue', 'Noto Sans', sans-serif;
   font-family: var(--notion-font);
   overflow-x: hidden;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+body p {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6 {
+  text-align: left;
+}
+
+body li,
+body ul,
+body ol {
+  text-align: left;
+}
+
+body code,
+body pre {
+  text-align: left;
+}
+
+body ul,
+body ol {
+  padding-left: 2em;
 }
 
 .static-tweet blockquote {
@@ -37,6 +75,17 @@ body {
 .searchInput {
   color: var(--fg-color);
   caret-color: var(--fg-color);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--fg-color-0);
+  border-radius: 6px;
+  background: var(--bg-color);
+  transition: all 200ms ease;
+}
+
+.searchInput:focus {
+  border-color: var(--fg-color);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--bg-color);
 }
 
 ::-webkit-scrollbar

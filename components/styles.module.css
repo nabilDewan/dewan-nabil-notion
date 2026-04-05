@@ -49,76 +49,134 @@
   width: 100%;
   max-width: 1100px;
   margin: auto auto 0;
-  padding: 8px;
-
+  padding: 2rem 1rem;
+  border-top: 1px solid var(--fg-color-0);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .copyright {
-  font-size: 80%;
-  padding: 0.5em;
+  font-size: 0.9rem;
+  padding: 0;
+  margin: 0;
+  flex: 1;
 }
 
-.settings,
-.social {
-  user-select: none;
+.copyright p {
+  margin: 0.25rem 0;
+  color: var(--fg-color);
+  opacity: 0.8;
 }
 
-.social,
 .settings {
+  user-select: none;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.25em;
+  gap: 0.5em;
 }
 
-.settings a,
-.social a {
+.settings a {
   cursor: pointer;
-  font-size: 2em;
+  font-size: 1.5em;
   display: inline-flex;
-  padding: 0.25em;
-  transition: color 250ms ease-out;
+  padding: 0.5em;
+  border-radius: 50%;
+  transition: all 250ms ease-out;
+  background: transparent;
 }
 
-.settings a:hover,
-.social a:hover {
-  transition: color 50ms ease-out;
+.settings a:hover {
+  transition: all 50ms ease-out;
+  transform: scale(1.1);
 }
 
 .toggleDarkMode:hover {
   color: #2795e9;
 }
 
-.twitter:hover {
-  color: #2795e9;
+@media only screen and (max-width: 566px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .copyright {
+    width: 100%;
+    order: 1;
+  }
+
+  .settings {
+    order: 2;
+    justify-content: center;
+  }
 }
 
-.mastodon:hover {
-  color: #5a4be1;
+.hamburgerMenu {
+  display: none;
+  flex-direction: column;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  gap: 0.35rem;
+  z-index: 1001;
 }
 
-.zhihu:hover {
-  color: #0066ff;
+.hamburgerMenu span {
+  width: 24px;
+  height: 2.5px;
+  background-color: var(--fg-color);
+  border-radius: 2px;
+  transition: all 300ms ease;
 }
 
-.github:hover {
-  color: #c9510c;
+.hamburgerMenu.active span:nth-child(1) {
+  transform: rotate(45deg) translate(10px, 10px);
 }
 
-.youtube:hover {
-  color: #ff0000;
+.hamburgerMenu.active span:nth-child(2) {
+  opacity: 0;
 }
 
-.linkedin:hover {
-  color: #0077b5;
+.hamburgerMenu.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
 }
 
-.newsletter:hover {
-  color: #777777;
+@media only screen and (max-width: 768px) {
+  .hamburgerMenu {
+    display: flex;
+  }
+}
+
+.mobileMenuOpen {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-color);
+  border-bottom: 1px solid var(--fg-color-0);
+  flex-direction: column;
+  padding: 1rem 0;
+  gap: 0;
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(-50vw + 50%);
+}
+
+.mobileMenuOpen .breadcrumb {
+  border-radius: 0;
+  padding: 0.75rem 1.5rem;
+  text-align: left;
+}
+
+.mobileMenuOpen .breadcrumb:hover {
+  background: var(--fg-color-0);
+  transform: none;
 }
 
 .comments {
