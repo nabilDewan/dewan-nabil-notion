@@ -49,10 +49,10 @@ export function NotionPageHeader({
   ) ?? []
 
   return (
-    <header className='notion-header'>
-      <div className='notion-nav-header'>
+    <header className={styles.customHeader}>
+      <div className={styles.customNavHeader}>
         <div className={styles.navDesktop}>
-          <nav className='notion-nav-header-rhs breadcrumbs' aria-label='Primary navigation'>
+          <nav className={cs(styles.customNavRhs, 'breadcrumbs')} aria-label='Primary navigation'>
             {navItems.map((link, index) => {
               if (link?.pageId) {
                 return (

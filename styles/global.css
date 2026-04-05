@@ -19,6 +19,12 @@ html {
   margin: 0;
 }
 
+html,
+body {
+  min-height: 100%;
+  background: var(--bg-color, #111827);
+}
+
 body {
   --notion-font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
@@ -27,6 +33,11 @@ body {
   overflow-x: hidden;
   text-align: justify;
   text-justify: inter-word;
+}
+
+body.dark-mode,
+html.dark-mode {
+  background: #0b1220;
 }
 
 body p {

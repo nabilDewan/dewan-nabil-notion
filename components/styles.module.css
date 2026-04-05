@@ -135,6 +135,59 @@
   width: 100%;
 }
 
+.customHeader {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10, 15, 30, 0.95);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.customNavHeader {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.customNavRhs {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.customNavRhs .breadcrumb.button {
+  border-radius: 9999px;
+  padding: 0.65rem 1rem;
+  font-size: 0.95rem;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.06);
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.customNavRhs .breadcrumb.button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+@media only screen and (max-width: 768px) {
+  .customNavHeader {
+    padding: 0.5rem 1rem;
+    justify-content: flex-end;
+  }
+
+  .customNavRhs {
+    display: none;
+  }
+}
+
 .mobileNavToggle {
   width: 100%;
   background: rgba(255, 255, 255, 0.08);
@@ -151,20 +204,38 @@
 }
 
 .mobileNavDropdown {
-  margin-top: 0.75rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.75rem;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  background: rgba(10, 15, 30, 0.97);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25);
+  max-height: min(70vh, 400px);
+  overflow-y: auto;
+}
+
+.mobileNavDropdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+.mobileNavDropdown::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
 }
 
 .mobileNavLink {
   width: 100%;
   justify-content: flex-start;
   padding: 0.85rem 1rem;
+  white-space: normal;
+  text-align: left;
 }
 
 @media only screen and (max-width: 768px) {
