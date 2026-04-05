@@ -32,7 +32,7 @@ class NotionQueue {
       const task = this.queue.shift()!
       await task()
       // Small delay between requests to be extra safe
-      await new Promise(resolve => setTimeout(resolve, 100))
+      await new Promise(resolve => setTimeout(resolve, 2000))
     }
 
     this.processing = false
