@@ -13,12 +13,20 @@
   max-width: 1100px;
   margin: 0 auto;
   width: 100%;
+  background: var(--page-bg);
 }
 
 .notion-frame {
   padding: 0;
   margin: 0 auto;
   width: 100%;
+  background: transparent;
+}
+
+.notion,
+.notion-page {
+  background: var(--page-bg);
+  color: var(--site-fg);
 }
 
 .notion-page {
@@ -68,29 +76,31 @@
 }
 
 .notion-gallery-grid {
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  grid-gap: 1.5rem;
-  gap: 1.5rem;
-  align-items: start;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-gap: 1rem;
+  gap: 1rem;
+  align-items: stretch;
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 960px) {
   .notion-gallery-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
   }
 }
 
 @media only screen and (max-width: 768px) {
   .notion-gallery-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
 }
 
 @media only screen and (max-width: 480px) {
   .notion-gallery-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
   }
 }
 
@@ -99,26 +109,33 @@
 }
 
 .notion-gallery-grid .notion-page-title-text {
-  font-size: 2em;
-  white-space: unset;
+  font-size: 1.1rem;
+  line-height: 1.35;
+  font-weight: 600;
+  white-space: normal;
+  margin-bottom: 0.35rem;
 }
 
 .notion-gallery-grid .notion-collection-card-property {
-  white-space: unset;
+  white-space: normal;
   text-overflow: unset;
+  font-size: 0.85rem;
+  line-height: 1.4;
 }
 
 .notion-gallery-grid .notion-property-text {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .notion-collection-card {
-  display: block;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid var(--fg-color-0);
+  transition: all 250ms ease;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
   min-height: auto;
 }
 
@@ -128,7 +145,7 @@
 }
 
 .notion-collection-card-cover img {
-  border-radius: 12px 12px 0 0;
+  border-radius: 16px 16px 0 0;
   width: 100%;
   height: 180px;
   object-fit: cover;
@@ -145,8 +162,9 @@
 }
 
 .notion-collection-card-body {
-  padding: 1rem;
-  display: block;
+  padding: 0.9rem 0.95rem 1rem;
+  display: flex;
+  flex-direction: column;
   min-height: auto;
 }
 
