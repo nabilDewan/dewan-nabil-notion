@@ -661,24 +661,20 @@
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  width: auto !important;
+  width: 100% !important;
   max-width: 100% !important;
-  min-width: auto !important;
-  overflow: hidden !important;
+  min-width: 100% !important;
+  overflow: visible !important;
 }
 
 .notion-embed iframe,
 .notion-bookmark iframe,
 .notion-asset-wrapper iframe {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: auto !important;
   height: auto !important;
 }
 
 .notion-asset-wrapper > div {
-  width: auto !important;
-  max-width: 100% !important;
+  width: 100% !important;
 }
 
 .notion-bookmark {
