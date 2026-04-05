@@ -2,7 +2,6 @@
   "extends": "./node_modules/@fisch0920/config/config/tsconfig-react.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "ignoreDeprecations": "6.0",
     "paths": {
       "@/components/*": ["components/*"],
       "@/lib/*": ["lib/*"],
