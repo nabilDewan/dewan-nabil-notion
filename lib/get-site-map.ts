@@ -30,29 +30,14 @@ const getAllPages = pMemoize(getAllPagesImpl, {
   cacheKey: (...args) => JSON.stringify(args)
 })
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
-const getPage = async (pageId: string, opts?: any, attempt = 1): Promise<any> => {
-  console.log('\nnotion getPage', uuidToId(pageId), 'attempt', attempt)
-
-  try {
-    return await notion.getPage(pageId, {
-      kyOptions: {
-        timeout: 30_000
-      },
-      ...opts
-    })
-  } catch (err: any) {
-    const is429 = err?.statusCode === 429 || /429\b/.test(err?.message || '')
-    if (is429 && attempt < 5) {
-      const delay = 800 * attempt
-      console.warn(`Notion rate limit hit for ${pageId}, retrying in ${delay}ms`)
-      await sleep(delay)
-      return getPage(pageId, opts, attempt + 1)
-    }
-
-    throw err
-  }
+const getPage = async (pageId: string, opts?: any) => {
+  console.log('\nnotion getPage', uuidToId(pageId))
+  return notion.getPage(pageId, {
+    kyOptions: {
+      timeout: 30_000
+    },
+    ...opts
+  })
 }
 
 async function getAllPagesImpl(

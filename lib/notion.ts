@@ -16,24 +16,6 @@ import { getTweetsMap } from './get-tweets'
 import { notion } from './notion-api'
 import { getPreviewImageMap } from './preview-images'
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
-const getPageWithRetry = async (pageId: string, attempt = 1): Promise<ExtendedRecordMap> => {
-  try {
-    return await notion.getPage(pageId)
-  } catch (err: any) {
-    const is429 = err?.statusCode === 429 || /\b429\b/.test(err?.message || '')
-    if (is429 && attempt < 5) {
-      const delay = 800 * attempt
-      console.warn(`Notion rate limit hit for ${pageId}, retrying in ${delay}ms`)
-      await sleep(delay)
-      return getPageWithRetry(pageId, attempt + 1)
-    }
-
-    throw err
-  }
-}
-
 const getNavigationLinkPages = pMemoize(
   async (): Promise<ExtendedRecordMap[]> => {
     const navigationLinkPageIds = (navigationLinks || [])
@@ -61,7 +43,7 @@ const getNavigationLinkPages = pMemoize(
 )
 
 export async function getPage(pageId: string): Promise<ExtendedRecordMap> {
-  let recordMap = await getPageWithRetry(pageId)
+  let recordMap = await notion.getPage(pageId)
 
   if (navigationStyle !== 'default') {
     // ensure that any pages linked to in the custom navigation header have
