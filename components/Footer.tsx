@@ -1,7 +1,8 @@
 import * as React from 'react'
+import { useNotionContext } from 'react-notion-x'
 
 import * as config from '@/lib/config'
-import { normalizeTitle } from 'notion-utils'
+
 import styles from './styles.module.css'
 
 const socialLinks = [
@@ -24,17 +25,28 @@ const socialLinks = [
 
 export function FooterImpl() {
   const currentYear = new Date().getFullYear()
+  const { components, mapPageUrl } = useNotionContext()
 
   return (
     <footer className={styles.footer}>
       <div className={styles.footerNav}>
         {(config.navigationLinks || []).filter(Boolean).map((link) => {
-          const slug = normalizeTitle(link!.title)
-          const href = slug === 'home' ? '/' : `/${slug}`
+          if (link?.pageId) {
+            return (
+              <components.PageLink
+                key={link.title}
+                href={mapPageUrl(link.pageId)}
+                className={styles.footerLink}
+              >
+                {link.title}
+              </components.PageLink>
+            )
+          }
+
           return (
             <a
               key={link!.title}
-              href={href}
+              href={link!.url ?? '#'}
               className={styles.footerLink}
             >
               {link!.title}
