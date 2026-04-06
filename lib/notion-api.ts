@@ -4,45 +4,27 @@ export const notion = new NotionAPI({
   apiBaseUrl: process.env.NOTION_API_BASE_URL
 })
 
-// Global queue to serialize Notion API calls
-class NotionQueue {
-  private queue: Array<() => Promise<any>> = []
-  private processing = false
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-  async add<T>(fn: () => Promise<T>): Promise<T> {
-    return new Promise((resolve, reject) => {
-      this.queue.push(async () => {
-        try {
-          const result = await fn()
-          resolve(result)
-        } catch (error) {
-          reject(error)
-        }
-      })
-      this.process()
-    })
-  }
+const originalGetPage = notion.getPage.bind(notion)
+notion.getPage = async function (pageId: string, options?: any) {
+  let attempt = 1
 
-  private async process() {
-    if (this.processing || this.queue.length === 0) return
+  while (true) {
+    try {
+      return await originalGetPage(pageId, options)
+    } catch (err: any) {
+      const message = String(err?.message || '')
+      const is429 = err?.statusCode === 429 || /\b429\b/.test(message)
 
-    this.processing = true
+      if (!is429 || attempt >= 5) {
+        throw err
+      }
 
-    while (this.queue.length > 0) {
-      const task = this.queue.shift()!
-      await task()
-      // Small delay between requests to be extra safe
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      const delay = 500 * 2 ** (attempt - 1)
+      console.warn(`Notion API 429 for ${pageId}, retrying in ${delay}ms (attempt ${attempt})`)
+      await sleep(delay)
+      attempt += 1
     }
-
-    this.processing = false
   }
-}
-
-const notionQueue = new NotionQueue()
-
-// Wrap the notion.getPage method to use the queue
-const originalGetPage = notion.getPage
-notion.getPage = function(pageId: string, options?: any) {
-  return notionQueue.add(() => originalGetPage.call(this, pageId, options))
 }
