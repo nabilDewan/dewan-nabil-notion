@@ -10,7 +10,7 @@ html {
   --page-bg: var(--site-bg);
   --card-bg: rgba(255, 255, 255, 0.9);
   --card-border: rgba(17, 24, 39, 0.1);
-  --header-bg: rgba(255, 255, 255, 0.24);
+  --header-bg: rgba(255, 255, 255, 0.1);
   --nav-bg: rgba(255, 255, 255, 0.25);
   --nav-text: #111827;
   --nav-border: rgba(17, 24, 39, 0.14);
@@ -34,7 +34,7 @@ html.dark-mode {
   --page-bg: var(--site-bg);
   --card-bg: rgba(10, 15, 25, 0.92);
   --card-border: rgba(255, 255, 255, 0.08);
-  --header-bg: rgba(10, 15, 30, 0.56);
+  --header-bg: rgba(10, 15, 30, 0.3);
   --nav-bg: rgba(255, 255, 255, 0.08);
   --nav-text: #f8fafc;
   --nav-border: rgba(255, 255, 255, 0.16);

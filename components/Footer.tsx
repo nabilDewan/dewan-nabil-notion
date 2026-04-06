@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import * as config from '@/lib/config'
+import { normalizeTitle } from 'notion-utils'
 import styles from './styles.module.css'
 
 const socialLinks = [
@@ -27,15 +28,19 @@ export function FooterImpl() {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerNav}>
-        {(config.navigationLinks || []).filter(Boolean).map((link) => (
-          <a
-            key={link!.title}
-            href={link!.url ?? `/${link!.pageId}`}
-            className={styles.footerLink}
-          >
-            {link!.title}
-          </a>
-        ))}
+        {(config.navigationLinks || []).filter(Boolean).map((link) => {
+          const slug = normalizeTitle(link!.title)
+          const href = slug === 'home' ? '/' : `/${slug}`
+          return (
+            <a
+              key={link!.title}
+              href={href}
+              className={styles.footerLink}
+            >
+              {link!.title}
+            </a>
+          )
+        })}
       </div>
 
       <div className={styles.footerSocialNav}>

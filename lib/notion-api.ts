@@ -7,7 +7,7 @@ export const notion = new NotionAPI({
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const originalGetPage = notion.getPage.bind(notion)
-const NOTION_API_REQUEST_DELAY_MS = 2000
+const NOTION_API_REQUEST_DELAY_MS = 3000
 let lastNotionRequestTime = 0
 let notionRequestQueue: Promise<void> = Promise.resolve()
 
@@ -37,13 +37,14 @@ notion.getPage = async function (pageId: string, options?: any) {
     } catch (err: any) {
       const message = String(err?.message || '')
       const is429 = err?.statusCode === 429 || /\b429\b/.test(message)
+      const is502 = err?.statusCode === 502 || /\b502\b/.test(message)
 
-      if (!is429 || attempt >= 5) {
+      if ((!is429 && !is502) || attempt >= 5) {
         throw err
       }
 
       const delay = NOTION_API_REQUEST_DELAY_MS * attempt
-      console.warn(`Notion API 429 for ${pageId}, retrying in ${delay}ms (attempt ${attempt})`)
+      console.warn(`Notion API ${err?.statusCode || 'error'} for ${pageId}, retrying in ${delay}ms (attempt ${attempt})`)
       await sleep(delay)
       attempt += 1
     }
