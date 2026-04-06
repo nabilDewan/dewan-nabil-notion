@@ -148,10 +148,14 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--header-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--nav-border);
+}
+
+.dark-mode .customHeader {
+  background: rgba(15, 23, 42, 0.22);
 }
 
 .customNavHeader {
@@ -179,18 +183,22 @@
   padding: 0.72rem 1.2rem;
   font-size: 0.95rem;
   color: var(--nav-text);
-  background: var(--nav-bg);
+  background: rgba(255, 255, 255, 0.18);
   border-width: 1px;
   border-style: dotted;
   border-color: var(--nav-border);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 8px 18px rgba(0, 0, 0, 0.08);
   transition: background-color 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.dark-mode .customNavRhs .breadcrumb.button {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .customNavRhs .breadcrumb.button:hover {
   transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.24);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 4px 14px rgba(0, 0, 0, 0.12);
 }
 
 @media only screen and (max-width: 768px) {
