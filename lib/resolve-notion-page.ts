@@ -1,12 +1,29 @@
 import { type ExtendedRecordMap } from 'notion-types'
-import { parsePageId } from 'notion-utils'
+import { normalizeTitle, parsePageId } from 'notion-utils'
 
 import type { PageProps } from './types'
 import * as acl from './acl'
-import { environment, pageUrlAdditions, pageUrlOverrides, site } from './config'
+import { environment, navigationLinks, pageUrlAdditions, pageUrlOverrides, site } from './config'
 import { db } from './db'
 import { getSiteMap } from './get-site-map'
 import { getPage } from './notion'
+
+const getNavigationLinkPageId = (rawPageId?: string) => {
+  if (!rawPageId) return undefined
+
+  for (const link of navigationLinks || []) {
+    if (!link?.pageId || !link.title) {
+      continue
+    }
+
+    const slug = normalizeTitle(link.title)
+    if (slug === rawPageId) {
+      return parsePageId(link.pageId)
+    }
+  }
+
+  return undefined
+}
 
 export async function resolveNotionPage(
   domain: string,
@@ -27,6 +44,10 @@ export async function resolveNotionPage(
       if (override) {
         pageId = parsePageId(override)!
       }
+    }
+
+    if (!pageId) {
+      pageId = getNavigationLinkPageId(rawPageId)
     }
 
     const useUriToPageIdCache = true
