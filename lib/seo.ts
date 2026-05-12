@@ -1,11 +1,13 @@
 export function cleanDescription(
   description: string | null | undefined
 ): string {
-  if (!description) return ''
-  return description
+  const desc = description || ''
+  if (!desc) return ''
+
+  return desc
     .replaceAll(/\s+/g, ' ')
     .trim()
-    .split('\n')[0]
+    .split('\n')[0]!
     .slice(0, 160)
 }
 

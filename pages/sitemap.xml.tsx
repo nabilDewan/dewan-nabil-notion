@@ -1,8 +1,10 @@
 import type { GetServerSideProps } from 'next'
 
-import type { SiteMap } from '@/lib/types'
+import { getBlockValue } from 'notion-utils'
+
 import { host } from '@/lib/config'
 import { getSiteMap } from '@/lib/get-site-map'
+import type { SiteMap } from '@/lib/types'
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   if (req.method !== 'GET') {
@@ -46,7 +48,8 @@ const createSitemap = (siteMap: SiteMap) => {
     ${Object.keys(siteMap.canonicalPageMap)
       .map((canonicalPagePath) => {
         const pageId = siteMap.canonicalPageMap[canonicalPagePath]
-        const block = siteMap.site.recordMap.block[pageId!]?.value
+        const recordMap = siteMap.pageMap[pageId!]
+        const block = getBlockValue(recordMap?.block[pageId!]!)
         const lastModDate = block?.last_edited_time
           ? new Date(block.last_edited_time).toISOString().split('T')[0]
           : lastMod
