@@ -1,7 +1,7 @@
 import type * as types from 'notion-types'
 import cs from 'classnames'
 import * as React from 'react'
-import { Breadcrumbs, Header, Search, useNotionContext } from 'react-notion-x'
+import { Header, Search, useNotionContext } from 'react-notion-x'
 
 import { isSearchEnabled, navigationLinks, navigationStyle } from '@/lib/config'
 import { MoonIcon } from '@/lib/icons/moon'
@@ -24,7 +24,12 @@ function ToggleThemeButton({ className }: { className?: string }) {
 
   return (
     <div
-      className={cs('breadcrumb', 'button', className, !hasMounted && styles.hidden)}
+      className={cs(
+        'breadcrumb',
+        'button',
+        className,
+        !hasMounted && styles.hidden
+      )}
       onClick={onToggleTheme}
     >
       {hasMounted && isDarkMode ? <MoonIcon /> : <SunIcon />}
@@ -44,15 +49,20 @@ export function NotionPageHeader({
     return <Header block={block} />
   }
 
-  const navItems = navigationLinks?.filter(
-    (link): link is NonNullable<typeof link> => !!link && (!!link.pageId || !!link.url)
-  ) ?? []
+  const navItems =
+    navigationLinks?.filter(
+      (link): link is NonNullable<typeof link> =>
+        !!link && (!!link.pageId || !!link.url)
+    ) ?? []
 
   return (
     <header className={styles.customHeader}>
       <div className={styles.customNavHeader}>
         <div className={styles.navDesktop}>
-          <nav className={cs(styles.customNavRhs, 'breadcrumbs')} aria-label='Primary navigation'>
+          <nav
+            className={cs(styles.customNavRhs, 'breadcrumbs')}
+            aria-label='Primary navigation'
+          >
             {navItems.map((link, index) => {
               if (link?.pageId) {
                 return (
@@ -94,14 +104,22 @@ export function NotionPageHeader({
           </button>
 
           {isMobileMenuOpen && (
-            <nav className={styles.mobileNavDropdown} aria-label='Mobile navigation'>
+            <nav
+              className={styles.mobileNavDropdown}
+              aria-label='Mobile navigation'
+            >
               {navItems.map((link, index) => {
                 if (link?.pageId) {
                   return (
                     <components.PageLink
                       href={mapPageUrl(link.pageId)}
                       key={index}
-                      className={cs(styles.navLink, 'breadcrumb', 'button', styles.mobileNavLink)}
+                      className={cs(
+                        styles.navLink,
+                        'breadcrumb',
+                        'button',
+                        styles.mobileNavLink
+                      )}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {link.title}
@@ -113,7 +131,12 @@ export function NotionPageHeader({
                   <components.Link
                     href={link.url}
                     key={index}
-                    className={cs(styles.navLink, 'breadcrumb', 'button', styles.mobileNavLink)}
+                    className={cs(
+                      styles.navLink,
+                      'breadcrumb',
+                      'button',
+                      styles.mobileNavLink
+                    )}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.title}

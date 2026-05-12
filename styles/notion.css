@@ -624,7 +624,9 @@
   color: inherit;
   background: transparent;
   border: 1px dotted var(--fg-color-0);
-  transition: background-color 180ms ease, color 180ms ease,
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
     transform 180ms ease;
 }
 
@@ -721,6 +723,6 @@
   color: var(--fg-color-2);
 }
 
-.notion-equation.notion-equation-block{
+.notion-equation.notion-equation-block {
   align-items: center;
 }

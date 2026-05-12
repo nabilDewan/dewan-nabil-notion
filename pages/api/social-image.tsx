@@ -6,6 +6,7 @@ import {
   getBlockIcon,
   getBlockTitle,
   getBlockValue,
+  getPageImageUrls,
   getPageProperty,
   isUrl,
   parsePageId
@@ -23,12 +24,12 @@ export default async function OGImage(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { searchParams } = new URL(req.url!)
+  const { searchParams } = new URL(req.url!, libConfig.host)
   const pageId = parsePageId(
     searchParams.get('id') || libConfig.rootNotionPageId
   )
   if (!pageId) {
-    return new Response('Invalid notion page id', { status: 400 })
+    return res.status(400).send('Invalid notion page id')
   }
 
   const pageInfoOrError = await getNotionPageInfo({ pageId })
@@ -38,9 +39,8 @@ export default async function OGImage(
     })
   }
   const pageInfo = pageInfoOrError.data
-  console.log(pageInfo)
 
-  return new ImageResponse(
+  const imageResponse = new ImageResponse(
     <div
       style={{
         position: 'relative',
@@ -62,19 +62,6 @@ export default async function OGImage(
             width: '100%',
             height: '100%',
             objectFit: 'cover'
-            // TODO: satori doesn't support background-size: cover and seems to
-            // have inconsistent support for filter + transform to get rid of the
-            // blurred edges. For now, we'll go without a blur filter on the
-            // background, but Satori is still very new, so hopefully we can re-add
-            // the blur soon.
-
-            // backgroundImage: pageInfo.image
-            //   ? `url(${pageInfo.image})`
-            //   : undefined,
-            // backgroundSize: '100% 100%'
-            // TODO: pageInfo.imageObjectPosition
-            // filter: 'blur(8px)'
-            // transform: 'scale(1.05)'
           }}
         />
       )}
@@ -143,7 +130,6 @@ export default async function OGImage(
             style={{
               width: '100%',
               height: '100%'
-              // transform: 'scale(1.04)'
             }}
           />
         </div>
@@ -162,6 +148,13 @@ export default async function OGImage(
       ]
     }
   )
+
+  res.setHeader('Content-Type', 'image/png')
+  res.setHeader(
+    'Cache-Control',
+    'public, immutable, no-transform, max-age=31536000'
+  )
+  return res.status(200).send(Buffer.from(await imageResponse.arrayBuffer()))
 }
 
 export async function getNotionPageInfo({
@@ -208,12 +201,19 @@ export async function getNotionPageInfo({
     ? `center ${(1 - imageCoverPosition) * 100}%`
     : undefined
 
-  const imageBlockUrl = mapImageUrl(
-    getPageProperty<string>('Social Image', block, recordMap) ||
-      (block as PageBlock).format?.page_cover,
-    block
+  const explicitSocialImage = getPageProperty<string>(
+    'Social Image',
+    block,
+    recordMap
   )
-  const imageFallbackUrl = mapImageUrl(libConfig.defaultPageCover, block)
+  const pageCoverImage = (block as PageBlock).format?.page_cover
+  const firstPageContentImage = getPageImageUrls(recordMap, { mapImageUrl })[0]
+  const imageCandidates = [
+    explicitSocialImage ? mapImageUrl(explicitSocialImage, block) : undefined,
+    pageCoverImage ? mapImageUrl(pageCoverImage, block) : undefined,
+    firstPageContentImage,
+    mapImageUrl(libConfig.defaultPageCover, block)
+  ]
 
   const blockIcon = getBlockIcon(block, recordMap)
   const authorImageBlockUrl = mapImageUrl(
@@ -222,29 +222,15 @@ export async function getNotionPageInfo({
   )
   const authorImageFallbackUrl = mapImageUrl(libConfig.defaultPageIcon, block)
   const [authorImage, image] = await Promise.all([
-    getCompatibleImageUrl(authorImageBlockUrl, authorImageFallbackUrl),
-    getCompatibleImageUrl(imageBlockUrl, imageFallbackUrl)
+    getCompatibleImageUrl([authorImageBlockUrl, authorImageFallbackUrl]),
+    getCompatibleImageUrl(imageCandidates)
   ])
 
   const author =
     getPageProperty<string>('Author', block, recordMap) || libConfig.author
 
-  // const socialDescription =
-  //   getPageProperty<string>('Description', block, recordMap) ||
-  //   libConfig.description
-
-  // const lastUpdatedTime = getPageProperty<number>(
-  //   'Last Updated',
-  //   block,
-  //   recordMap
-  // )
   const publishedTime = getPageProperty<number>('Published', block, recordMap)
   const datePublished = publishedTime ? new Date(publishedTime) : undefined
-  // const dateUpdated = lastUpdatedTime
-  //   ? new Date(lastUpdatedTime)
-  //   : publishedTime
-  //   ? new Date(publishedTime)
-  //   : undefined
   const date =
     isBlogPost && datePublished
       ? `${datePublished.toLocaleString('en-US', {
@@ -285,10 +271,9 @@ async function isUrlReachable(
 }
 
 async function getCompatibleImageUrl(
-  url: string | undefined | null,
-  fallbackUrl: string | undefined | null
+  candidates: Array<string | undefined | null>
 ): Promise<string | undefined> {
-  const image = (await isUrlReachable(url)) ? url : fallbackUrl
+  const image = await getFirstReachableUrl(candidates)
 
   if (image) {
     const imageUrl = new URL(image)
@@ -303,4 +288,16 @@ async function getCompatibleImageUrl(
   }
 
   return image ?? undefined
+}
+
+async function getFirstReachableUrl(
+  candidates: Array<string | undefined | null>
+): Promise<string | undefined> {
+  for (const candidate of candidates) {
+    if (await isUrlReachable(candidate)) {
+      return candidate ?? undefined
+    }
+  }
+
+  return undefined
 }

@@ -2,7 +2,7 @@ import Head from 'next/head'
 
 import type * as types from '@/lib/types'
 import * as config from '@/lib/config'
-import { getSocialImageUrl } from '@/lib/get-social-image-url'
+import { cleanDescription } from '@/lib/seo'
 
 export function PageHead({
   site,
@@ -22,9 +22,21 @@ export function PageHead({
   const rssFeedUrl = `${config.host}/feed`
 
   title = title ?? site?.name
-  description = description ?? site?.description
+  const finalDescription = cleanDescription(description ?? site?.description)
 
-  const socialImageUrl = getSocialImageUrl(pageId) || image
+  // Use the social image API for all pages to ensure a consistent preview card
+  const socialImageUrl = pageId
+    ? `${config.host}/api/social-image?id=${pageId}`
+    : image
+
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: config.author,
+    url: config.host,
+    jobTitle: 'Industrial Engineer | Researcher',
+    description: config.description
+  }
 
   return (
     <Head>
@@ -65,11 +77,11 @@ export function PageHead({
         <meta name='twitter:creator' content={`@${config.twitter}`} />
       )}
 
-      {description && (
+      {finalDescription && (
         <>
-          <meta name='description' content={description} />
-          <meta property='og:description' content={description} />
-          <meta name='twitter:description' content={description} />
+          <meta name='description' content={finalDescription} />
+          <meta property='og:description' content={finalDescription} />
+          <meta name='twitter:description' content={finalDescription} />
         </>
       )}
 
@@ -78,6 +90,9 @@ export function PageHead({
           <meta name='twitter:card' content='summary_large_image' />
           <meta name='twitter:image' content={socialImageUrl} />
           <meta property='og:image' content={socialImageUrl} />
+          {/* Fixed dimensions for the generated social card */}
+          <meta property='og:image:width' content='1200' />
+          <meta property='og:image:height' content='630' />
         </>
       ) : (
         <meta name='twitter:card' content='summary' />
@@ -102,7 +117,10 @@ export function PageHead({
       <meta name='twitter:title' content={title} />
       <title>{title}</title>
 
-      {/* Better SEO for the blog posts */}
+      <script type='application/ld+json'>
+        {JSON.stringify(structuredData)}
+      </script>
+
       {isBlogPost && (
         <script type='application/ld+json'>
           {JSON.stringify({
@@ -113,7 +131,7 @@ export function PageHead({
             url,
             headline: title,
             name: title,
-            description,
+            description: finalDescription,
             author: {
               '@type': 'Person',
               name: config.author

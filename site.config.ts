@@ -9,8 +9,8 @@ export default siteConfig({
   rootNotionSpaceId: null,
 
   // basic site info (required)
-  name: 'Next.js Notion Starter Kit',
-  domain: 'nextjs-notion-starter-kit.transitivebullsh.it',
+  name: 'Dewan Hafiz Nabil',
+  domain: 'dewan-hafiz-nabil.com',
   author: 'Dewan Hafiz Nabil',
 
   navigationStyle: 'custom',
@@ -46,19 +46,21 @@ export default siteConfig({
   ],
 
   // open graph metadata (optional)
-  description: 'Example Next.js Notion Starter Kit Site',
+  description:
+    'Hi, This is Dewan Hafiz Nabil (often known as Dewan or Nabil). Industrial Engineer | Researcher | UKRI (EPSRC) Funded PhD Student. From ideas to impact, I explore solutions for a sustainable future.',
 
   // social usernames (optional)
-  twitter: 'transitive_bs',
-  github: 'transitive-bullshit',
-  linkedin: 'fisch2',
+  twitter: 'Dewan_Nabil',
+  github: 'nabilDewan',
+  linkedin: 'dewannabil',
   // mastodon: '#', // optional mastodon profile URL, provides link verification
   // newsletter: '#', // optional newsletter URL
   // youtube: '#', // optional youtube channel name or `channel/UCGbXXXXXXXXXXXXXXXXXXXXXX`
 
   // default notion icon and cover images for site-wide consistency (optional)
   // page-specific values will override these site-wide defaults
-  defaultPageIcon: null,
+  defaultPageIcon:
+    'https://www.notion.so/image/attachment%3A234a15bd-73b5-414b-9a73-ace2f756d42e%3A9131b1e0-e1a3-45ea-adf1-45501ef3f632.png?table=block&id=30445d8f-74b5-8024-8cc7-f5770dde5689&cache=v2',
   defaultPageCover: null,
   defaultPageCoverPosition: 0.5,
 

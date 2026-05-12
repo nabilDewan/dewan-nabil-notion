@@ -3,7 +3,13 @@ import { normalizeTitle, parsePageId } from 'notion-utils'
 
 import type { PageProps } from './types'
 import * as acl from './acl'
-import { environment, navigationLinks, pageUrlAdditions, pageUrlOverrides, site } from './config'
+import {
+  environment,
+  navigationLinks,
+  pageUrlAdditions,
+  pageUrlOverrides,
+  site
+} from './config'
 import { db } from './db'
 import { getSiteMap } from './get-site-map'
 import { getPage } from './notion'

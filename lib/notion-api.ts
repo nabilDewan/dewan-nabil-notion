@@ -14,7 +14,10 @@ let notionRequestQueue: Promise<void> = Promise.resolve()
 function enqueueNotionRequest<T>(fn: () => Promise<T>): Promise<T> {
   const result = notionRequestQueue.then(async () => {
     const now = Date.now()
-    const wait = Math.max(0, NOTION_API_REQUEST_DELAY_MS - (now - lastNotionRequestTime))
+    const wait = Math.max(
+      0,
+      NOTION_API_REQUEST_DELAY_MS - (now - lastNotionRequestTime)
+    )
 
     if (wait > 0) {
       await sleep(wait)
@@ -24,7 +27,10 @@ function enqueueNotionRequest<T>(fn: () => Promise<T>): Promise<T> {
     return fn()
   })
 
-  notionRequestQueue = result.then(() => undefined, () => undefined)
+  notionRequestQueue = result.then(
+    () => undefined,
+    () => undefined
+  )
   return result
 }
 
@@ -44,7 +50,9 @@ notion.getPage = async function (pageId: string, options?: any) {
       }
 
       const delay = NOTION_API_REQUEST_DELAY_MS * attempt
-      console.warn(`Notion API ${err?.statusCode || 'error'} for ${pageId}, retrying in ${delay}ms (attempt ${attempt})`)
+      console.warn(
+        `Notion API ${err?.statusCode || 'error'} for ${pageId}, retrying in ${delay}ms (attempt ${attempt})`
+      )
       await sleep(delay)
       attempt += 1
     }
