@@ -8,6 +8,7 @@ import {
   formatDate,
   getBlockTitle,
   getBlockValue,
+  getPageImageUrls,
   getPageProperty
 } from 'notion-utils'
 import * as React from 'react'
@@ -274,12 +275,15 @@ export function NotionPage({
     ? undefined
     : getCanonicalPageUrl(site, recordMap)(pageId)
 
-  const socialImage = mapImageUrl(
-    getPageProperty<string>('Social Image', block, recordMap) ||
-      (block as PageBlock).format?.page_cover ||
-      config.defaultPageCover,
-    block
-  )
+  const firstPageContentImage = getPageImageUrls(recordMap, { mapImageUrl })[0]
+  const socialImage =
+    mapImageUrl(
+      getPageProperty<string>('Social Image', block, recordMap) ||
+        (block as PageBlock).format?.page_cover,
+      block
+    ) ||
+    firstPageContentImage ||
+    mapImageUrl(config.defaultPageCover, block)
 
   const socialDescription =
     getPageProperty<string>('Description', block, recordMap) ||
