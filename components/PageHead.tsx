@@ -2,10 +2,11 @@ import Head from 'next/head'
 
 import type * as types from '@/lib/types'
 import * as config from '@/lib/config'
-import { cleanDescription } from '@/lib/seo'
+import { getSeoDescription } from '@/lib/seo'
 
 export function PageHead({
   site,
+  recordMap,
   title,
   description,
   pageId,
@@ -22,7 +23,11 @@ export function PageHead({
   const rssFeedUrl = `${config.host}/feed`
 
   title = title ?? site?.name
-  const finalDescription = cleanDescription(description ?? site?.description)
+  const finalDescription = getSeoDescription(
+    description,
+    site?.description,
+    recordMap
+  )
 
   // Use the social image API for all pages to ensure a consistent preview card
   const socialImageUrl = pageId

@@ -17,7 +17,8 @@ export function cleanDescription(
 
 export function getSeoDescription(
   pageDescription: string | null | undefined,
-  siteDescription: string | null | undefined
+  siteDescription: string | null | undefined,
+  recordMap?: any
 ): string {
   const cleanPageDescription = cleanDescription(pageDescription)
 
@@ -31,7 +32,42 @@ export function getSeoDescription(
     return cleanPageDescription
   }
 
+  // Fallback to extracting text from the page content if available
+  if (recordMap) {
+    const pageText = extractPageText(recordMap)
+    if (pageText) {
+      return cleanDescription(pageText)
+    }
+  }
+
   return cleanDescription(siteDescription)
+}
+
+function extractPageText(recordMap: any): string | null {
+  const blocks = Object.values(recordMap.block || {})
+  let text = ''
+
+  for (const blockValue of blocks) {
+    const block = (blockValue as any)?.value
+    if (
+      block &&
+      (block.type === 'text' ||
+        block.type === 'header' ||
+        block.type === 'sub_header' ||
+        block.type === 'sub_sub_header')
+    ) {
+      const blockText = block.properties?.title
+        ?.map((t: any) => t[0])
+        .join('')
+        .trim()
+      if (blockText) {
+        text += blockText + ' '
+        if (text.length > 200) break
+      }
+    }
+  }
+
+  return text.trim() || null
 }
 
 export function absoluteUrl(
