@@ -47,7 +47,7 @@ export default siteConfig({
 
   // open graph metadata (optional)
   description:
-    'Hi, This is Dewan Hafiz Nabil (often known as Dewan or Nabil). Industrial Engineer | Researcher | UKRI (EPSRC) Funded PhD Student. From ideas to impact, I explore solutions for a sustainable future.',
+    'Dewan Hafiz Nabil (Dewan Nabil) is an Industrial Engineer, Researcher, and UKRI (EPSRC) Funded PhD Student exploring sustainable solutions from ideas to impact.',
 
   // social usernames (optional)
   twitter: 'Dewan_Nabil',
