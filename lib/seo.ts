@@ -22,6 +22,7 @@ export function getSeoDescription(
 ): string {
   const cleanPageDescription = cleanDescription(pageDescription)
 
+  // 1. Use explicit page description if provided
   if (
     cleanPageDescription &&
     !starterKitDescriptions.some(
@@ -32,7 +33,7 @@ export function getSeoDescription(
     return cleanPageDescription
   }
 
-  // Fallback to extracting text from the page content if available
+  // 2. Fallback to extracting text from the page content
   if (recordMap) {
     const pageText = extractPageText(recordMap)
     if (pageText) {
@@ -40,6 +41,7 @@ export function getSeoDescription(
     }
   }
 
+  // 3. Final fallback to site description (mostly for home page)
   return cleanDescription(siteDescription)
 }
 
@@ -47,6 +49,8 @@ function extractPageText(recordMap: any): string | null {
   const blocks = Object.values(recordMap.block || {})
   let text = ''
 
+  // Filter for meaningful content blocks and sort them roughly by their appearance
+  // Note: True sorting requires traversing the content tree, but this is a good heuristic
   for (const blockValue of blocks) {
     const block = (blockValue as any)?.value
     if (
@@ -54,15 +58,21 @@ function extractPageText(recordMap: any): string | null {
       (block.type === 'text' ||
         block.type === 'header' ||
         block.type === 'sub_header' ||
-        block.type === 'sub_sub_header')
+        block.type === 'sub_sub_header' ||
+        block.type === 'callout' ||
+        block.type === 'quote')
     ) {
       const blockText = block.properties?.title
-        ?.map((t: any) => t[0])
+        ?.map((t: any) => (Array.isArray(t) ? t[0] : t))
         .join('')
         .trim()
-      if (blockText) {
+      
+      if (blockText && blockText.length > 10) {
+        // Skip very short fragments or common UI text
+        if (blockText.toLowerCase().includes('table of contents')) continue
+        
         text += blockText + ' '
-        if (text.length > 200) break
+        if (text.length > 250) break
       }
     }
   }

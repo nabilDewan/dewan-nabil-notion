@@ -30,8 +30,9 @@ export function PageHead({
   )
 
   // Use the social image API for all pages to ensure a consistent preview card
+  // Append a timestamp to the social image URL to bust social media caches
   const socialImageUrl = pageId
-    ? `${config.host}/api/social-image?id=${pageId}`
+    ? `${config.host}/api/social-image?id=${pageId}&v=${Date.now()}`
     : image
 
   const structuredData = {

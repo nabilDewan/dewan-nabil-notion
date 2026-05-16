@@ -207,11 +207,17 @@ export async function getNotionPageInfo({
     recordMap
   )
   const pageCoverImage = (block as PageBlock).format?.page_cover
-  const firstPageContentImage = getPageImageUrls(recordMap, { mapImageUrl })[0]
+  
+  // Custom logic to find the first actual image block in the content
+  const contentImageUrls = getPageImageUrls(recordMap, { mapImageUrl })
+  const firstContentImage = contentImageUrls.find(url => 
+    url && !url.includes('attachment') && !url.includes('avatar')
+  ) || contentImageUrls[0]
+
   const imageCandidates = [
     explicitSocialImage ? mapImageUrl(explicitSocialImage, block) : undefined,
     pageCoverImage ? mapImageUrl(pageCoverImage, block) : undefined,
-    firstPageContentImage,
+    firstContentImage,
     mapImageUrl(libConfig.defaultPageCover, block)
   ]
 
