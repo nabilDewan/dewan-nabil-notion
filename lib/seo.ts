@@ -58,7 +58,7 @@ function extractPageText(recordMap: any): string | null {
   const processedBlocks = new Set<string>()
 
   // Prioritize meaningful content blocks in order of importance
-  const blockTypePriority = {
+  const blockTypePriority: Record<string, number> = {
     'quote': 5,
     'callout': 4,
     'sub_sub_header': 3,
