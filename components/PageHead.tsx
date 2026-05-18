@@ -26,7 +26,8 @@ export function PageHead({
   const finalDescription = getSeoDescription(
     description,
     site?.description,
-    recordMap
+    recordMap,
+    isBlogPost
   )
 
   // Use the social image API for all pages to ensure a consistent preview card

@@ -18,7 +18,8 @@ export function cleanDescription(
 export function getSeoDescription(
   pageDescription: string | null | undefined,
   siteDescription: string | null | undefined,
-  recordMap?: any
+  recordMap?: any,
+  isBlogPost?: boolean
 ): string {
   const cleanPageDescription = cleanDescription(pageDescription)
 
@@ -41,7 +42,13 @@ export function getSeoDescription(
     }
   }
 
-  // 3. Final fallback to site description (mostly for home page)
+  // 3. Final fallback:
+  // If it's a blog post and we still have no description, DO NOT use the site bio.
+  // This prevents the generic "Dewan Hafiz Nabil is an Industrial Engineer..." from appearing on blogs.
+  if (isBlogPost) {
+    return ''
+  }
+
   return cleanDescription(siteDescription)
 }
 

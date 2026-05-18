@@ -210,9 +210,17 @@ export async function getNotionPageInfo({
   
   // Custom logic to find the first actual image block in the content
   const contentImageUrls = getPageImageUrls(recordMap, { mapImageUrl })
-  const firstContentImage = contentImageUrls.find(url => 
-    url && !url.includes('attachment') && !url.includes('avatar')
-  ) || contentImageUrls[0]
+  
+  // Be more aggressive in finding a meaningful content image
+  const firstContentImage = contentImageUrls.find(url => {
+    if (!url) return false
+    const lUrl = url.toLowerCase()
+    // Exclude common small icons, avatars, and UI elements
+    return !lUrl.includes('avatar') && 
+           !lUrl.includes('icon') && 
+           !lUrl.includes('logo') &&
+           !lUrl.includes('profile')
+  }) || contentImageUrls[0]
 
   const imageCandidates = [
     explicitSocialImage ? mapImageUrl(explicitSocialImage, block) : undefined,
@@ -243,7 +251,9 @@ export async function getNotionPageInfo({
           month: 'long'
         })} ${datePublished.getFullYear()}`
       : undefined
-  const detail = date || author || libConfig.domain
+  // For blog posts, we want to prioritize the date or specific detail, 
+  // and NOT show the generic site bio if possible.
+  const detail = date || (isBlogPost ? author : (author || libConfig.domain))
 
   const pageInfo: NotionPageInfo = {
     pageId,
