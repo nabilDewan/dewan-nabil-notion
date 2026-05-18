@@ -74,4 +74,5 @@ export interface NotionPageInfo {
   author?: string
   authorImage?: string
   detail?: string
+  excerpt?: string
 }

@@ -31,9 +31,11 @@ export function PageHead({
   )
 
   // Use the social image API for all pages to ensure a consistent preview card
-  // Append a timestamp to the social image URL to bust social media caches
+  // Use a cache buster based on the current date (changes daily) to refresh social media previews
+  // This is safer than using timestamps which can cause cache issues
+  const cacheBuster = new Date().toISOString().split('T')[0]
   const socialImageUrl = pageId
-    ? `${config.host}/api/social-image?id=${pageId}&v=${Date.now()}`
+    ? `${config.host}/api/social-image?id=${pageId}&v=${cacheBuster}`
     : image
 
   const structuredData = {

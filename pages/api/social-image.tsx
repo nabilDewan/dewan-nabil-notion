@@ -208,19 +208,24 @@ export async function getNotionPageInfo({
   )
   const pageCoverImage = (block as PageBlock).format?.page_cover
   
-  // Custom logic to find the first actual image block in the content
+  // Custom logic to find the most relevant image from content
   const contentImageUrls = getPageImageUrls(recordMap, { mapImageUrl })
   
-  // Be more aggressive in finding a meaningful content image
-  const firstContentImage = contentImageUrls.find(url => {
+  // Filter out common UI elements and find the most relevant content image
+  const relevantContentImages = contentImageUrls.filter(url => {
     if (!url) return false
     const lUrl = url.toLowerCase()
     // Exclude common small icons, avatars, and UI elements
     return !lUrl.includes('avatar') && 
            !lUrl.includes('icon') && 
            !lUrl.includes('logo') &&
-           !lUrl.includes('profile')
-  }) || contentImageUrls[0]
+           !lUrl.includes('profile') &&
+           !lUrl.includes('favicon') &&
+           !lUrl.includes('badge')
+  })
+  
+  // Prioritize larger images (typically more meaningful)
+  const firstContentImage = relevantContentImages[0]
 
   const imageCandidates = [
     explicitSocialImage ? mapImageUrl(explicitSocialImage, block) : undefined,
@@ -251,10 +256,18 @@ export async function getNotionPageInfo({
           month: 'long'
         })} ${datePublished.getFullYear()}`
       : undefined
-  // For blog posts, we want to prioritize the date or specific detail, 
-  // and NOT show the generic site bio if possible.
-  const detail = date || (isBlogPost ? author : (author || libConfig.domain))
+  
+  // Extract a meaningful subtitle/detail for the OG image
+  // For blog posts, prioritize: date > category > author
+  // For regular pages, prioritize: category > author > domain
+  const category = getPageProperty<string>('Category', block, recordMap) ||
+                   getPageProperty<string>('Topic', block, recordMap)
+  
+  const detail = date || category || (isBlogPost ? author : (author || libConfig.domain))
 
+  // Extract a meaningful excerpt for better social sharing
+  const excerpt = extractPageExcerpt(recordMap, title)
+  
   const pageInfo: NotionPageInfo = {
     pageId,
     title,
@@ -262,7 +275,8 @@ export async function getNotionPageInfo({
     imageObjectPosition,
     author,
     authorImage,
-    detail
+    detail,
+    excerpt
   }
 
   return {
@@ -316,4 +330,41 @@ async function getFirstReachableUrl(
   }
 
   return undefined
+}
+
+function extractPageExcerpt(recordMap: any, fallback: string): string {
+  const blocks = Object.values(recordMap.block || {})
+  const blockTypePriority: Record<string, number> = {
+    'quote': 5,
+    'callout': 4,
+    'text': 1
+  }
+
+  // Find high-priority content blocks
+  for (const blockValue of blocks) {
+    const block = (blockValue as any)?.value
+    if (!block) continue
+
+    const priority = blockTypePriority[block.type] || 0
+    if (priority === 0) continue
+
+    const blockText = block.properties?.title
+      ?.map((t: any) => (Array.isArray(t) ? t[0] : t))
+      .join('')
+      .trim()
+
+    if (blockText && blockText.length > 20) {
+      const lowerText = blockText.toLowerCase()
+      // Skip UI text
+      if (
+        !lowerText.includes('table of contents') &&
+        !lowerText.includes('related posts') &&
+        !lowerText.includes('subscribe')
+      ) {
+        return blockText.slice(0, 120)
+      }
+    }
+  }
+
+  return fallback.slice(0, 120)
 }

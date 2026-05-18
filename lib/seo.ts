@@ -55,32 +55,57 @@ export function getSeoDescription(
 function extractPageText(recordMap: any): string | null {
   const blocks = Object.values(recordMap.block || {})
   let text = ''
+  const processedBlocks = new Set<string>()
 
-  // Filter for meaningful content blocks and sort them roughly by their appearance
-  // Note: True sorting requires traversing the content tree, but this is a good heuristic
-  for (const blockValue of blocks) {
-    const block = (blockValue as any)?.value
-    if (
-      block &&
-      (block.type === 'text' ||
-        block.type === 'header' ||
-        block.type === 'sub_header' ||
-        block.type === 'sub_sub_header' ||
-        block.type === 'callout' ||
-        block.type === 'quote')
-    ) {
-      const blockText = block.properties?.title
-        ?.map((t: any) => (Array.isArray(t) ? t[0] : t))
-        .join('')
-        .trim()
-      
-      if (blockText && blockText.length > 10) {
-        // Skip very short fragments or common UI text
-        if (blockText.toLowerCase().includes('table of contents')) continue
-        
-        text += blockText + ' '
-        if (text.length > 250) break
+  // Prioritize meaningful content blocks in order of importance
+  const blockTypePriority = {
+    'quote': 5,
+    'callout': 4,
+    'sub_sub_header': 3,
+    'sub_header': 3,
+    'header': 2,
+    'text': 1
+  }
+
+  // Sort blocks by priority (higher priority first)
+  const sortedBlocks = Object.entries(recordMap.block || {})
+    .map(([id, blockValue]: [string, any]) => ({
+      id,
+      value: blockValue?.value,
+      priority: blockTypePriority[(blockValue?.value?.type as string) || ''] || 0
+    }))
+    .filter(item => item.priority > 0)
+    .sort((a, b) => b.priority - a.priority)
+
+  for (const item of sortedBlocks) {
+    if (processedBlocks.has(item.id)) continue
+    
+    const block = item.value
+    if (!block) continue
+
+    const blockText = block.properties?.title
+      ?.map((t: any) => (Array.isArray(t) ? t[0] : t))
+      .join('')
+      .trim()
+    
+    if (blockText && blockText.length > 10) {
+      // Skip very short fragments or common UI text
+      const lowerText = blockText.toLowerCase()
+      if (
+        lowerText.includes('table of contents') ||
+        lowerText.includes('related posts') ||
+        lowerText.includes('subscribe') ||
+        lowerText.includes('share this')
+      ) {
+        continue
       }
+      
+      processedBlocks.add(item.id)
+      text += blockText + ' '
+      
+      // For high-priority blocks (quotes, callouts), we can stop earlier
+      if (item.priority >= 4 && text.length > 150) break
+      if (text.length > 300) break
     }
   }
 
