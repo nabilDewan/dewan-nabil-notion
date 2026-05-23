@@ -34,9 +34,9 @@ export function PageHead({
   // Use a cache buster based on the current date (changes daily) to refresh social media previews
   // This is safer than using timestamps which can cause cache issues
   const cacheBuster = new Date().toISOString().split('T')[0]
-  const socialImageUrl = pageId
+  const socialImageUrl = image || (pageId
     ? `${config.host}/api/social-image?id=${pageId}&v=${cacheBuster}`
-    : image
+    : null)
 
   const structuredData = {
     '@context': 'https://schema.org',
