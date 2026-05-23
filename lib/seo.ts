@@ -22,10 +22,12 @@ export function getSeoDescription(
   isBlogPost?: boolean
 ): string {
   const cleanPageDescription = cleanDescription(pageDescription)
+  const cleanSiteDescription = cleanDescription(siteDescription)
 
-  // 1. Use explicit page description if provided
+  // 1. Use explicit page description if provided AND it's not just the generic site description
   if (
     cleanPageDescription &&
+    cleanPageDescription !== cleanSiteDescription &&
     !starterKitDescriptions.some(
       (description) =>
         cleanPageDescription.toLowerCase() === description.toLowerCase()
@@ -49,7 +51,7 @@ export function getSeoDescription(
     return ''
   }
 
-  return cleanDescription(siteDescription)
+  return cleanSiteDescription
 }
 
 function extractPageText(recordMap: any): string | null {
