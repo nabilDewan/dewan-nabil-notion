@@ -204,6 +204,15 @@ To enable, just add a `NEXT_PUBLIC_POSTHOG_ID` environment variable, which will 
 
 If you're using Redis, analytics, or any other feature which requires environment variables, then you'll need to [add them to your Vercel project](https://vercel.com/docs/concepts/projects/environment-variables).
 
+### Notion 403 errors during build
+
+If a build fails with `403 Forbidden` from `https://www.notion.so/api/v3/loadPageChunk`, Notion is refusing to serve the page anonymously. There are two causes:
+
+1. **The page isn't public.** Open the root page in Notion and turn on **Share → Publish to web**. This is the most common cause, and no environment variable can work around it.
+2. **Notion is blocking the build machine's IP.** Notion sometimes rejects unauthenticated requests from datacenter IPs. Two workarounds, either of which is enough:
+   - Set `NOTION_API_BASE_URL` to a proxy that forwards to `https://www.notion.so/api/v3`, so requests originate elsewhere.
+   - Set `NOTION_AUTH_TOKEN` to your Notion `token_v2` cookie (optionally with `NOTION_ACTIVE_USER` and `NOTION_USER_TIME_ZONE`) so requests are authenticated. Note that this cookie is an account-wide credential and expires periodically.
+
 If you want to test your redis builds with GitHub Actions, then you'll need to edit the [default build action](./.github/workflows/build.yml) to add `REDIS_HOST` and `REDIS_PASSWORD`. Here is an [example from my personal branch](https://github.com/transitive-bullshit/nextjs-notion-starter-kit/blob/transitive-bullshit/.github/workflows/build.yml#L17-L21). You'll also need to add these environment variables to your GitHub repo as [repository secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets).
 
 ## Contributing

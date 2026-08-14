@@ -64,7 +64,16 @@ async function getAllPagesImpl(
     (map: Record<string, string>, pageId: string) => {
       const recordMap = pageMap[pageId]
       if (!recordMap) {
-        throw new Error(`Error loading page "${pageId}"`)
+        // The root page is load-bearing: without it there is no site, so fail
+        // the build loudly rather than deploying an empty one. Any other page
+        // failing to load is tolerated so one bad page can't block a deploy —
+        // it is simply left out of the site map.
+        if (uuidToId(pageId) === uuidToId(rootNotionPageId)) {
+          throw new Error(`Error loading root page "${pageId}"`)
+        }
+
+        console.warn(`error loading page "${pageId}"; omitting from site map`)
+        return map
       }
 
       const block = getBlockValue(recordMap.block[pageId])

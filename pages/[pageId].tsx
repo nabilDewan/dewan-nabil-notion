@@ -18,9 +18,10 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async (
   } catch (err) {
     console.error('page error', domain, rawPageId, err)
 
-    // we don't want to publish the error version of this page, so
-    // let next.js know explicitly that incremental SSG failed
-    throw err
+    // we don't want to publish the error version of this page, but we also
+    // don't want one unreachable page to fail the entire build, so serve a 404
+    // and let ISR re-attempt the page on the next request after `revalidate`
+    return { notFound: true, revalidate: 60 }
   }
 }
 
@@ -41,7 +42,10 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false
+    // 'blocking' so that any page missing from the site map at build time (e.g.
+    // because Notion was briefly unreachable) is still rendered on demand
+    // instead of hard-404ing until the next deploy
+    fallback: 'blocking'
   }
 }
 
