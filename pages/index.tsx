@@ -1,6 +1,6 @@
 import type { PageProps } from '@/lib/types'
 import { NotionPage } from '@/components/NotionPage'
-import { domain } from '@/lib/config'
+import { domain, site } from '@/lib/config'
 import { resolveNotionPage } from '@/lib/resolve-notion-page'
 
 export const getStaticProps = async () => {
@@ -11,9 +11,20 @@ export const getStaticProps = async () => {
   } catch (err) {
     console.error('page error', domain, err)
 
-    // we don't want to publish the error version of this page, so
-    // let next.js know explicitly that incremental SSG failed
-    throw err
+    // Notion being unreachable must not fail the build, otherwise a transient
+    // API error means no deploy at all. Render an error page with a short
+    // revalidate so ISR replaces it with the real homepage as soon as Notion
+    // responds again — without needing a redeploy.
+    return {
+      props: {
+        site,
+        error: {
+          message: `Unable to load the site's Notion content: ${(err as Error)?.message}`,
+          statusCode: 503
+        }
+      } satisfies PageProps,
+      revalidate: 10
+    }
   }
 }
 
