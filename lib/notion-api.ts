@@ -1,7 +1,15 @@
 import { NotionAPI } from 'notion-client'
 
 export const notion = new NotionAPI({
-  apiBaseUrl: process.env.NOTION_API_BASE_URL
+  apiBaseUrl: process.env.NOTION_API_BASE_URL,
+  // Notion's current Cloudflare protection rejects API requests without a
+  // User-Agent header, including builds running on Vercel.
+  ofetchOptions: {
+    headers: {
+      'User-Agent':
+        'Mozilla/5.0 (compatible; DewanHafizNabilSite/1.0; +https://dewan-hafiz-nabil.com)'
+    }
+  }
 })
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
