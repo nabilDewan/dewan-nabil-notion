@@ -726,3 +726,30 @@
 .notion-equation.notion-equation-block {
   align-items: center;
 }
+
+
+/*
+ * The Research & Projects page contains several embedded Notion assets.
+ * Keep that page in a fixed-width vertical flow on touch devices so embeds
+ * cannot introduce sideways movement while the user scrolls.
+ */
+@media only screen and (max-width: 768px) {
+  .notion-block-25110164209144858a9c9be596dd7b46 {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    overscroll-behavior-x: none;
+    touch-action: pan-y;
+  }
+
+  .notion-block-25110164209144858a9c9be596dd7b46 .notion-page,
+  .notion-block-25110164209144858a9c9be596dd7b46 .notion-page-content,
+  .notion-block-25110164209144858a9c9be596dd7b46 .notion-asset-wrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .notion-block-25110164209144858a9c9be596dd7b46 .notion-asset-wrapper {
+    overflow: hidden;
+  }
+}
