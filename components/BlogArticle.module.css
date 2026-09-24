@@ -136,7 +136,7 @@
 .share {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
   gap: 0.5rem 1.5rem;
 }
@@ -153,25 +153,66 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.25rem 1.25rem;
+  gap: 0.6rem;
 }
 
+/* each button carries a soft tint of its brand colour (--brand) */
 .shareButton {
+  --brand: var(--blog-ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   font: inherit;
-  font-size: 0.9rem;
-  color: var(--blog-ink);
-  background: none;
-  border: 0;
-  padding: 0;
+  font-family: var(--notion-font);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brand) 26%, transparent);
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
   cursor: pointer;
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 4px;
-  transition: text-decoration-color 200ms ease;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    transform 200ms ease;
 }
 
 .shareButton:hover {
-  text-decoration-color: currentColor;
+  background: color-mix(in srgb, var(--brand) 15%, transparent);
+  border-color: color-mix(in srgb, var(--brand) 45%, transparent);
+  transform: translateY(-1px);
+}
+
+.shareButton svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+.linkedin {
+  --brand: #0a66c2;
+}
+
+.email {
+  --brand: #c2410c;
+}
+
+.copy {
+  --brand: #0f766e;
+}
+
+:global(.dark-mode) .linkedin {
+  --brand: #6cb3f5;
+}
+
+:global(.dark-mode) .email {
+  --brand: #fb923c;
+}
+
+:global(.dark-mode) .copy {
+  --brand: #2dd4bf;
 }
 
 .authorCard {

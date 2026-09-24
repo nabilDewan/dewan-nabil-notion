@@ -9,17 +9,17 @@ const socialLinks = [
   {
     title: 'Google Scholar',
     href: 'https://scholar.google.com/citations?user=gJ4XFLAAAAAJ&hl=en',
-    label: 'Google Scholar'
+    label: '🎓'
   },
   {
     title: 'LinkedIn',
     href: 'https://www.linkedin.com/in/dh-nabil/',
-    label: 'LinkedIn'
+    label: 'in'
   },
   {
     title: 'ResearchGate',
     href: 'https://www.researchgate.net/profile/Dewan-Nabil',
-    label: 'ResearchGate'
+    label: 'RG'
   }
 ]
 
@@ -65,13 +65,15 @@ export function FooterImpl() {
             rel='noopener noreferrer'
             className={styles.footerSocialButton}
           >
-            {link.label}
+            <span style={{ fontSize: '0.95rem', fontWeight: 700 }}>
+              {link.label}
+            </span>
           </a>
         ))}
       </div>
 
       <div className={styles.copyright}>
-        © {currentYear} {config.author}. All rights reserved.
+        Copyright © {currentYear} | {config.author} | All rights reserved.
       </div>
     </footer>
   )
