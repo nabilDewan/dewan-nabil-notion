@@ -23,7 +23,12 @@ export interface ScholarMetrics {
  * blocks requests from cloud servers). Update these occasionally from your
  * profile; set to null to hide the metrics whenever the live fetch fails.
  */
-export const scholarFallback: ScholarMetrics | null = null
+export const scholarFallback: ScholarMetrics | null = {
+  // from Google Scholar, September 2026
+  citations: 127,
+  hIndex: 4,
+  i10Index: 4
+}
 
 /**
  * Reads the "Cited by" table (#gsc_rsb_st) from a Scholar profile page. Its
