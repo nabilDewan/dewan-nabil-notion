@@ -100,7 +100,8 @@ export function NotionPageHeader({
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}
             aria-expanded={isMobileMenuOpen}
           >
-            Menu {isMobileMenuOpen ? '▲' : '▼'}
+            <span>Menu</span>
+            <span aria-hidden='true'>{isMobileMenuOpen ? '✕' : '☰'}</span>
           </button>
 
           {isMobileMenuOpen && (

@@ -420,8 +420,9 @@
   opacity: 1;
   color: #0066cc;
   text-decoration: underline;
-  text-decoration-thickness: 1.5px;
-  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  text-underline-offset: 3px;
 }
 
 .dark-mode .notion-link {
@@ -430,7 +431,7 @@
 
 .notion-link:hover {
   color: #0052a3;
-  text-decoration-thickness: 2px;
+  text-decoration-color: currentColor;
 }
 
 .dark-mode .notion-link:hover {
@@ -727,7 +728,6 @@
   align-items: center;
 }
 
-
 /*
  * The Research & Projects page contains several embedded Notion assets.
  * Keep that page in a fixed-width vertical flow on touch devices so embeds
@@ -752,4 +752,21 @@
   .notion-block-25110164209144858a9c9be596dd7b46 .notion-asset-wrapper {
     overflow: hidden;
   }
+}
+
+/* Research page: Google Scholar metrics (rendered before the title) sit
+   directly beneath it */
+.research-page > .notion-page-icon-hero,
+.research-page > .notion-title {
+  order: -1;
+}
+
+/* serif page titles and section headings, matching the blog */
+.notion-title,
+.notion-h1,
+.notion-h2,
+.notion-h3 {
+  font-family: var(--font-serif), var(--font-serif-fallback);
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }

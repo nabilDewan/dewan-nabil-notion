@@ -100,6 +100,20 @@ body.dark-mode {
   margin: 0 0 1.4em;
 }
 
+/* empty lines in Notion would add extra gaps on top of paragraph spacing */
+.blog-article .notion-blank {
+  min-height: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* sections open with a heading, so the gap above it is enough on its own */
+.blog-article .notion-hr + .notion-h,
+.blog-article .notion-hr + .notion-blank + .notion-h {
+  margin-top: 0.4em;
+}
+
 .blog-article .notion-h {
   font-family: var(--font-serif), var(--font-serif-fallback);
   color: var(--blog-ink);
@@ -110,17 +124,17 @@ body.dark-mode {
 
 .blog-article .notion-h1 {
   font-size: 1.95rem;
-  margin: 2em 0 0.6em;
+  margin: 1.6em 0 0.55em;
 }
 
 .blog-article .notion-h2 {
   font-size: 1.6rem;
-  margin: 1.8em 0 0.55em;
+  margin: 1.5em 0 0.5em;
 }
 
 .blog-article .notion-h3 {
   font-size: 1.28rem;
-  margin: 1.7em 0 0.5em;
+  margin: 1.4em 0 0.45em;
 }
 
 .blog-article .notion-list {
@@ -154,7 +168,7 @@ body.dark-mode {
 }
 
 .blog-article .notion-quote {
-  margin: 2.25em 0;
+  margin: 1.6em 0;
   padding: 0 0 0 1.4em;
   border-left: 1px solid var(--blog-ink);
   border-radius: 0;
@@ -176,7 +190,7 @@ body.dark-mode {
 
 .blog-article .notion-hr {
   width: 48px;
-  margin: 3em auto;
+  margin: 1.75em auto;
   border: 0;
   border-top: 1px solid var(--blog-rule-strong);
 }

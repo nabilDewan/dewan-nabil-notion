@@ -9,7 +9,8 @@ import {
   getBlockTitle,
   getBlockValue,
   getPageImageUrls,
-  getPageProperty
+  getPageProperty,
+  parsePageId
 } from 'notion-utils'
 import * as React from 'react'
 import BodyClassName from 'react-body-classname'
@@ -26,6 +27,7 @@ import { getArticleMeta, isBlogArticle, isBlogIndexPage } from '@/lib/blog'
 import * as config from '@/lib/config'
 import { mapImageUrl } from '@/lib/map-image-url'
 import { getCanonicalPageUrl, mapPageUrl } from '@/lib/map-page-url'
+import { researchPageId } from '@/lib/scholar'
 import { searchNotion } from '@/lib/search-notion'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
@@ -36,6 +38,7 @@ import { NotionPageHeader } from './NotionPageHeader'
 import { Page404 } from './Page404'
 import { PageAside } from './PageAside'
 import { PageHead } from './PageHead'
+import { ScholarMetrics } from './ScholarMetrics'
 import styles from './styles.module.css'
 
 // -----------------------------------------------------------------------------
@@ -234,6 +237,8 @@ export function NotionPage({
     block?.type === 'page' && block?.parent_table === 'collection'
   const isArticle = !!recordMap && isBlogArticle(block, recordMap)
   const isBlogIndex = isBlogIndexPage(pageId)
+  const isResearchPage =
+    !!researchPageId && parsePageId(pageId) === researchPageId
 
   const articleMeta = React.useMemo(
     () => (isArticle && block ? getArticleMeta(block, recordMap!) : null),
@@ -300,6 +305,8 @@ export function NotionPage({
 
   const pageHeader = articleMeta ? (
     <ArticleHeader title={title} meta={articleMeta} />
+  ) : isResearchPage ? (
+    <ScholarMetrics />
   ) : undefined
 
   const pageFooter = articleMeta ? (
@@ -331,7 +338,8 @@ export function NotionPage({
           styles.notion,
           pageId === site.rootNotionPageId && 'index-page',
           isArticle && 'blog-article',
-          isBlogIndex && 'blog-index'
+          isBlogIndex && 'blog-index',
+          isResearchPage && 'research-page'
         )}
         darkMode={isDarkMode}
         components={notionRendererComponents}
