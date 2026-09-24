@@ -15,13 +15,16 @@ const aboutPageId = config.navigationLinks?.find(
   (link) => link && /about/i.test(link.title)
 )?.pageId
 
+// photo shown next to the author's name at the top and bottom of each post
+const authorImage = config.defaultPageIcon
+
 function Avatar({ size }: { size: number }) {
-  if (!config.defaultPageIcon) return null
+  if (!authorImage) return null
 
   return (
     <img
       className={styles.avatar}
-      src={config.defaultPageIcon}
+      src={authorImage}
       alt={config.author}
       width={size}
       height={size}
@@ -53,20 +56,19 @@ export function ArticleHeader({
 }) {
   return (
     <header className={styles.header}>
-      <div className={styles.eyebrow}>
-        <BackToBlog />
-        {meta.tags.length > 0 && (
-          <ul className={styles.tags} aria-label='Topics'>
-            {meta.tags.slice(0, 3).map((tag) => (
-              <li key={tag} className={styles.tag}>
-                {tag}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <BackToBlog className={styles.headerBackLink} />
 
       <h1 className={styles.title}>{title}</h1>
+
+      {meta.tags.length > 0 && (
+        <ul className={styles.tags} aria-label='Topics'>
+          {meta.tags.slice(0, 3).map((tag) => (
+            <li key={tag} className={styles.tag}>
+              {tag}
+            </li>
+          ))}
+        </ul>
+      )}
 
       {meta.description && <p className={styles.dek}>{meta.description}</p>}
 
@@ -130,7 +132,7 @@ function ShareLinks({ title, url }: { title: string; url?: string }) {
 
   return (
     <div className={styles.share}>
-      <span className={styles.shareLabel}>Share this article</span>
+      <span className={styles.shareLabel}>Share</span>
       <div className={styles.shareButtons}>
         {links.map((link) => (
           <a
