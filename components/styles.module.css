@@ -101,19 +101,22 @@
   gap: 0.6rem;
 }
 
+/* rounded rectangles with a faint brand tint, echoing the blog's share
+   buttons, so they read differently from the pill page links above */
 .footerSocialButton {
-  height: 2.6rem;
-  border-radius: 9999px;
+  height: 2.5rem;
+  border-radius: 10px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0 1.05rem;
-  font-size: 0.88rem;
+  padding: 0 0.95rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  background: var(--footer-link-bg);
+  background: color-mix(in srgb, var(--brand, currentColor) 7%, transparent);
   color: var(--site-fg);
-  border: 1px solid var(--blog-rule-strong);
+  border: 1px solid
+    color-mix(in srgb, var(--brand, currentColor) 24%, transparent);
   transition:
     transform 200ms ease,
     background 200ms ease,
@@ -122,8 +125,8 @@
 
 .footerSocialButton:hover {
   transform: translateY(-1px);
-  background: var(--footer-link-hover);
-  border-color: var(--nav-border);
+  background: color-mix(in srgb, var(--brand, currentColor) 13%, transparent);
+  border-color: color-mix(in srgb, var(--brand, currentColor) 42%, transparent);
 }
 
 /* icons carry a touch of each network's colour; the names stay neutral */

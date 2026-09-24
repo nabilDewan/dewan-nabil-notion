@@ -352,7 +352,8 @@
 .notion-title::after {
   content: '';
   display: block;
-  width: 160px;
+  width: 220px;
+  max-width: 60%;
   height: 1px;
   margin: 1.1rem auto 0;
   background: linear-gradient(

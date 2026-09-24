@@ -157,8 +157,12 @@
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--blog-muted);
+  color: #b4453a;
   animation: softPulse 2.8s ease-in-out infinite;
+}
+
+:global(.dark-mode) .shareLabel {
+  color: #f08a80;
 }
 
 @media (prefers-reduced-motion: reduce) {
