@@ -12,13 +12,17 @@ export function PageHead({
   pageId,
   image,
   url,
-  isBlogPost
+  isBlogPost,
+  publishedTime,
+  tags
 }: types.PageProps & {
   title?: string
   description?: string
   image?: string
   url?: string
   isBlogPost?: boolean
+  publishedTime?: number
+  tags?: string[]
 }) {
   const rssFeedUrl = `${config.host}/feed`
 
@@ -34,9 +38,11 @@ export function PageHead({
   // Use a cache buster based on the current date (changes daily) to refresh social media previews
   // This is safer than using timestamps which can cause cache issues
   const cacheBuster = new Date().toISOString().split('T')[0]
-  const socialImageUrl = image || (pageId
-    ? `${config.host}/api/social-image?id=${pageId}&v=${cacheBuster}`
-    : null)
+  const socialImageUrl =
+    image ||
+    (pageId
+      ? `${config.host}/api/social-image?id=${pageId}&v=${cacheBuster}`
+      : null)
 
   const structuredData = {
     '@context': 'https://schema.org',
@@ -73,7 +79,19 @@ export function PageHead({
       />
 
       <meta name='robots' content='index,follow' />
-      <meta property='og:type' content='website' />
+      <meta property='og:type' content={isBlogPost ? 'article' : 'website'} />
+
+      {isBlogPost && publishedTime && (
+        <meta
+          property='article:published_time'
+          content={new Date(publishedTime).toISOString()}
+        />
+      )}
+      {isBlogPost && <meta property='article:author' content={config.author} />}
+      {isBlogPost &&
+        tags?.map((tag) => (
+          <meta key={tag} property='article:tag' content={tag} />
+        ))}
 
       {site && (
         <>
@@ -143,8 +161,13 @@ export function PageHead({
             description: finalDescription,
             author: {
               '@type': 'Person',
-              name: config.author
+              name: config.author,
+              url: config.host
             },
+            ...(publishedTime && {
+              datePublished: new Date(publishedTime).toISOString()
+            }),
+            ...(tags?.length && { keywords: tags.join(', ') }),
             image: socialImageUrl
           })}
         </script>

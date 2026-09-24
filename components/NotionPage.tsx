@@ -22,12 +22,14 @@ import { EmbeddedTweet, TweetNotFound, TweetSkeleton } from 'react-tweet'
 import { useSearchParam } from 'react-use'
 
 import type * as types from '@/lib/types'
+import { getArticleMeta, isBlogArticle, isBlogIndexPage } from '@/lib/blog'
 import * as config from '@/lib/config'
 import { mapImageUrl } from '@/lib/map-image-url'
 import { getCanonicalPageUrl, mapPageUrl } from '@/lib/map-page-url'
 import { searchNotion } from '@/lib/search-notion'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
+import { ArticleFooter, ArticleHeader, ReadingProgress } from './BlogArticle'
 import { Footer } from './Footer'
 import { Loading } from './Loading'
 import { NotionPageHeader } from './NotionPageHeader'
@@ -230,6 +232,13 @@ export function NotionPage({
   //   parsePageId(block?.id) === parsePageId(site?.rootNotionPageId)
   const isBlogPost =
     block?.type === 'page' && block?.parent_table === 'collection'
+  const isArticle = !!recordMap && isBlogArticle(block, recordMap)
+  const isBlogIndex = isBlogIndexPage(pageId)
+
+  const articleMeta = React.useMemo(
+    () => (isArticle && block ? getArticleMeta(block, recordMap!) : null),
+    [isArticle, block, recordMap]
+  )
 
   const showTableOfContents = false
   const minTableOfContentsItems = 3
@@ -289,6 +298,14 @@ export function NotionPage({
     getPageProperty<string>('Description', block, recordMap) ||
     config.description
 
+  const pageHeader = articleMeta ? (
+    <ArticleHeader title={title} meta={articleMeta} />
+  ) : undefined
+
+  const pageFooter = articleMeta ? (
+    <ArticleFooter title={title} url={canonicalPageUrl} />
+  ) : undefined
+
   return (
     <>
       <PageHead
@@ -300,15 +317,21 @@ export function NotionPage({
         image={socialImage}
         url={canonicalPageUrl}
         isBlogPost={isBlogPost}
+        publishedTime={articleMeta?.publishedTime ?? undefined}
+        tags={articleMeta?.tags}
       />
 
+      {articleMeta && !isLiteMode && <ReadingProgress />}
+      {articleMeta && <BodyClassName className='blog-article-page' />}
       {isLiteMode && <BodyClassName className='notion-lite' />}
       {isDarkMode && <BodyClassName className='dark-mode' />}
 
       <NotionRenderer
         bodyClassName={cs(
           styles.notion,
-          pageId === site.rootNotionPageId && 'index-page'
+          pageId === site.rootNotionPageId && 'index-page',
+          isArticle && 'blog-article',
+          isBlogIndex && 'blog-index'
         )}
         darkMode={isDarkMode}
         components={notionRendererComponents}
@@ -327,6 +350,8 @@ export function NotionPage({
         mapImageUrl={mapImageUrl}
         searchNotion={config.isSearchEnabled ? searchNotion : undefined}
         pageAside={pageAside}
+        pageHeader={pageHeader}
+        pageFooter={pageFooter}
         footer={<Footer />}
       />
     </>
