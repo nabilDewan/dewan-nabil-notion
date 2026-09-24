@@ -2,12 +2,12 @@
 
 .header {
   width: 100%;
-  margin: 1rem auto 3rem;
+  margin: 0.5rem auto 2.25rem;
   text-align: center;
 }
 
 .headerBackLink {
-  margin-bottom: 2.25rem;
+  margin-bottom: 1.75rem;
 }
 
 .backLink {
@@ -15,15 +15,15 @@
   align-items: center;
   gap: 0.45rem;
   font-size: 0.72rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--blog-muted);
-  transition: color 200ms ease;
+  color: var(--blog-teal);
+  transition: opacity 200ms ease;
 }
 
 .backLink:hover {
-  color: var(--blog-ink);
+  opacity: 0.75;
 }
 
 .title {
@@ -115,7 +115,7 @@
   display: block;
   width: 48px;
   height: 1px;
-  margin: 2.5rem auto 0;
+  margin: 2rem auto 0;
   background: var(--blog-rule-strong);
 }
 
@@ -123,13 +123,13 @@
 
 .articleFooter {
   width: 100%;
-  margin-top: 4rem;
-  padding-top: 2.5rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
   border-top: 1px solid var(--blog-rule);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3rem;
+  gap: 2.25rem;
   text-align: center;
 }
 
@@ -141,12 +141,30 @@
   gap: 0.5rem 1.5rem;
 }
 
+@keyframes softPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
 .shareLabel {
   font-size: 0.7rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--blog-muted);
+  animation: softPulse 2.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shareLabel {
+    animation: none;
+  }
 }
 
 .shareButtons {
@@ -253,9 +271,10 @@
   display: inline-block;
   margin-top: 0.9rem;
   font-size: 0.9rem;
-  color: var(--blog-ink);
+  font-weight: 600;
+  color: var(--blog-accent);
   text-decoration: underline;
-  text-decoration-color: var(--blog-rule-strong);
+  text-decoration-color: var(--blog-accent-soft);
   text-underline-offset: 4px;
   transition: text-decoration-color 200ms ease;
 }

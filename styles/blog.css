@@ -18,6 +18,7 @@
   --blog-rule-strong: rgba(20, 22, 31, 0.2);
   --blog-accent: #0b5cad;
   --blog-accent-soft: rgba(11, 92, 173, 0.28);
+  --blog-teal: #0f766e;
 }
 
 body.dark-mode {
@@ -28,6 +29,7 @@ body.dark-mode {
   --blog-rule-strong: rgba(255, 255, 255, 0.22);
   --blog-accent: #8cc4ff;
   --blog-accent-soft: rgba(140, 196, 255, 0.35);
+  --blog-teal: #2dd4bf;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -71,7 +73,7 @@ body.dark-mode {
 }
 
 .blog-article.notion-page-has-cover {
-  padding-top: 3rem;
+  padding-top: 2.25rem;
 }
 
 .blog-article .notion-page-content-inner * {
@@ -268,7 +270,7 @@ body.dark-mode {
   letter-spacing: -0.015em;
   line-height: 1.1;
   color: var(--blog-ink);
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.75rem;
 }
 
 .blog-index .notion-text {
@@ -299,25 +301,35 @@ body.dark-mode {
 
 .blog-index .notion-gallery-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 3.5rem 2.5rem;
+  gap: 1.75rem 1.5rem;
   border-top: 0;
   padding-top: 0;
 }
 
-/* frameless cards: just the image and the words */
+/* soft panels: a faint tint and hairline border keep each post distinct */
 .blog-index .notion-collection-card,
 .dark-mode .blog-index .notion-collection-card {
-  border: 0;
-  border-radius: 0;
-  background: transparent;
+  padding: 0.7rem;
+  border: 1px solid var(--blog-rule);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--blog-ink) 2.5%, transparent);
   box-shadow: none;
   opacity: 1;
-  overflow: visible;
+  overflow: hidden;
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 260ms ease,
+    box-shadow 260ms ease;
 }
 
 .blog-index .notion-collection-card:hover {
-  transform: none;
-  box-shadow: none;
+  transform: translateY(-2px);
+  border-color: var(--blog-rule-strong);
+  box-shadow: 0 16px 32px -24px rgba(15, 23, 42, 0.35);
+}
+
+.dark-mode .blog-index .notion-collection-card:hover {
+  box-shadow: 0 16px 32px -24px rgba(0, 0, 0, 0.9);
 }
 
 .blog-index .notion-collection-card-cover,
@@ -325,7 +337,7 @@ body.dark-mode {
   aspect-ratio: 3 / 2;
   height: auto !important;
   border: 0;
-  border-radius: 4px;
+  border-radius: 10px;
   overflow: hidden;
   transform: none;
 }
@@ -343,7 +355,7 @@ body.dark-mode {
 }
 
 .blog-index .notion-collection-card-body {
-  padding: 1.25rem 0 0;
+  padding: 1.1rem 0.5rem 0.6rem;
   gap: 0.6rem;
 }
 
@@ -429,6 +441,6 @@ body.dark-mode {
 @media only screen and (max-width: 767px) {
   .blog-index .notion-gallery-grid {
     grid-template-columns: 1fr;
-    gap: 2.75rem;
+    gap: 1.25rem;
   }
 }

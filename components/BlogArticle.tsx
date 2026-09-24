@@ -136,7 +136,7 @@ function ShareLinks({ title, url }: { title: string; url?: string }) {
 
   return (
     <div className={styles.share}>
-      <span className={styles.shareLabel}>Share</span>
+      <span className={styles.shareLabel}>Share on:</span>
       <div className={styles.shareButtons}>
         {links.map((link) => (
           <a
