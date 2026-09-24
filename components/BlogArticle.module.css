@@ -81,7 +81,9 @@
   margin-top: 1.75rem;
 }
 
-.avatar {
+/* extra specificity beats the global `.notion-page img` radius */
+.byline .avatar,
+.authorCard .avatar {
   flex: none;
   border-radius: 50%;
   object-fit: cover;
