@@ -16,11 +16,9 @@ const aboutPageId = config.navigationLinks?.find(
 )?.pageId
 
 // photo shown next to the author's name at the top and bottom of each post
-const authorImage = config.defaultPageIcon
+const authorImage = '/author.jpg'
 
 function Avatar({ size }: { size: number }) {
-  if (!authorImage) return null
-
   return (
     <img
       className={styles.avatar}
