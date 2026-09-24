@@ -81,7 +81,9 @@ body.dark-mode {
 /* justified body copy; hyphenation keeps the word spacing even */
 .blog-article .notion-page-content-inner .notion-text,
 .blog-article .notion-page-content-inner .notion-list li,
-.blog-article .notion-page-content-inner .notion-callout-text {
+.blog-article .notion-page-content-inner .notion-callout-text,
+.blog-article .notion-page-content-inner .notion-quote,
+.blog-article .notion-page-content-inner .notion-quote * {
   text-align: justify;
   text-justify: inter-word;
   hyphens: auto;
