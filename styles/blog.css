@@ -301,6 +301,9 @@ body.dark-mode {
 
 .blog-index .notion-gallery-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* react-notion-x makes every row as tall as the tallest card on the page
+     (grid-auto-rows: 1fr); size each row by its own cards instead */
+  grid-auto-rows: auto;
   gap: 1.75rem 1.5rem;
   border-top: 0;
   padding-top: 0;
@@ -309,6 +312,7 @@ body.dark-mode {
 /* soft panels: a faint tint and hairline border keep each post distinct */
 .blog-index .notion-collection-card,
 .dark-mode .blog-index .notion-collection-card {
+  height: 100%;
   padding: 0.7rem;
   border: 1px solid var(--blog-rule);
   border-radius: 16px;
@@ -328,6 +332,16 @@ body.dark-mode {
   box-shadow: 0 16px 32px -24px rgba(15, 23, 42, 0.35);
 }
 
+/* in dark mode the panel needs a little more lift to stand off the page */
+.dark-mode .blog-index .notion-collection-card {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.13);
+}
+
+.dark-mode .blog-index .notion-collection-card:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
 .dark-mode .blog-index .notion-collection-card:hover {
   box-shadow: 0 16px 32px -24px rgba(0, 0, 0, 0.9);
 }
@@ -338,6 +352,8 @@ body.dark-mode {
   height: auto !important;
   border: 0;
   border-radius: 10px;
+  /* letterboxed ("fit") covers sit in a clean white frame */
+  background: #fff;
   overflow: hidden;
   transform: none;
 }
@@ -355,7 +371,7 @@ body.dark-mode {
 }
 
 .blog-index .notion-collection-card-body {
-  padding: 1.1rem 0.5rem 0.6rem;
+  padding: 1.1rem 0.5rem 0.45rem;
   gap: 0.6rem;
 }
 
