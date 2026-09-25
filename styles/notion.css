@@ -273,10 +273,13 @@
   overflow: hidden;
 }
 
-/* a divider already separates sections, so the heading after it needs
-   less space above */
+/* a divider, image (e.g. a decorative divider graphic) or empty line already
+   separates sections, so the heading after it needs less space above */
 .notion-hr + .notion-h,
-.notion-hr + .notion-blank + .notion-h {
+.notion-hr + .notion-blank + .notion-h,
+.notion-asset-wrapper + .notion-h,
+.notion-asset-wrapper + .notion-blank + .notion-h,
+.notion-blank + .notion-h {
   margin-top: 0.5em;
 }
 
@@ -352,7 +355,7 @@
 .notion-title::after {
   content: '';
   display: block;
-  width: 280px;
+  width: 260px;
   max-width: 70%;
   height: 1px;
   margin: 1.1rem auto 0;
