@@ -15,7 +15,12 @@ export const notion = new NotionAPI({
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const originalGetPage = notion.getPage.bind(notion)
-const NOTION_API_REQUEST_DELAY_MS = 3000
+// A full build fetches every page, so space requests out to stay clear of
+// Notion's rate limit. At runtime a page refresh only makes a handful of
+// requests, and long pauses there would push it past Vercel's time limit.
+const isBuild = process.env.NEXT_PHASE === 'phase-production-build'
+const NOTION_API_REQUEST_DELAY_MS = isBuild ? 3000 : 250
+const NOTION_API_RETRY_DELAY_MS = 3000
 let lastNotionRequestTime = 0
 let notionRequestQueue: Promise<void> = Promise.resolve()
 
@@ -57,7 +62,7 @@ notion.getPage = async function (pageId: string, options?: any) {
         throw err
       }
 
-      const delay = NOTION_API_REQUEST_DELAY_MS * attempt
+      const delay = NOTION_API_RETRY_DELAY_MS * attempt
       console.warn(
         `Notion API ${err?.statusCode || 'error'} for ${pageId}, retrying in ${delay}ms (attempt ${attempt})`
       )

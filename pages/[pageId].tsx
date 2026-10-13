@@ -1,7 +1,7 @@
 import { type GetStaticProps } from 'next'
 
 import { NotionPage } from '@/components/NotionPage'
-import { domain, isDev } from '@/lib/config'
+import { domain, isDev, pageRevalidateSeconds } from '@/lib/config'
 import { getSiteMap } from '@/lib/get-site-map'
 import { resolveNotionPage } from '@/lib/resolve-notion-page'
 import { type PageProps, type Params } from '@/lib/types'
@@ -14,7 +14,13 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async (
   try {
     const props = await resolveNotionPage(domain, rawPageId)
 
-    return { props, revalidate: 10 }
+    if (props.error?.statusCode === 404) {
+      // re-check unknown pages every few minutes, so a page published in
+      // Notion shortly after someone first tried its link still appears
+      return { notFound: true, revalidate: 5 * 60 }
+    }
+
+    return { props, revalidate: pageRevalidateSeconds }
   } catch (err) {
     console.error('page error', domain, rawPageId, err)
 
@@ -41,7 +47,9 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false
+    // pages added in Notion after the last deploy (e.g. a new blog post) are
+    // rendered on their first visit instead of returning 404
+    fallback: 'blocking'
   }
 }
 

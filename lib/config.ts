@@ -91,6 +91,12 @@ export const isPreviewImageSupportEnabled: boolean = getSiteConfig(
   false
 )
 
+// How often (at most) a page is refreshed from Notion, in seconds. A refresh
+// only happens when someone visits after this window, so Notion edits show up
+// within about an hour without redeploying, while keeping Vercel usage low.
+// For an immediate refresh, see pages/api/revalidate.ts.
+export const pageRevalidateSeconds = 60 * 60
+
 // Optional whether or not to include the Notion ID in page URLs or just use slugs
 export const includeNotionIdInUrls: boolean = getSiteConfig(
   'includeNotionIdInUrls',

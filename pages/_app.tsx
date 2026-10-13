@@ -74,11 +74,12 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <style jsx global>{`
-        :root {
-          --font-serif: ${serifFont.style.fontFamily};
-        }
-      `}</style>
+      {/* plain <style> rather than styled-jsx, which pnpm doesn't hoist */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `:root { --font-serif: ${serifFont.style.fontFamily}; }`
+        }}
+      />
       <Component {...pageProps} />
     </>
   )
